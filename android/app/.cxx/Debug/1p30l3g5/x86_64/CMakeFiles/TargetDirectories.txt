@@ -1,0 +1,2 @@
+D:/EFK/project/efk_academy/android/app/.cxx/Debug/1p30l3g5/x86_64/CMakeFiles/edit_cache.dir
+D:/EFK/project/efk_academy/android/app/.cxx/Debug/1p30l3g5/x86_64/CMakeFiles/rebuild_cache.dir

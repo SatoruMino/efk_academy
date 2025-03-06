@@ -1,0 +1,2 @@
+D:/EFK/project/efk_academy/android/app/.cxx/RelWithDebInfo/731a262e/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/EFK/project/efk_academy/android/app/.cxx/RelWithDebInfo/731a262e/arm64-v8a/CMakeFiles/rebuild_cache.dir

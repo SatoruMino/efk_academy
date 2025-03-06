@@ -1,0 +1,62 @@
+{
+    "splash_page" : {
+        "loading" : "Do you know that fish live in the water?"
+    },
+    "home_page" : {
+        "bottom_navigation_bar" : {
+            "feature" : "Feature",
+            "course" : "Course",
+            "wish_list" : "WishList",
+            "my_course" : "Mine",
+            "account" : "Account"
+        }
+    },
+    "feature_page" : {
+        "latest_promotion" : "Latest Promotions",
+        "trending_course" : "Trending Courses"
+    },
+    "account_page" : {
+        "title" : "Account",
+        "hello" : "Hello",
+        "user_and_security" : {
+            "title" : "User and Security",
+            "login": "Login"
+        },
+        "app" : {
+            "title" : "App",
+            "languages" : {
+                "title" : "Languages",
+                "khmer" : "Khmer",
+                "english" : "English"
+             },
+            "palettes" : {
+                "title" : "Palettes",
+                "light" : "Light",
+                "dark" : "Dark",
+                "system" : "System"
+            }
+        },
+        "help_and_support" : {
+            "title" : "Help And Support",
+            "about_us" : "About Us",
+            "frequently_asked_questions" : "Frequently Asked Questions", 
+            "share" : "Share"
+        }
+
+    },
+    "sign_in_page" : {
+        "welcome_to" : "WELCOME TO",
+        "email" : "Email",
+        "password" : "Password",
+        "password_hint" : "Enter you 6 degits code",
+        "sign_in" : "Sign In",
+        "not_yet_having_an_account" : "Not yet having an account?",
+        "create_account" : "Create Account"
+    },
+    "validation" : {
+        "please_enter_your_email" : "Please enter your email!",
+        "email_is_not_validated" : "Email is not validated!",
+        "please_enter_your_password" : "Please enter your password!",
+        "password_is_not_validated" : "Password is not validated!"
+    }  
+}

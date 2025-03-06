@@ -1,0 +1,61 @@
+{
+    "splash_page" : {
+        "loading" : "តើអ្នកដឹងទេថាត្រីរស់នៅក្នុងទឹក?"
+    },
+    "home_page" : {
+        "bottom_navigation_bar" : {
+            "feature" : "ទំព័រដើម",
+            "course" : "មេរៀន",
+            "wish_list" : "ចង់បាន",
+            "my_course" : "មេរៀនខ្ញុំ",
+            "account" : "គណនី"
+        }
+    },
+    "feature_page" : {
+        "latest_promotion" : "ប្រូម៉ូសិនថ្មីៗ",
+        "trending_course" : "វគ្គសិក្សាពេញនិយម"
+    },
+    "account_page" : {
+        "title" : "គណនី",
+        "hello" : "សួរស្តី",
+        "user_and_security" : {
+            "title" : "ព័ត៌មាន និងឯកជនភាពនៃគណនី",
+            "login": "ចូលគណនី"
+        },
+        "app" : {
+            "title" : "កម្មវិធី",
+            "languages" : {
+                "title" : "ភាសា",
+                "khmer" : "ខ្មែរ",
+                "english" : "អង់គ្លេស"
+            },
+            "palettes" : {
+                "title" : "ផ្ទៃពណ៌",
+                "light" : "ផ្ទៃស",
+                "dark" : "ផ្ទៃខ្មៅ",
+                "system" : "ស្វ័យប្រវត្តិ"
+            }
+        },
+        "help_and_support" : {
+            "title" : "ជំនួយ និងការគាំទ្រ",
+            "about_us" : "អំពីពួកយើង",
+            "frequently_asked_questions" : "សំណួរពាក់ព័ន្ធកម្មវិធី", 
+            "share" : "ចែករំលែក"
+        }
+    },
+    "sign_in_page" : {
+        "welcome_to" : "ស្វាគមន៍មកកាន់",
+        "email" : "អុីម៉ែល",
+        "password" : "ពាក្យសម្ងាត់",
+        "password_hint" : "វាយកូដ ៦ ខ្ទង់របស់អ្នក",
+        "sign_in" : "ចូលគណនី",
+        "not_yet_having_an_account" : "មិនទាន់មានគណនីមែនដែរឬទេ?",
+        "create_account" : "បង្កើតគណនី"
+    },
+    "validation" : {
+        "please_enter_your_email" : "សូមធ្វើការបំពេញអុីម៉ែលរបស់អ្នក!",
+        "email_is_not_validated" : "អុីម៉ែលដែលបានបំពេញមិនទាន់ត្រឹមត្រូវ!",
+        "please_enter_your_password" : "សូមធ្វើការបំពេញពាក្យសម្ងាត់របស់អ្នក!",
+        "password_is_not_validated" : "ពាក្យសម្ងាត់ដែលបានបំពេញមិនទាន់!"
+    }  
+}
