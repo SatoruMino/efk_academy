@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-class Validation {
+extension Validation on String {
   static String? validateUsername(String value) {
     if (value.isEmpty || value == '') {
       return 'សូមធ្វើការបំពេញឈ្មោះរបស់អ្នក!';

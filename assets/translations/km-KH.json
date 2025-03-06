@@ -20,9 +20,12 @@
         "hello" : "សួរស្តី",
         "user_and_security" : {
             "title" : "ព័ត៌មាន និងឯកជនភាពនៃគណនី",
-            "login": "ចូលគណនី"
+            "login": "ចូលគណនី",
+            "username": "ឈ្មោះប្រើប្រាស់",
+            "password" : "ពាក្យសម្ងាត់",
+            "logout" : "ចាកចេញ"
         },
-        "app" : {
+        "system" : {
             "title" : "កម្មវិធី",
             "languages" : {
                 "title" : "ភាសា",

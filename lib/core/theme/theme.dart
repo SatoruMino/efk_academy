@@ -26,6 +26,8 @@ final _inputDecorationTheme = InputDecorationTheme(
 );
 
 final _listTileThemeData = ListTileThemeData(
+  contentPadding: EdgeInsets.symmetric(horizontal: 12),
+  minTileHeight: 45.h,
   titleTextStyle: labelStyle.copyWith(
     color: Colors.black54.withValues(alpha: 0.75),
     fontSize: 14.sp,

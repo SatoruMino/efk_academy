@@ -20,10 +20,13 @@
         "hello" : "Hello",
         "user_and_security" : {
             "title" : "User and Security",
-            "login": "Login"
+            "login": "Login",
+            "username": "Username",
+            "password" : "Password",
+            "logout" : "Log Out"
         },
-        "app" : {
-            "title" : "App",
+        "system" : {
+            "title" : "System",
             "languages" : {
                 "title" : "Languages",
                 "khmer" : "Khmer",

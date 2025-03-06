@@ -3,6 +3,8 @@ import 'package:efk_academy/common/theme_notifier/theme_notifier.dart';
 import 'package:efk_academy/common/user_cubit/user_cubit.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/service_locator.dart';
+import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
+import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
 import 'package:efk_academy/ui/splash/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,8 +40,18 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 800),
       minTextAdapt: true,
       builder: (context, child) {
-        return BlocProvider(
-          create: (_) => sl<UserCubit>()..getUser(),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => sl<UserCubit>()..getUser(),
+            ),
+            BlocProvider(
+              create: (_) => sl<FeatureCubit>()..getFeature(),
+            ),
+            BlocProvider(
+              create: (_) => sl<GetCourseCubit>()..getCourses(),
+            ),
+          ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             locale: context.locale,
