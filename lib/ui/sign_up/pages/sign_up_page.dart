@@ -48,7 +48,7 @@ class _SignUpViewState extends State<SignUpView> {
       body: BlocListener<SignUpCubit, SignUpState>(
         listener: (context, state) {
           if (state is SignUpFailure) {
-            Toast(context).error(state.message);
+            AppToast.error(state.message);
           }
           if (state is SignUpSuccess) {
             Navigator.of(context).pop();

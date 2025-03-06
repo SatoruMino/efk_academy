@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
             darkTheme: dark,
             themeMode: context.watch<ThemeNotifier>().themeMode,
             navigatorKey: AppNavigator.navigatorKey,
+            scaffoldMessengerKey: AppToast.scaffoldMessengerKey,
             home: child,
           ),
         );

@@ -28,7 +28,7 @@ class SignOutView extends StatelessWidget {
       body: BlocListener<SignOutCubit, SignOutState>(
         listener: (context, state) {
           if (state is SignOutFailure) {
-            Toast(context).error(state.message);
+            AppToast.error(state.message);
           }
           if (state is SignOutSuccess) {
             Navigator.of(context).pop();

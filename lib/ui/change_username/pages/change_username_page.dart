@@ -18,7 +18,7 @@ class ChangeUsernamePage extends StatelessWidget {
         body: BlocListener<ChangeUsernameCubit, ChangeUsernameState>(
           listener: (context, state) {
             if (state.status == ChangeUsernameStatus.failure) {
-              Toast(context).error(state.errorMessage);
+              AppToast.error(state.errorMessage);
             }
           },
           listenWhen: (previous, current) => current.status != previous.status,

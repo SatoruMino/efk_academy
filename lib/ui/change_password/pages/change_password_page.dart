@@ -44,7 +44,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       body: BlocListener<ChangePasswordCubit, ChangePasswordState>(
         listener: (context, state) {
           if (state.status == ChangePasswordStatus.failure) {
-            Toast(context).error(state.errorMessage);
+            AppToast.error(state.errorMessage);
           }
           if (state.status == ChangePasswordStatus.success) {
             Navigator.of(context).pop();

@@ -1,16 +1,16 @@
+import 'package:efk_academy/core/constant/constant.dart';
 import 'package:flutter/material.dart';
 
-class Toast {
-  const Toast(this.context);
+class AppToast {
+  static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
-  final BuildContext context;
-
-  void error(String text) {
-    ScaffoldMessenger.of(context)
+  static void error(String text) {
+    scaffoldMessengerKey.currentState!
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: red,
           content: Text(
             text,
           ),
@@ -18,12 +18,12 @@ class Toast {
       );
   }
 
-  void success(String text) {
-    ScaffoldMessenger.of(context)
+  static void success(String text) {
+    scaffoldMessengerKey.currentState!
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: blue,
           content: Text(
             text,
           ),

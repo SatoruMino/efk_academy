@@ -24,10 +24,10 @@ class AddReviewPage extends StatelessWidget {
         body: BlocListener<AddReviewCubit, AddReviewState>(
           listener: (context, state) {
             if (state.status == AddReviewStatus.failure) {
-              Toast(context).error(state.errorMessage);
+              AppToast.error(state.errorMessage);
             }
             if (state.status == AddReviewStatus.success) {
-              Toast(context).success('មិតិត្រូវបានបញ្ចេញបានជោគជ័យ!');
+              AppToast.success('មិតិត្រូវបានបញ្ចេញបានជោគជ័យ!');
               getReviewCubit.getReviews(courseId);
               Navigator.of(context).pop();
             }

@@ -1,6 +1,6 @@
 name: efk_academy
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -24,7 +24,6 @@ dependencies:
   supabase_flutter: ^2.8.3
   youtube_player_flutter: ^9.1.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -38,12 +37,15 @@ flutter:
     - assets/translations/
 
   fonts:
-  - family: Kantumruy
-    fonts:
-      - asset: assets/fonts/kantumruy.ttf
-  - family: KhOsMuol
-    fonts:
-      - asset: assets/fonts/khosmuol.ttf
-  - family: Suwannaphum
-    fonts:
-      - asset: assets/fonts/suwannaphum.ttf
+    - family: Kantumruy
+      fonts:
+        - asset: assets/fonts/kantumruy.ttf
+    - family: KhOsMuol
+      fonts:
+        - asset: assets/fonts/khosmuol.ttf
+    - family: Suwannaphum
+      fonts:
+        - asset: assets/fonts/suwannaphum.ttf
+    - family: Ubuntu
+      fonts:
+        - asset: assets/fonts/ubuntu.ttf

@@ -50,7 +50,7 @@ class _SignInViewState extends State<SignInView> {
       body: BlocListener<SignInCubit, SignInState>(
         listener: (context, state) {
           if (state is SignInFailure) {
-            Toast(context).error(state.message);
+            AppToast.error(state.message);
           }
           if (state is SignInSuccess) {
             Navigator.of(context).pop();

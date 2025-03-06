@@ -32,6 +32,10 @@ final _listTileThemeData = ListTileThemeData(
   ),
 );
 
+final _snackBarTheme = SnackBarThemeData(
+  behavior: SnackBarBehavior.floating,
+);
+
 final _tabBarThemeData = TabBarThemeData(
   labelStyle: labelStyle.copyWith(
     fontSize: 12.sp,
@@ -54,6 +58,7 @@ final light = ThemeData(
   inputDecorationTheme: _inputDecorationTheme,
   listTileTheme: _listTileThemeData,
   shadowColor: Colors.grey[200],
+  snackBarTheme: _snackBarTheme,
   tabBarTheme: _tabBarThemeData,
   useMaterial3: true,
 );
@@ -69,6 +74,7 @@ final dark = ThemeData(
   inputDecorationTheme: _inputDecorationTheme,
   listTileTheme: _listTileThemeData,
   shadowColor: Colors.grey[200],
+  snackBarTheme: _snackBarTheme,
   tabBarTheme: _tabBarThemeData,
   useMaterial3: true,
 );
