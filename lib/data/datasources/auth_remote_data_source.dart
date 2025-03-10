@@ -52,6 +52,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException('user-not-found');
       }
 
+      print('updated at: ${response.user!.updatedAt}');
+
       return UserModel.fromJson(response.user!.toJson());
     } catch (e) {
       throw ServerException(e.toString());

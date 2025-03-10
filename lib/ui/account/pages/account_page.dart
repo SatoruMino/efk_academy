@@ -1,12 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/common/user_cubit/user_cubit.dart';
 import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/service_locator.dart';
+import 'package:efk_academy/ui/change_username/cubits/change_username_cubit.dart';
+import 'package:efk_academy/ui/change_username/pages/change_username_page.dart';
 import 'package:efk_academy/ui/sign_in/pages/sign_in_page.dart';
 import 'package:efk_academy/ui/sign_out/pages/sign_out_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:provider/provider.dart';
 
 part '../widgets/setting_container.dart';
 part '../widgets/setting_tile.dart';
@@ -63,7 +66,10 @@ class UserAndSecurity extends StatelessWidget {
           CustomListTile(
             iconData: Iconsax.card_bold,
             text: tr('account_page.user_and_security.username'),
-            onTap: () {},
+            onTap: () => AppNavigator.push(BlocProvider(
+              create: (_) => sl<ChangeUsernameCubit>(),
+              child: ChangeUsernamePage(),
+            )),
           ),
           CustomListTile(
             iconData: Iconsax.security_safe_bold,

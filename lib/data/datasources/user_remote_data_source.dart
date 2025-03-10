@@ -47,6 +47,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           .from('profiles')
           .update({
             'username': username,
+            'updated_at': DateTime.now().toIso8601String(),
           })
           .eq('id', currentSession!.user.id)
           .select()

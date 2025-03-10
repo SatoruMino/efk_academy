@@ -1,15 +1,41 @@
 part of 'sign_up_cubit.dart';
 
-@immutable
-sealed class SignUpState {}
+final class SignUpState extends Equatable {
+  const SignUpState({
+    this.username = const Username.pure(),
+    this.email = const Email.pure(),
+    this.password = const Password.pure(),
+    this.isValid = false,
+    this.errorMessage = '',
+    this.status = FormzSubmissionStatus.initial,
+  });
 
-final class SignUpInitial extends SignUpState {}
+  final Username username;
+  final Email email;
+  final Password password;
+  final bool isValid;
+  final String errorMessage;
+  final FormzSubmissionStatus status;
 
-final class SignUpInProgress extends SignUpState {}
+  @override
+  List<Object?> get props =>
+      [username, email, password, isValid, errorMessage, status];
 
-final class SignUpFailure extends SignUpState {
-  final String message;
-  SignUpFailure(this.message);
+  SignUpState copyWith({
+    Username? username,
+    Email? email,
+    Password? password,
+    bool? isValid,
+    String? errorMessage,
+    FormzSubmissionStatus? status,
+  }) {
+    return SignUpState(
+      username: username ?? this.username,
+      email: email ?? this.email,
+      password: password ?? this.password,
+      isValid: isValid ?? this.isValid,
+      errorMessage: errorMessage ?? this.errorMessage,
+      status: status ?? this.status,
+    );
+  }
 }
-
-final class SignUpSuccess extends SignUpState {}

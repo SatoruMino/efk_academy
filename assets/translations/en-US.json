@@ -47,18 +47,32 @@
         }
 
     },
-    "sign_in_page" : {
-        "welcome_to" : "WELCOME TO",
+    "authentication" : {
         "email" : "Email",
         "password" : "Password",
-        "password_hint" : "Enter you 6 degits code",
-        "sign_in" : "Sign In",
-        "not_yet_having_an_account" : "Not yet having an account?",
-        "create_account" : "Create Account"
+        "username": "Username",
+        "sign_in_page" : {
+            "welcome_to" : "WELCOME TO",
+            "password_hint" : "Enter your 6 degits code",
+            "sign_in" : "Sign In",
+            "not_yet_having_an_account" : "Not yet having an account?",
+            "create_account" : "Create Account"
+        },
+        "sign_up_page" : {
+            "join_with_us" : "JOIN WITH US",
+            "username_hint" : "Create your username",
+            "password_hint": "Create your 6 degits code",
+            "create_account" : "Create Account",
+            "already_having_an_account" : "Already having an account?",
+            "sign_in" : "Sign In"
+        }
     },
+   
     "validation" : {
         "please_enter_your_email" : "Please enter your email!",
         "email_is_not_validated" : "Email is not validated!",
+        "please_enter_your_username" : "Please enter your username!",
+        "username_is_not_validated" : "Username is not validated!",
         "please_enter_your_password" : "Please enter your password!",
         "password_is_not_validated" : "Password is not validated!"
     }  

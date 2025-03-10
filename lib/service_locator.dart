@@ -241,12 +241,7 @@ void initProviders() {
       changePassword: sl(),
     ),
   );
-  sl.registerFactory(
-    () => ChangeUsernameCubit(
-      changeUsername: sl(),
-      userCubit: sl(),
-    ),
-  );
+
   sl.registerSingleton(
     GetCourseCubit(
       getCourse: sl(),
@@ -267,7 +262,12 @@ void initProviders() {
       addReview: sl(),
     ),
   );
-
+  sl.registerFactory(
+    () => ChangeUsernameCubit(
+      changeUsername: sl(),
+      userCubit: sl(),
+    ),
+  );
   sl.registerSingleton(
     FeatureCubit(
       getPoster: sl(),

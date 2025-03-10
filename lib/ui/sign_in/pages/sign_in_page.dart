@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/sign_in/cubits/sign_in_cubit.dart';
+import 'package:efk_academy/ui/sign_up/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,7 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).primaryColor;
     return BlocProvider(
       create: (_) => sl<SignInCubit>(),
       child: Scaffold(
@@ -23,6 +25,21 @@ class SignInPage extends StatelessWidget {
               Icons.close_outlined,
             ),
           ),
+          actions: [
+            Text(
+              'EFK\nACADEMY',
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                color: color,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Image.asset(
+              'assets/images/efk.png',
+              fit: BoxFit.cover,
+            ),
+          ],
         ),
         body: BlocListener<SignInCubit, SignInState>(
           listener: (context, state) {
@@ -41,16 +58,41 @@ class SignInPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Header(),
+                  SignInHeader(),
                   const SizedBox(height: 12.0),
-                  EmailInput(),
+                  SignInEmailInput(),
                   const SizedBox(height: 12.0),
-                  PasswordInput(),
+                  SignInPasswordInput(),
                   const SizedBox(height: 12.0),
-                  SubmitButton(),
+                  SignInButton(),
                 ],
               ),
             ),
+          ),
+        ),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                tr('authentication.sign_in_page.not_yet_having_an_account'),
+                style: labelStyle,
+              ),
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: () {
+                  AppNavigator.pushReplacement(const SignUpPage());
+                },
+                child: Text(
+                  tr('authentication.sign_in_page.create_account'),
+                  style: labelStyle.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         extendBodyBehindAppBar: true,
@@ -59,12 +101,11 @@ class SignInPage extends StatelessWidget {
   }
 }
 
-class Header extends StatelessWidget {
-  const Header({super.key});
+class SignInHeader extends StatelessWidget {
+  const SignInHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
     return Column(
       children: [
         Image.asset(
@@ -72,7 +113,7 @@ class Header extends StatelessWidget {
           'assets/images/sign_in_illustrator.png',
         ),
         Text(
-          tr('sign_in_page.welcome_to'),
+          tr('authentication.sign_in_page.welcome_to'),
           style: labelStyle.copyWith(
             fontSize: 16.sp,
           ),
@@ -80,7 +121,7 @@ class Header extends StatelessWidget {
         Text(
           'EFK ACADEMY',
           style: TextStyle(
-            color: color,
+            color: Theme.of(context).primaryColor,
             fontSize: 18.sp,
             fontFamily: 'Ubuntu',
             fontWeight: FontWeight.w600,
@@ -91,8 +132,8 @@ class Header extends StatelessWidget {
   }
 }
 
-class EmailInput extends StatelessWidget {
-  const EmailInput({super.key});
+class SignInEmailInput extends StatelessWidget {
+  const SignInEmailInput({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +143,7 @@ class EmailInput extends StatelessWidget {
       onChanged: (value) => context.read<SignInCubit>().emailChanged(value),
       decoration: InputDecoration(
         hintText: 'someone@example.com',
-        labelText: tr('sign_in_page.email'),
+        labelText: tr('authentication.email'),
         prefixIcon: const Icon(
           Iconsax.user_bold,
         ),
@@ -114,8 +155,8 @@ class EmailInput extends StatelessWidget {
   }
 }
 
-class PasswordInput extends StatelessWidget {
-  const PasswordInput({super.key});
+class SignInPasswordInput extends StatelessWidget {
+  const SignInPasswordInput({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -124,8 +165,8 @@ class PasswordInput extends StatelessWidget {
     return TextField(
       onChanged: (value) => context.read<SignInCubit>().passwordChanged(value),
       decoration: InputDecoration(
-        hintText: tr('sign_in_page.password_hint'),
-        labelText: tr('sign_in_page.password'),
+        hintText: tr('authentication.sign_in_page.password_hint'),
+        labelText: tr('authentication.password'),
         prefixIcon: const Icon(
           Iconsax.lock_1_bold,
         ),
@@ -137,8 +178,8 @@ class PasswordInput extends StatelessWidget {
   }
 }
 
-class SubmitButton extends StatelessWidget {
-  const SubmitButton({super.key});
+class SignInButton extends StatelessWidget {
+  const SignInButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +189,7 @@ class SubmitButton extends StatelessWidget {
     return CustomButton(
       enabled: enabled,
       inProgress: inProgress,
-      text: tr('sign_in_page.sign_in'),
+      text: tr('authentication.sign_in_page.sign_in'),
       onTap: () => context.read<SignInCubit>().signInWithPassword(),
     );
   }

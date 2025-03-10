@@ -1,28 +1,26 @@
 part of 'change_username_cubit.dart';
 
-enum ChangeUsernameStatus { initial, inProgress, failure, success }
-
 final class ChangeUsernameState extends Equatable {
   const ChangeUsernameState({
-    this.username = '',
-    this.errorMessage = '',
+    this.username = const Username.pure(),
     this.isValid = false,
-    this.status = ChangeUsernameStatus.initial,
+    this.errorMessage = '',
+    this.status = FormzSubmissionStatus.initial,
   });
 
-  final String username;
+  final Username username;
   final bool isValid;
   final String errorMessage;
-  final ChangeUsernameStatus status;
+  final FormzSubmissionStatus status;
 
   @override
   List<Object?> get props => [username, isValid, errorMessage, status];
 
   ChangeUsernameState copyWith({
-    String? username,
+    Username? username,
     bool? isValid,
     String? errorMessage,
-    ChangeUsernameStatus? status,
+    FormzSubmissionStatus? status,
   }) {
     return ChangeUsernameState(
       username: username ?? this.username,

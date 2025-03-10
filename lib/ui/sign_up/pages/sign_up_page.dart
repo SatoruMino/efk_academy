@@ -1,12 +1,13 @@
-import 'package:efk_academy/core/components/components.dart';
-import 'package:efk_academy/core/style/style.dart';
-import 'package:efk_academy/core/utils/utils.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/sign_in/pages/sign_in_page.dart';
 import 'package:efk_academy/ui/sign_up/cubits/sign_up_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -15,198 +16,207 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => sl<SignUpCubit>(),
-      child: SignUpView(),
-    );
-  }
-}
-
-class SignUpView extends StatefulWidget {
-  const SignUpView({super.key});
-
-  @override
-  State<SignUpView> createState() => _SignUpViewState();
-}
-
-class _SignUpViewState extends State<SignUpView> {
-  final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(),
-      body: BlocListener<SignUpCubit, SignUpState>(
-        listener: (context, state) {
-          if (state is SignUpFailure) {
-            AppToast.error(state.message);
-          }
-          if (state is SignUpSuccess) {
-            Navigator.of(context).pop();
-          }
-        },
-        child: Center(
-          child: Form(
-            key: _formKey,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: const Icon(
+              Icons.close_outlined,
+            ),
+          ),
+          actions: [
+            Text(
+              'EFK\nACADEMY',
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontFamily: 'Ubuntu',
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Image.asset(
+              'assets/images/efk.png',
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
+        body: BlocListener<SignUpCubit, SignUpState>(
+          listener: (context, state) {
+            if (state.status.isFailure) {
+              AppToast.error(state.errorMessage);
+            }
+            if (state.status.isSuccess) {
+              Navigator.of(context).pop();
+            }
+          },
+          listenWhen: (previous, current) => current.status != previous.status,
+          child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  header(),
-                  const SizedBox(height: 12.0),
-                  inputField(),
-                  const SizedBox(height: 12.0),
-                  signUpButton(),
+                  SignUpHeader(),
+                  const SizedBox(height: 12),
+                  SignUpUsernameInput(),
+                  const SizedBox(height: 12),
+                  SignUpEmailInput(),
+                  const SizedBox(height: 12),
+                  SignUpPasswordInput(),
+                  const SizedBox(height: 12),
+                  SignUpButton(),
                 ],
               ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: bottomNavigationBar(),
-      extendBodyBehindAppBar: true,
-    );
-  }
-
-  Widget bottomNavigationBar() {
-    return Container(
-      color: Theme.of(context).shadowColor,
-      padding: const EdgeInsets.all(12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'មានគណនីរួចមែនដែរឬទេ?',
-            style: labelStyle,
-          ),
-          const SizedBox(width: 4.0),
-          GestureDetector(
-            onTap: () {
-              AppNavigator.pushReplacement(const SignInPage());
-            },
-            child: Text(
-              'ចូលគណនី',
-              style: labelStyle.copyWith(
-                fontWeight: FontWeight.w600,
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                tr('authentication.sign_up_page.already_having_an_account'),
+                style: labelStyle,
               ),
-            ),
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: () {
+                  AppNavigator.pushReplacement(const SignInPage());
+                },
+                child: Text(
+                  tr('authentication.sign_up_page.sign_in'),
+                  style: labelStyle.copyWith(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              )
+            ],
           ),
-        ],
+        ),
+        extendBodyBehindAppBar: true,
       ),
     );
   }
+}
 
-  Widget signUpButton() {
-    return CustomButton(
-      text: 'បង្កើតគណនី',
-      onTap: () {
-        if (_formKey.currentState?.validate() ?? false) {
-          context.read<SignUpCubit>().signUpWithPassword(
-                _usernameController.text.trim(),
-                _emailController.text.trim(),
-                _passwordController.text.trim(),
-              );
-        }
-      },
-    );
-  }
+class SignUpHeader extends StatelessWidget {
+  const SignUpHeader({super.key});
 
-  Widget inputField() {
-    return Column(
-      children: [
-        TextFormField(
-          controller: _usernameController,
-          decoration: InputDecoration(
-            hintText: 'គោត្តនាម-នាម',
-            labelText: 'ឈ្មោះ (Username)',
-          ),
-          validator: (value) => Validation.validateUsername(value!),
-        ),
-        const SizedBox(height: 12.0),
-        TextFormField(
-          controller: _emailController,
-          decoration: InputDecoration(
-            labelText: 'អុីម៉ែល (Email)',
-          ),
-          validator: (value) => Validation.validateEmail(value!),
-        ),
-        const SizedBox(height: 12.0),
-        TextFormField(
-          controller: _passwordController,
-          decoration: InputDecoration(
-            hintText: 'ពាក្យសម្ងាត់ ៨ ខ្ទង់',
-            labelText: 'ពាក្យសម្ងាត់ (Password)',
-          ),
-          validator: (value) => Validation.validatePassword(value!),
-        ),
-      ],
-    );
-  }
-
-  Widget header() {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Image.asset(
           height: 175.h,
           'assets/images/sign_in_illustrator.png',
         ),
-        const SizedBox(height: 12.0),
         Text(
-          'ចុះឈ្មោះឥឡូវនេះដើម្បីចូលរួមជាមួយ',
+          tr('authentication.sign_up_page.join_with_us'),
           style: labelStyle.copyWith(
             fontSize: 16.sp,
           ),
         ),
-        const SizedBox(height: 4.0),
         Text(
           'EFK ACADEMY',
-          style: labelStyle.copyWith(
+          style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontSize: 18.sp,
+            fontFamily: 'Ubuntu',
             fontWeight: FontWeight.w600,
           ),
         ),
       ],
     );
   }
+}
 
-  AppBar appBar() {
-    return AppBar(
-      leading: GestureDetector(
-        onTap: () {
-          Navigator.of(context).pop();
-        },
-        child: const Icon(
-          Icons.close_outlined,
-        ),
+class SignUpUsernameInput extends StatelessWidget {
+  const SignUpUsernameInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final displayError = context
+        .select((SignUpCubit cubit) => cubit.state.username.displayError);
+    return TextField(
+      onChanged: (value) {
+        context.read<SignUpCubit>().usernameChanged(value);
+      },
+      decoration: InputDecoration(
+        hintText: tr('authentication.sign_up_page.username_hint'),
+        labelText: tr('authentication.username'),
+        prefixIcon: const Icon(Iconsax.user_bold),
+        errorText: displayError != null
+            ? tr('validation.username_is_not_validated')
+            : null,
       ),
-      actions: [
-        Text(
-          'EFK\nACADEMY',
-          textAlign: TextAlign.end,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(
-            'assets/images/efk.png',
-          ),
-        ),
-      ],
+    );
+  }
+}
+
+class SignUpEmailInput extends StatelessWidget {
+  const SignUpEmailInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final displayError =
+        context.select((SignUpCubit cubit) => cubit.state.email.displayError);
+    return TextField(
+      onChanged: (value) {
+        context.read<SignUpCubit>().emailChanged(value);
+      },
+      decoration: InputDecoration(
+        hintText: 'someone@example.com',
+        labelText: tr('authentication.email'),
+        prefixIcon: const Icon(MingCute.mail_fill),
+        errorText: displayError != null
+            ? tr('validation.email_is_not_validated')
+            : null,
+      ),
+    );
+  }
+}
+
+class SignUpPasswordInput extends StatelessWidget {
+  const SignUpPasswordInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final displayError = context
+        .select((SignUpCubit cubit) => cubit.state.password.displayError);
+    return TextField(
+      onChanged: (value) {
+        context.read<SignUpCubit>().passwordChanged(value);
+      },
+      decoration: InputDecoration(
+        hintText: tr('authentication.sign_up_page.password_hint'),
+        labelText: tr('authentication.password'),
+        prefixIcon: const Icon(Iconsax.lock_1_bold),
+        errorText: displayError != null
+            ? tr('validation.password_is_not_validated')
+            : null,
+      ),
+    );
+  }
+}
+
+class SignUpButton extends StatelessWidget {
+  const SignUpButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = context.select((SignUpCubit cubit) => cubit.state.isValid);
+    final inProgress =
+        context.select((SignUpCubit cubit) => cubit.state.status.isInProgress);
+    return CustomButton(
+      enabled: enabled,
+      inProgress: inProgress,
+      text: tr('authentication.sign_up_page.create_account'),
+      onTap: () {
+        context.read<SignUpCubit>().signUpWithPassword();
+      },
     );
   }
 }

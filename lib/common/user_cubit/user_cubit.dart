@@ -14,6 +14,12 @@ class UserCubit extends Cubit<UserState> {
 
   final GetUser _getUser;
 
+  void updateUser(User user) {
+    emit(state.copyWith(
+      user: user,
+    ));
+  }
+
   Future<void> getUser() async {
     emit(
       state.copyWith(
