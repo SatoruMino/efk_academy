@@ -1,39 +1,35 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:efk_academy/core/core.dart';
 
-extension Validation on String {
-  static String? validateUsername(String value) {
-    if (value.isEmpty || value == '') {
-      return 'សូមធ្វើការបំពេញឈ្មោះរបស់អ្នក!';
-    } else if (value.length < 2) {
-      return 'ឈ្មោះត្រូវមានចំនួនតួអក្សរយ៉ាងតិច ២ តួ!';
-    } else {
-      return null;
+class Validation {
+  static String? emailError(EmailValidationError? error) {
+    switch (error) {
+      case EmailValidationError.invalid:
+        return 'email_is_not_validated'.tr();
+      default:
+        return null;
     }
   }
 
-  static String? validateEmail(String value) {
-    String pattern =
-        r'^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
-    RegExp regExp = RegExp(pattern);
-    if (value.isEmpty || value == '') {
-      return tr('validation.please_enter_your_email');
-    } else if (!regExp.hasMatch(value)) {
-      return tr('validation.email_is_not_validated');
-    } else {
-      return null;
+  static String? passwordError(PasswordValidationError? error) {
+    switch (error) {
+      case PasswordValidationError.invalid:
+        return 'password_is_not_validated'.tr();
+      default:
+        return null;
     }
   }
 
-  static String? validatePassword(String value) {
-    String pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$';
-
-    RegExp regExp = RegExp(pattern);
-    if (value == '' || value.isEmpty) {
-      return tr('validation.please_enter_your_password');
-    } else if (!regExp.hasMatch(value)) {
-      return tr('validation.password_is_not_validated');
-    } else {
-      return null;
+  static String? usernameError(UsernameValidateError? error) {
+    switch (error) {
+      case UsernameValidateError.empty:
+        return 'please_enter_your_username'.tr();
+      case UsernameValidateError.invalid:
+        return 'username_is_not_validated'.tr();
+      case UsernameValidateError.tooLong:
+        return 'username_is_too_long'.tr();
+      default:
+        return null;
     }
   }
 }

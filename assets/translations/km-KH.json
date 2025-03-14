@@ -1,77 +1,32 @@
 {
-    "splash_page" : {
-        "loading" : "តើអ្នកដឹងទេថាត្រីរស់នៅក្នុងទឹក?"
-    },
-    "home_page" : {
-        "bottom_navigation_bar" : {
-            "feature" : "ទំព័រដើម",
-            "course" : "មេរៀន",
-            "wish_list" : "ចង់បាន",
-            "my_course" : "មេរៀនខ្ញុំ",
-            "account" : "គណនី"
-        }
-    },
-    "feature_page" : {
-        "latest_promotion" : "ប្រូម៉ូសិនថ្មីៗ",
-        "trending_course" : "វគ្គសិក្សាពេញនិយម"
-    },
-    "account_page" : {
-        "title" : "គណនី",
-        "hello" : "សួរស្តី",
-        "user_and_security" : {
-            "title" : "ព័ត៌មាន និងឯកជនភាពនៃគណនី",
-            "login": "ចូលគណនី",
-            "username": "ឈ្មោះប្រើប្រាស់",
-            "password" : "ពាក្យសម្ងាត់",
-            "logout" : "ចាកចេញ"
-        },
-        "system" : {
-            "title" : "កម្មវិធី",
-            "languages" : {
-                "title" : "ភាសា",
-                "khmer" : "ខ្មែរ",
-                "english" : "អង់គ្លេស"
-            },
-            "palettes" : {
-                "title" : "ផ្ទៃពណ៌",
-                "light" : "ផ្ទៃស",
-                "dark" : "ផ្ទៃខ្មៅ",
-                "system" : "ស្វ័យប្រវត្តិ"
-            }
-        },
-        "help_and_support" : {
-            "title" : "ជំនួយ និងការគាំទ្រ",
-            "about_us" : "អំពីពួកយើង",
-            "frequently_asked_questions" : "សំណួរពាក់ព័ន្ធកម្មវិធី", 
-            "share" : "ចែករំលែក"
-        }
-    },
-    "authentication" : {
-        "email" : "អុីម៉ែល",
-        "password" : "ពាក្យសម្ងាត់",
-        "username": "គោត្តនាម-នាម",
-        "sign_in_page" : {
-            "welcome_to" : "ស្វាគមន៍មកាន់",
-            "password_hint" : "វាយបញ្ចូលលេខកូដ៦ខ្ទង់របស់អ្នក",
-            "sign_in" : "ចូលគណនី",
-            "not_yet_having_an_account" : "មិនទាន់មានគណនីមែនឬទេ?",
-            "create_account" : "បង្កើតគណនី"
-        },
-        "sign_up_page" : {
-            "join_with_us" : "ចូលរួមជាមួយពួកយើង",
-            "username_hint" : "បង្កើតឈ្មោះប្រើប្រាស់របស់អ្នក",
-            "password_hint": "បង្កើតលេខកូដសម្ងាត់៦ខ្ទង់",
-            "create_account" : "បង្កើតគណនី",
-            "already_having_an_account" : "មានគណនីរួចរាល់មែនដែរឬទេ?",
-            "sign_in" : "ចូលគណនី"
-        }
-    },
-    "validation" : {
-        "please_enter_your_email" : "សូមធ្វើការបំពេញអុីម៉ែលរបស់អ្នក!",
-        "email_is_not_validated" : "អុីម៉ែលដែលបានបំពេញមិនទាន់ត្រឹមត្រូវ!",
-       "please_enter_your_username" : "សូមធ្វើការបំពេញឈ្មោះរបស់អ្នក!",
-        "username_is_not_validated" : "ឈ្មោះដែលបានបំពេញមិនទាន់ត្រឹមត្រូវ!",
-        "please_enter_your_password" : "សូមធ្វើការបំពេញពាក្យសម្ងាត់របស់អ្នក!",
-        "password_is_not_validated" : "ពាក្យសម្ងាត់ដែលបានបំពេញមិនទាន់!"
-    }  
+  "about_us": "អំពីពួកយើង",
+  "account": "គណនី",
+  "change_username": "ផ្លាស់ប្តូរឈ្មោះប្រើប្រាស់",
+  "course": "មេរៀន",
+  "create_account": "បង្កើតគណនី",
+  "do_you_know_that_fish_lives_in_water": "តើអ្នកដឹងដែរទេថាត្រីរស់នៅក្នងទឹក?",
+  "email": "អុីម៉ែល",
+  "email_is_not_validated": "អុីម៉ែលដែលបានបញ្ចូលមិនទាន់ត្រឹមត្រូវ!",
+  "english": "អង់គ្លេស",
+  "feature": "ទំព័រដើម",
+  "frequently_asked_questions": "សំណួរដែលពេញនិយមសួរ",
+  "help_and_support": "ជំនួយ និងការគាំទ្រ",
+  "khmer": "ខ្មែរ",
+  "languages": "ភាសា",
+  "login": "ចូលគណនី",
+  "logout": "ចាកចេញ",
+  "note": "សម្គាល់ៈ",
+  "not_yet_having_an_account": "មិនទាន់មានគណនីមែនដែរឬទេ?",
+  "owned": "របស់ខ្ញុំ",
+  "palettes": "ផ្ទៃពណ៌",
+  "password": "ពាក្យសម្ងាត់",
+  "password_is_not_validated": "ពាក្យសម្ងាត់ដែលបានបញ្ចូលមិនទាន់ត្រឹមត្រូវ!",
+  "sign_in": "ចូលគណនី",
+  "sign_in_password_hint": "បញ្ចូលពាក្យសម្ងាត់៦ខ្ទង់របស់អ្នក",
+  "share": "ចែករំលែក",
+  "system": "ប្រព័ន្ធ",
+  "username": "ឈ្មោះប្រើប្រាស់",
+  "username_is_not_validated": "ឈ្មោះដែលបានបញ្ចូលមិនទាន់ត្រឹមត្រូវ!",
+  "user_and_security": "ព័ត៌មាននិងឯកជនភាព",
+  "welcome_to": "សូមស្វាគមន៍មកកាន់"
 }

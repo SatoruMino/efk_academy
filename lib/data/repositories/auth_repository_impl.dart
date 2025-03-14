@@ -5,64 +5,64 @@ import 'package:efk_academy/domain/repositories/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDataSource authRemoteDataSource;
-
   const AuthRepositoryImpl(this.authRemoteDataSource);
 
-  @override
-  Future<Either<Failure, User>> signInWithPassword(
-    String email,
-    String password,
-  ) async {
-    try {
-      final user =
-          await authRemoteDataSource.signInWithPassword(email, password);
+  final AuthRemoteDataSource authRemoteDataSource;
 
-      return right(user);
+  @override
+  Stream<User> get getUser {
+    return authRemoteDataSource.getUser.asyncMap((user) async {
+      if (user == null) {
+        return User.empty;
+      }
+
+      return user;
+    });
+  }
+
+  @override
+  Future<Either<Failure, void>> signIn(String email, String password) async {
+    try {
+      final response = await authRemoteDataSource.signIn(email, password);
+
+      return right(response);
     } on ServerException catch (e) {
-      return left(
-        Failure(
-          e.message,
-        ),
-      );
+      return left(Failure(e.message));
     }
   }
 
   @override
-  Future<Either<Failure, User>> signUpWithPassword(
-    String username,
-    String email,
-    String password,
-  ) async {
+  Future<Either<Failure, void>> signUp(
+      String username, String email, String password) async {
     try {
-      final user = await authRemoteDataSource.signUpWithPassword(
-        username,
-        email,
-        password,
-      );
+      final response =
+          await authRemoteDataSource.signUp(username, email, password);
 
-      return right(user);
+      return right(response);
     } on ServerException catch (e) {
-      return left(
-        Failure(
-          e.message,
-        ),
-      );
+      return left(Failure(e.message));
     }
   }
 
   @override
   Future<Either<Failure, void>> signOut() async {
     try {
-      final user = await authRemoteDataSource.signOut();
+      final respones = await authRemoteDataSource.signOut();
 
-      return right(user);
+      return right(respones);
     } on ServerException catch (e) {
-      return left(
-        Failure(
-          e.message,
-        ),
-      );
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> changeUsername(String username) async {
+    try {
+      final response = await authRemoteDataSource.changeUsername(username);
+
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
     }
   }
 }

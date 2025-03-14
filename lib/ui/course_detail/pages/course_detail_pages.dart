@@ -1,10 +1,9 @@
-import 'package:efk_academy/common/user_cubit/user_cubit.dart';
 import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/core/helpers/navigator.dart';
 import 'package:efk_academy/domain/entities/course.dart';
 import 'package:efk_academy/domain/entities/review.dart';
 import 'package:efk_academy/domain/entities/user.dart';
 import 'package:efk_academy/service_locator.dart';
-import 'package:efk_academy/ui/add_review/pages/add_review_page.dart';
 import 'package:efk_academy/ui/course_detail/cubits/get_review_cubit/get_review_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +59,6 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    var user = context.select((UserCubit cubit) => cubit.state.user);
     return BlocProvider(
       create: (_) => sl<GetReviewCubit>()..getReviews(widget.course.id),
       child: YoutubePlayerBuilder(
@@ -69,17 +67,12 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
         ),
         builder: (_, player) {
           return Scaffold(
-            appBar: appBar(
-              user,
-              widget.course.name,
-            ),
             body: DefaultTabController(
               length: 3,
               child: Column(
                 children: [
                   player,
                   tabBar(),
-                  tabView(user),
                 ],
               ),
             ),
@@ -95,10 +88,6 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
         children: [
           InfoTabView(
             course: widget.course,
-          ),
-          SectionTabView(
-            isEnrolled: widget.course.isEnrolled,
-            sections: widget.course.sections,
           ),
           ReviewTabView(
             user: user,

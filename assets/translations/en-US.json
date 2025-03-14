@@ -1,79 +1,32 @@
 {
-    "splash_page" : {
-        "loading" : "Do you know that fish live in the water?"
-    },
-    "home_page" : {
-        "bottom_navigation_bar" : {
-            "feature" : "Feature",
-            "course" : "Course",
-            "wish_list" : "WishList",
-            "my_course" : "Mine",
-            "account" : "Account"
-        }
-    },
-    "feature_page" : {
-        "latest_promotion" : "Latest Promotions",
-        "trending_course" : "Trending Courses"
-    },
-    "account_page" : {
-        "title" : "Account",
-        "hello" : "Hello",
-        "user_and_security" : {
-            "title" : "User and Security",
-            "login": "Login",
-            "username": "Username",
-            "password" : "Password",
-            "logout" : "Log Out"
-        },
-        "system" : {
-            "title" : "System",
-            "languages" : {
-                "title" : "Languages",
-                "khmer" : "Khmer",
-                "english" : "English"
-             },
-            "palettes" : {
-                "title" : "Palettes",
-                "light" : "Light",
-                "dark" : "Dark",
-                "system" : "System"
-            }
-        },
-        "help_and_support" : {
-            "title" : "Help And Support",
-            "about_us" : "About Us",
-            "frequently_asked_questions" : "Frequently Asked Questions", 
-            "share" : "Share"
-        }
-
-    },
-    "authentication" : {
-        "email" : "Email",
-        "password" : "Password",
-        "username": "Username",
-        "sign_in_page" : {
-            "welcome_to" : "WELCOME TO",
-            "password_hint" : "Enter your 6 degits code",
-            "sign_in" : "Sign In",
-            "not_yet_having_an_account" : "Not yet having an account?",
-            "create_account" : "Create Account"
-        },
-        "sign_up_page" : {
-            "join_with_us" : "JOIN WITH US",
-            "username_hint" : "Create your username",
-            "password_hint": "Create your 6 degits code",
-            "create_account" : "Create Account",
-            "already_having_an_account" : "Already having an account?",
-            "sign_in" : "Sign In"
-        }
-    },
-   
-    "validation" : {
-        "please_enter_your_email" : "Please enter your email!",
-        "email_is_not_validated" : "Email is not validated!",
-        "please_enter_your_username" : "Please enter your username!",
-        "username_is_not_validated" : "Username is not validated!",
-        "please_enter_your_password" : "Please enter your password!",
-        "password_is_not_validated" : "Password is not validated!"
-    }  
+  "about_us": "About Us",
+  "account": "Account",
+  "change_username": "Change Username",
+  "course": "Course",
+  "create_account": "Create account",
+  "do_you_know_that_fish_lives_in_water": "Do you know that fish lives in water?",
+  "email": "Email",
+  "email_is_not_validated": "Email is not validated!",
+  "english": "English",
+  "feature": "Feature",
+  "frequently_asked_questions": "Frequently Asked Questions",
+  "help_and_support": "Help and Support",
+  "khmer": "Khmer",
+  "languages": "Languages",
+  "login": "Login",
+  "logout": "Logout",
+  "not_yet_having_an_account": "Not yet having an account?",
+  "note": "Note:",
+  "owned": "Owned",
+  "palettes": "Palettes",
+  "password": "Password",
+  "password_is_not_validated": "Password is not validated!",
+  "sign_in": "Sign In",
+  "sign_in_password_hint": "Enter your 6 degits codes",
+  "share": "Share",
+  "system": "System",
+  "username": "Username",
+  "username_is_not_validated": "Username is not validated!",
+  "user_and_security": "User and Security",
+  "welcome_to": "WELCOME TO"
 }

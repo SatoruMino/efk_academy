@@ -1,30 +1,31 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/common/theme_notifier/theme_notifier.dart';
-import 'package:efk_academy/common/user_cubit/user_cubit.dart';
+import 'package:efk_academy/common/user_cubit.dart';
 import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/core/helpers/helpers.dart';
+import 'package:efk_academy/domain/usecases/auth/get_user.dart';
 import 'package:efk_academy/service_locator.dart';
-import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
-import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
-import 'package:efk_academy/ui/splash/pages/splash_page.dart';
+import 'package:efk_academy/ui/splash/page/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
-  await setUpLocator();
+  setUpLocator();
   runApp(
     EasyLocalization(
       supportedLocales: [AppLocalizations.khLocale, AppLocalizations.engLocale],
-      path: AppLocalizations.translationPath,
+      path: AppLocalizations.path,
       fallbackLocale: AppLocalizations.engLocale,
       saveLocale: true,
       startLocale: AppLocalizations.engLocale,
-      child: ChangeNotifierProvider(
-        create: (_) => ThemeNotifier(sharedPreferences: sl()),
+      useFallbackTranslations: true,
+      child: BlocProvider(
+        create: (_) => UserCubit(
+          getUser: sl<GetUser>(),
+        ),
         child: const MyApp(),
       ),
     ),
@@ -36,34 +37,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale;
     return ScreenUtilInit(
       designSize: const Size(360, 800),
       minTextAdapt: true,
-      builder: (context, child) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (_) => sl<UserCubit>()..getUser(),
-            ),
-            BlocProvider(
-              create: (_) => sl<FeatureCubit>()..getFeature(),
-            ),
-            BlocProvider(
-              create: (_) => sl<GetCourseCubit>()..getCourses(),
-            ),
-          ],
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            locale: context.locale,
-            supportedLocales: context.supportedLocales,
-            localizationsDelegates: context.localizationDelegates,
-            theme: light,
-            darkTheme: dark,
-            themeMode: context.watch<ThemeNotifier>().themeMode,
-            navigatorKey: AppNavigator.navigatorKey,
-            scaffoldMessengerKey: AppToast.scaffoldMessengerKey,
-            home: child,
-          ),
+      builder: (_, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          locale: locale,
+          supportedLocales: context.supportedLocales,
+          localizationsDelegates: context.localizationDelegates,
+          theme: AppTheme.light(locale),
+          darkTheme: AppTheme.dark(locale),
+          themeMode: ThemeMode.light,
+          navigatorKey: NavigatorHelper.navigatorKey,
+          scaffoldMessengerKey: Toast.scaffoldMessengerKey,
+          home: child,
+          onGenerateRoute: AppRoute.onGenerateRoute,
         );
       },
       child: const SplashPage(),

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/core/helpers/navigator.dart';
 import 'package:efk_academy/service_locator.dart';
-import 'package:efk_academy/ui/sign_in/pages/sign_in_page.dart';
 import 'package:efk_academy/ui/sign_up/cubits/sign_up_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +44,7 @@ class SignUpPage extends StatelessWidget {
         body: BlocListener<SignUpCubit, SignUpState>(
           listener: (context, state) {
             if (state.status.isFailure) {
-              AppToast.error(state.errorMessage);
+              Toast.error(state.errorMessage);
             }
             if (state.status.isSuccess) {
               Navigator.of(context).pop();
@@ -83,7 +83,7 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(width: 8),
               GestureDetector(
                 onTap: () {
-                  AppNavigator.pushReplacement(const SignInPage());
+                  NavigatorHelper.push(AppRoute.signIn);
                 },
                 child: Text(
                   tr('authentication.sign_up_page.sign_in'),

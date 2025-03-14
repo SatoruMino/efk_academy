@@ -63,12 +63,7 @@ class ReviewTabView extends StatelessWidget {
 
     return FloatingActionButton(
       onPressed: () {
-        AppNavigator.push(
-          AddReviewPage(
-            courseId: courseId,
-            getReviewCubit: context.read<GetReviewCubit>(),
-          ),
-        );
+        NavigatorHelper.push(AppRoute.addReview);
       },
       child: const Icon(MingCute.chat_1_fill),
     );

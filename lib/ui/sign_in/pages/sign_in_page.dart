@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/core/helpers/navigator.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/sign_in/cubits/sign_in_cubit.dart';
-import 'package:efk_academy/ui/sign_up/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,7 +44,7 @@ class SignInPage extends StatelessWidget {
         body: BlocListener<SignInCubit, SignInState>(
           listener: (context, state) {
             if (state.status.isFailure) {
-              AppToast.error(state.errorMessage);
+              Toast.error(state.errorMessage);
             }
 
             if (state.status.isSuccess) {
@@ -82,7 +82,7 @@ class SignInPage extends StatelessWidget {
               const SizedBox(width: 8),
               GestureDetector(
                 onTap: () {
-                  AppNavigator.pushReplacement(const SignUpPage());
+                  NavigatorHelper.push(AppRoute.signUp);
                 },
                 child: Text(
                   tr('authentication.sign_in_page.create_account'),

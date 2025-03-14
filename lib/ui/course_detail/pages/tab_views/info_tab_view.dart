@@ -13,7 +13,7 @@ class InfoTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    var user = context.select((UserCubit cubit) => cubit.state.user);
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -26,82 +26,19 @@ class InfoTabView extends StatelessWidget {
             const SizedBox(height: 12.0),
             descriptioning(),
             const SizedBox(height: 12.0),
-            instructing(theme),
           ],
         ),
       ),
-      floatingActionButton: floatingActionButton(user),
+      floatingActionButton: floatingActionButton(),
     );
   }
 
-  Widget floatingActionButton(User? user) {
-    if (user != null) {
-      return const SizedBox();
-    }
-
+  Widget floatingActionButton() {
     return FloatingActionButton(
       onPressed: () {},
       shape: const CircleBorder(),
       child: const Icon(
         MingCute.shopping_cart_2_fill,
-      ),
-    );
-  }
-
-  Widget instructing(ThemeData theme) {
-    return Container(
-      padding: const EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        color: theme.scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(8.0),
-        boxShadow: [
-          BoxShadow(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.12),
-            blurRadius: 4.0,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Image.asset(
-                height: 125.h,
-                'assets/images/avatar_placeholder.jpg',
-              ),
-              const SizedBox(width: 12.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'លោកគ្រូៈ ${course.instructorName}',
-                    style: labelStyle.copyWith(
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                  const SizedBox(height: 4.0),
-                  Text(
-                    'ជំនាញៈ ${course.instructorTitle}',
-                    style: labelStyle.copyWith(
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                  const SizedBox(height: 4.0),
-                  Text(
-                    'សិស្សៈ 0 នាក់',
-                    style: labelStyle.copyWith(
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 8.0),
-          ExpandableText(
-            text: course.instructorBio,
-          ),
-        ],
       ),
     );
   }

@@ -15,7 +15,7 @@ class ChangeLanguagePage extends StatelessWidget {
             value: const Locale('km', 'KH'),
             groupValue: context.locale,
             title: Text(
-              tr('account_page.app.languages.khmer'),
+              tr('account_page.system.languages.khmer'),
             ),
             onChanged: (value) async => context.setLocale(value!),
           ),
@@ -23,7 +23,7 @@ class ChangeLanguagePage extends StatelessWidget {
             value: const Locale('en', 'US'),
             groupValue: context.locale,
             title: Text(
-              tr('account_page.app.languages.english'),
+              tr('account_page.system.languages.english'),
             ),
             onChanged: (value) async => context.setLocale(value!),
           ),

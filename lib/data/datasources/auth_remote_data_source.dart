@@ -3,58 +3,57 @@ import 'package:efk_academy/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
-  Future<UserModel> signInWithPassword(String email, String password);
-  Future<UserModel> signUpWithPassword(
-    String username,
-    String email,
-    String password,
-  );
+  Stream<UserModel?> get getUser;
+  Future<void> signIn(String email, String password);
+  Future<void> signUp(String username, String email, String password);
   Future<void> signOut();
+  Future<void> changeUsername(String username);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final SupabaseClient supabaseClient;
-
   const AuthRemoteDataSourceImpl(this.supabaseClient);
 
-  @override
-  Future<UserModel> signInWithPassword(String email, String password) async {
-    try {
-      final response = await supabaseClient.auth
-          .signInWithPassword(email: email, password: password);
+  final SupabaseClient supabaseClient;
 
-      if (response.user == null) {
-        throw const ServerException('sign-in-failed');
+  @override
+  Stream<UserModel?> get getUser {
+    return supabaseClient.auth.onAuthStateChange.asyncMap((data) async {
+      final session = data.session;
+      final event = data.event;
+      if (session == null || event == AuthChangeEvent.signedOut) {
+        return null;
       }
 
-      return UserModel.fromJson(response.user!.toJson());
+      final userJson = await supabaseClient
+          .from('profiles')
+          .select()
+          .eq('id', session.user.id)
+          .single();
+
+      return UserModel.fromJson(userJson);
+    });
+  }
+
+  @override
+  Future<void> signIn(String email, String password) async {
+    try {
+      await supabaseClient.auth
+          .signInWithPassword(email: email, password: password);
+    } on AuthException catch (e) {
+      throw ServerException(e.toString());
     } catch (e) {
       throw ServerException(e.toString());
     }
   }
 
   @override
-  Future<UserModel> signUpWithPassword(
-    String username,
-    String email,
-    String password,
-  ) async {
+  Future<void> signUp(String username, String email, String password) async {
     try {
-      final response = await supabaseClient.auth.signUp(
-        email: email,
-        password: password,
-        data: {
-          'username': username,
-        },
-      );
-
-      if (response.user == null) {
-        throw const ServerException('user-not-found');
-      }
-
-      print('updated at: ${response.user!.updatedAt}');
-
-      return UserModel.fromJson(response.user!.toJson());
+      await supabaseClient.auth.signUp(email: email, password: password, data: {
+        'username': username,
+      });
+    } on AuthException catch (e) {
+      throw ServerException(e.toString());
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -64,6 +63,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> signOut() async {
     try {
       await supabaseClient.auth.signOut();
+    } on AuthException catch (e) {
+      throw ServerException(e.toString());
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> changeUsername(String username) async {
+    try {
+      await supabaseClient.auth.updateUser(UserAttributes(
+        data: {
+          'username': username,
+        },
+      ));
+    } on AuthException catch (e) {
+      throw ServerException(e.toString());
     } catch (e) {
       throw ServerException(e.toString());
     }

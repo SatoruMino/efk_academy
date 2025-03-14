@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "142798808568",
+    "project_id": "efk-academy-9fde2",
+    "storage_bucket": "efk-academy-9fde2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142798808568:android:08aa60132aecb59688620d",
+        "android_client_info": {
+          "package_name": "com.example.efk_academy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBohXMkKl0yJSYqS5yT5C_9Kc4rPAOsc1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142798808568:android:9e0d07eec00e41e688620d",
+        "android_client_info": {
+          "package_name": "com.example.efk_academy_learning_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBohXMkKl0yJSYqS5yT5C_9Kc4rPAOsc1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

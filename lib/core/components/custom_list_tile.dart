@@ -15,16 +15,11 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: Icon(
-        iconData,
-      ),
-      title: Text(
-        text,
-      ),
-      trailing: const Icon(
-        Icons.arrow_right,
-      ),
+      contentPadding: EdgeInsets.all(4),
+      minTileHeight: 0,
+      leading: Icon(iconData),
+      title: Text(text),
+      trailing: const Icon(Icons.arrow_right),
       onTap: onTap,
     );
   }

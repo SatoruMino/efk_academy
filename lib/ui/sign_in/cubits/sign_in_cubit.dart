@@ -1,6 +1,5 @@
-import 'package:efk_academy/common/user_cubit/user_cubit.dart';
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/domain/usecases/auth/sign_in_with_password.dart';
+import 'package:efk_academy/domain/usecases/auth/sign_in.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -9,14 +8,11 @@ part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   SignInCubit({
-    required SignInWithPassword signInWithPassword,
-    required UserCubit userCubit,
-  })  : _signInWithPassword = signInWithPassword,
-        _userCubit = userCubit,
+    required SignIn signIn,
+  })  : _signIn = signIn,
         super(const SignInState());
 
-  final SignInWithPassword _signInWithPassword;
-  final UserCubit _userCubit;
+  final SignIn _signIn;
 
   void emailChanged(String value) {
     final email = Email.dirty(value);
@@ -47,7 +43,7 @@ class SignInCubit extends Cubit<SignInState> {
       status: FormzSubmissionStatus.inProgress,
     ));
 
-    final res = await _signInWithPassword(
+    final res = await _signIn(
       SignInWithPasswordParams(
         state.email.value,
         state.password.value,
@@ -59,14 +55,11 @@ class SignInCubit extends Cubit<SignInState> {
         errorMessage: l.message,
         status: FormzSubmissionStatus.failure,
       )),
-      (user) {
-        _userCubit.getUser();
-        emit(
-          state.copyWith(
-            status: FormzSubmissionStatus.success,
-          ),
-        );
-      },
+      (user) => emit(
+        state.copyWith(
+          status: FormzSubmissionStatus.success,
+        ),
+      ),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/core/helpers/navigator.dart';
 import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
-import 'package:efk_academy/ui/course_detail/pages/course_detail_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,8 +53,8 @@ class CouresPage extends StatelessWidget {
             itemBuilder: (_, index) => CustomCard(
               imageUrl: state.courses[index].imageUrl,
               onTap: () {
-                AppNavigator.push(
-                  CourseDetailPage(course: state.courses[index]),
+                NavigatorHelper.push(
+                  AppRoute.courseDetail,
                 );
               },
             ),

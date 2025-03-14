@@ -1,7 +1,7 @@
 import 'package:efk_academy/core/constant/constant.dart';
 import 'package:flutter/material.dart';
 
-class AppToast {
+class Toast {
   static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 

@@ -1,7 +1,7 @@
 import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/core/helpers/helpers.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/new/cubit/get_new_cubit.dart';
-import 'package:efk_academy/ui/new_detail/pages/new_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +27,8 @@ class NewPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   itemBuilder: (_, index) => GestureDetector(
                     onTap: () {
-                      AppNavigator.push(NewDetailPage(state.news[index]));
+                      NavigatorHelper.push(AppRoute.newDetail,
+                          arguments: state.news[index]);
                     },
                     child: Text(
                       state.news[index].name,

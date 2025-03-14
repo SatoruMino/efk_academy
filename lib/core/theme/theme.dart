@@ -1,82 +1,96 @@
 import 'package:efk_academy/core/constant/constant.dart';
-import 'package:efk_academy/core/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-final _appBarTheme = AppBarTheme(
-  actionsPadding: const EdgeInsets.all(8),
-  titleSpacing: 12.0,
-);
+class AppTheme {
+  static String getFont(Locale locale) {
+    switch (locale.countryCode) {
+      case 'US':
+        return 'Ubuntu';
+      case 'KH':
+        return 'Kantumruy';
+      default:
+        return '';
+    }
+  }
 
-final _inputDecorationTheme = InputDecorationTheme(
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(12.r),
-    borderSide: BorderSide.none,
-  ),
-  contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-  filled: true,
-  fillColor: Colors.grey[200],
-  floatingLabelStyle: labelStyle.copyWith(
-    fontSize: 14.sp,
-  ),
-  hintStyle: labelStyle,
-  labelStyle: labelStyle,
-  prefixIconColor: Colors.grey,
-  suffixIconColor: Colors.grey,
-);
+  static ThemeData light(Locale locale) => ThemeData(
+        appBarTheme: AppBarTheme(
+          actionsPadding: const EdgeInsets.all(4),
+          titleTextStyle: TextStyle(
+            color: blue,
+            fontSize: 18.sp,
+            fontFamily: getFont(locale),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        brightness: Brightness.light,
+        colorScheme: ColorScheme.light(primary: blue, onSurface: Colors.black),
+        fontFamily: getFont(locale),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+          filled: true,
+          fillColor: Colors.grey[200],
+          labelStyle: TextStyle(fontSize: 14.sp),
+          hintStyle: TextStyle(fontSize: 12.sp),
+          prefixIconColor: Colors.grey,
+        ),
+        listTileTheme: ListTileThemeData(
+          textColor: Colors.black,
+          titleTextStyle:
+              TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
+        ),
+        primaryColor: blue,
+        tabBarTheme: TabBarTheme(
+          dividerHeight: 0,
+          labelStyle: TextStyle(
+            fontSize: 12.sp,
+            fontFamily: getFont(locale),
+            height: 1.75,
+          ),
+          unselectedLabelStyle: const TextStyle(fontSize: 0),
+        ),
+      );
 
-final _listTileThemeData = ListTileThemeData(
-  contentPadding: EdgeInsets.symmetric(horizontal: 12),
-  minTileHeight: 45.h,
-  titleTextStyle: labelStyle.copyWith(
-    color: Colors.black54.withValues(alpha: 0.75),
-    fontSize: 14.sp,
-  ),
-);
-
-final _snackBarTheme = SnackBarThemeData(
-  behavior: SnackBarBehavior.floating,
-);
-
-final _tabBarThemeData = TabBarThemeData(
-  labelStyle: labelStyle.copyWith(
-    fontSize: 12.sp,
-    fontWeight: FontWeight.w600,
-  ),
-  unselectedLabelStyle: labelStyle.copyWith(
-    fontSize: 10.sp,
-  ),
-);
-
-final light = ThemeData(
-  appBarTheme: _appBarTheme,
-  cardColor: Colors.grey[200],
-  colorScheme: ColorScheme.light(
-    primary: blue,
-    secondary: red,
-    surface: white,
-    onSurface: Colors.black54.withValues(alpha: 0.75),
-  ),
-  inputDecorationTheme: _inputDecorationTheme,
-  listTileTheme: _listTileThemeData,
-  shadowColor: Colors.grey[200],
-  snackBarTheme: _snackBarTheme,
-  tabBarTheme: _tabBarThemeData,
-  useMaterial3: true,
-);
-
-final dark = ThemeData(
-  appBarTheme: _appBarTheme,
-  colorScheme: ColorScheme.dark(
-    primary: blue,
-    secondary: red,
-    surface: Colors.black54.withValues(alpha: 0.75),
-    onSurface: white,
-  ),
-  inputDecorationTheme: _inputDecorationTheme,
-  listTileTheme: _listTileThemeData,
-  shadowColor: Colors.grey[200],
-  snackBarTheme: _snackBarTheme,
-  tabBarTheme: _tabBarThemeData,
-  useMaterial3: true,
-);
+  static ThemeData dark(Locale locale) => ThemeData(
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            color: blue,
+            fontSize: 18.sp,
+            fontFamily: getFont(locale),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        brightness: Brightness.dark,
+        colorScheme: ColorScheme.dark(primary: blue, onSurface: Colors.white),
+        fontFamily: getFont(locale),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+          filled: true,
+          fillColor: Colors.grey[200],
+        ),
+        listTileTheme: ListTileThemeData(
+          textColor: Colors.white,
+          titleTextStyle:
+              TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
+        ),
+        primaryColor: blue,
+        tabBarTheme: TabBarTheme(
+          dividerHeight: 0,
+          labelStyle: TextStyle(
+            fontSize: 12.sp,
+            fontFamily: getFont(locale),
+            height: 1.75,
+          ),
+          unselectedLabelStyle: const TextStyle(fontSize: 0),
+        ),
+      );
+}

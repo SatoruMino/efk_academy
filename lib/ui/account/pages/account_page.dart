@@ -1,18 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/common/user_cubit/user_cubit.dart';
+import 'package:efk_academy/common/user_cubit.dart';
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/service_locator.dart';
-import 'package:efk_academy/ui/change_username/cubits/change_username_cubit.dart';
-import 'package:efk_academy/ui/change_username/pages/change_username_page.dart';
-import 'package:efk_academy/ui/sign_in/pages/sign_in_page.dart';
-import 'package:efk_academy/ui/sign_out/pages/sign_out_page.dart';
+import 'package:efk_academy/core/helpers/navigator.dart';
+import 'package:efk_academy/domain/entities/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icons_plus/icons_plus.dart';
-
-part '../widgets/setting_container.dart';
-part '../widgets/setting_tile.dart';
+import 'package:provider/provider.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -21,23 +14,16 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          tr('account_page.title'),
-          style: labelStyle.copyWith(
-            color: Theme.of(context).primaryColor,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        title: Text('account'.tr()),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
         child: Column(
           children: [
-            UserAndSecurity(),
-            const SizedBox(height: 12.0),
+            Security(),
+            const SizedBox(height: 4),
             System(),
-            const SizedBox(height: 12.0),
+            const SizedBox(height: 4),
             HelpAndSupport(),
           ],
         ),
@@ -46,60 +32,43 @@ class AccountPage extends StatelessWidget {
   }
 }
 
-class UserAndSecurity extends StatelessWidget {
-  const UserAndSecurity({super.key});
+class Security extends StatelessWidget {
+  const Security({super.key});
 
   @override
   Widget build(BuildContext context) {
     final user = context.select((UserCubit cubit) => cubit.state.user);
-    if (user != null) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            tr('account_page.user_and_security.title'),
-            style: labelStyle.copyWith(
-              fontSize: 14.sp,
-            ),
-          ),
-          const SizedBox(height: 8.0),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('user_and_security'.tr()),
+        if (user != User.empty) ...[
           CustomListTile(
             iconData: Iconsax.card_bold,
-            text: tr('account_page.user_and_security.username'),
-            onTap: () => AppNavigator.push(BlocProvider(
-              create: (_) => sl<ChangeUsernameCubit>(),
-              child: ChangeUsernamePage(),
-            )),
+            text: context.tr('username'),
+            onTap: () => NavigatorHelper.push(
+              AppRoute.changeUsername,
+              arguments: user.username,
+            ),
           ),
           CustomListTile(
             iconData: Iconsax.security_safe_bold,
-            text: tr('account_page.user_and_security.password'),
+            text: context.tr('password'),
             onTap: () {},
           ),
           CustomListTile(
-            iconData: Iconsax.logout_bold,
-            text: tr('account_page.user_and_security.logout'),
-            onTap: () => AppNavigator.push(const SignOutPage()),
+            iconData: Iconsax.logout_1_bold,
+            text: context.tr('logout'),
+            onTap: () {},
           ),
-        ],
-      );
-    } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            tr('account_page.user_and_security.title'),
-            style: labelStyle.copyWith(fontSize: 14.sp),
-          ),
-          const SizedBox(height: 8.0),
+        ] else
           CustomListTile(
-            iconData: Iconsax.login_bold,
-            text: tr('account_page.user_and_security.login'),
-            onTap: () => AppNavigator.push(const SignInPage()),
+            iconData: Iconsax.login_1_bold,
+            text: context.tr('sign_in'),
+            onTap: () {},
           ),
-        ],
-      );
-    }
+      ],
+    );
   }
 }
 
@@ -112,19 +81,19 @@ class System extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          tr('account_page.system.title'),
-          style: labelStyle.copyWith(fontSize: 14.sp),
+          'system'.tr(),
         ),
-        const SizedBox(height: 8.0),
         CustomListTile(
           iconData: Iconsax.paintbucket_bold,
-          text: tr('account_page.system.palettes.title'),
+          text: context.tr('palettes'),
           onTap: () {},
         ),
         CustomListTile(
           iconData: Iconsax.language_circle_bold,
-          text: tr('account_page.system.languages.title'),
-          onTap: () {},
+          text: context.tr('languages'),
+          onTap: () {
+            NavigatorHelper.push(AppRoute.changeLanguage);
+          },
         ),
       ],
     );
@@ -140,22 +109,21 @@ class HelpAndSupport extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          tr('account_page.help_and_support.title'),
-          style: labelStyle.copyWith(fontSize: 14.sp),
+          context.tr('help_and_support'),
         ),
         CustomListTile(
           iconData: Iconsax.info_circle_bold,
-          text: tr('account_page.help_and_support.about_us'),
+          text: context.tr('about_us'),
           onTap: () {},
         ),
         CustomListTile(
           iconData: Iconsax.message_question_bold,
-          text: tr('account_page.help_and_support.frequently_asked_questions'),
+          text: context.tr('frequently_asked_questions'),
           onTap: () {},
         ),
         CustomListTile(
           iconData: Iconsax.send_1_bold,
-          text: tr('account_page.help_and_support.share'),
+          text: context.tr('share'),
           onTap: () {},
         ),
       ],
