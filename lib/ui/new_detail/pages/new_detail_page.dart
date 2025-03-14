@@ -3,9 +3,9 @@ import 'package:efk_academy/domain/entities/new.dart';
 import 'package:flutter/material.dart';
 
 class NewDetailPage extends StatelessWidget {
-  const NewDetailPage(this.oNew, {super.key});
+  const NewDetailPage(this.item, {super.key});
 
-  final New oNew;
+  final New item;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,12 @@ class NewDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              oNew.name,
+              item.name,
               style: titleStyle,
             ),
             const SizedBox(height: 4.0),
             Text(
-              oNew.message,
+              item.message,
               style: descriptionStyle,
             ),
           ],

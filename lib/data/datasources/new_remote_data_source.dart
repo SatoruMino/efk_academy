@@ -7,9 +7,9 @@ abstract interface class NewRemoteDataSource {
 }
 
 class NewRemoteDataSourceImpl implements NewRemoteDataSource {
-  final SupabaseClient supabaseClient;
+  const NewRemoteDataSourceImpl(this.supabaseClient);
 
-  NewRemoteDataSourceImpl(this.supabaseClient);
+  final SupabaseClient supabaseClient;
 
   @override
   Future<List<NewModel>> getNew() async {

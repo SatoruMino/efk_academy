@@ -1,8 +1,13 @@
+import 'package:efk_academy/domain/entities/new.dart';
 import 'package:efk_academy/domain/usecases/auth/change_username.dart';
+import 'package:efk_academy/domain/usecases/new/get_new.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/change_language/pages/change_language_page.dart';
 import 'package:efk_academy/ui/change_username/cubits/change_username_cubit.dart';
 import 'package:efk_academy/ui/change_username/pages/change_username_page.dart';
+import 'package:efk_academy/ui/new/cubit/get_new_cubit.dart';
+import 'package:efk_academy/ui/new/pages/new_page.dart';
+import 'package:efk_academy/ui/new_detail/pages/new_detail_page.dart';
 import 'package:efk_academy/ui/sign_in/pages/sign_in_page.dart';
 import 'package:efk_academy/ui/sign_up/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
@@ -36,10 +41,22 @@ class AppRoute {
             ),
           ),
         );
+      case news:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => GetNewCubit(getNew: sl<GetNew>())..getNews(),
+            child: const NewPage(),
+          ),
+        );
+      case newDetail:
+        final item = setting.arguments as New;
+        return MaterialPageRoute(
+          builder: (_) => NewDetailPage(item),
+        );
       case signIn:
-        return MaterialPageRoute(builder: (_) => SignInPage());
+        return MaterialPageRoute(builder: (_) => const SignInPage());
       case signUp:
-        return MaterialPageRoute(builder: (_) => SignUpPage());
+        return MaterialPageRoute(builder: (_) => const SignUpPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

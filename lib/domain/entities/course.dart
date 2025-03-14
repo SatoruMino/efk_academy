@@ -1,4 +1,6 @@
-class Course {
+import 'package:equatable/equatable.dart';
+
+class Course extends Equatable {
   const Course({
     required this.id,
     required this.name,
@@ -8,7 +10,6 @@ class Course {
     required this.description,
     required this.previewVideoId,
     required this.imageUrl,
-    required this.sections,
   });
 
   final String id;
@@ -19,5 +20,16 @@ class Course {
   final String description;
   final String previewVideoId;
   final String imageUrl;
-  final List<Map<String, dynamic>> sections;
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        price,
+        discount,
+        summary,
+        description,
+        previewVideoId,
+        imageUrl
+      ];
 }

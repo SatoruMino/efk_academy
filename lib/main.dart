@@ -3,7 +3,11 @@ import 'package:efk_academy/common/user_cubit.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/core/helpers/helpers.dart';
 import 'package:efk_academy/domain/usecases/auth/get_user.dart';
+import 'package:efk_academy/domain/usecases/course/get_trending_course.dart';
+import 'package:efk_academy/domain/usecases/poster/get_poster.dart';
+import 'package:efk_academy/domain/usecases/promotion/get_promotion.dart';
 import 'package:efk_academy/service_locator.dart';
+import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
 import 'package:efk_academy/ui/splash/page/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,18 +46,29 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 800),
       minTextAdapt: true,
       builder: (_, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          locale: locale,
-          supportedLocales: context.supportedLocales,
-          localizationsDelegates: context.localizationDelegates,
-          theme: AppTheme.light(locale),
-          darkTheme: AppTheme.dark(locale),
-          themeMode: ThemeMode.light,
-          navigatorKey: NavigatorHelper.navigatorKey,
-          scaffoldMessengerKey: Toast.scaffoldMessengerKey,
-          home: child,
-          onGenerateRoute: AppRoute.onGenerateRoute,
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => FeatureCubit(
+                getPoster: sl<GetPoster>(),
+                getPromotion: sl<GetPromotion>(),
+                getTrendingCourse: sl<GetTrendingCourse>(),
+              )..getFeature(),
+            ),
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            locale: locale,
+            supportedLocales: context.supportedLocales,
+            localizationsDelegates: context.localizationDelegates,
+            theme: AppTheme.light(locale),
+            darkTheme: AppTheme.dark(locale),
+            themeMode: ThemeMode.light,
+            navigatorKey: NavigatorHelper.navigatorKey,
+            scaffoldMessengerKey: Toast.scaffoldMessengerKey,
+            home: child,
+            onGenerateRoute: AppRoute.onGenerateRoute,
+          ),
         );
       },
       child: const SplashPage(),

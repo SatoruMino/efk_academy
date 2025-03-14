@@ -38,36 +38,4 @@ class CourseRepositoryImpl implements CourseRepository {
       );
     }
   }
-
-  @override
-  Future<Either<Failure, List<Course>>> searchCourseByCategory(
-      String category) async {
-    try {
-      final courses =
-          await courseRemoteDataSource.searchCourseByCategory(category);
-
-      return right(courses);
-    } on ServerException catch (e) {
-      return left(
-        Failure(
-          e.message,
-        ),
-      );
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Course>>> searchCourseByName(String name) async {
-    try {
-      final course = await courseRemoteDataSource.searchCourseByName(name);
-
-      return right(course);
-    } on ServerException catch (e) {
-      return left(
-        Failure(
-          e.message,
-        ),
-      );
-    }
-  }
 }

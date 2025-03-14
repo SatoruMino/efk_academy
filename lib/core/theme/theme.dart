@@ -14,6 +14,10 @@ class AppTheme {
     }
   }
 
+  static final SnackBarThemeData _snackBarTheme = SnackBarThemeData(
+    behavior: SnackBarBehavior.floating,
+  );
+
   static ThemeData light(Locale locale) => ThemeData(
         appBarTheme: AppBarTheme(
           actionsPadding: const EdgeInsets.all(4),
@@ -45,6 +49,7 @@ class AppTheme {
               TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
         ),
         primaryColor: blue,
+        snackBarTheme: _snackBarTheme,
         tabBarTheme: TabBarTheme(
           dividerHeight: 0,
           labelStyle: TextStyle(
@@ -83,6 +88,7 @@ class AppTheme {
               TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
         ),
         primaryColor: blue,
+        snackBarTheme: _snackBarTheme,
         tabBarTheme: TabBarTheme(
           dividerHeight: 0,
           labelStyle: TextStyle(

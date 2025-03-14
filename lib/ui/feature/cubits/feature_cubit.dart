@@ -1,4 +1,4 @@
-import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/core/usecase/usecase.dart';
 import 'package:efk_academy/domain/entities/course.dart';
 import 'package:efk_academy/domain/entities/poster.dart';
 import 'package:efk_academy/domain/entities/promotion.dart';
@@ -27,28 +27,16 @@ class FeatureCubit extends Cubit<FeatureState> {
   Future<void> getFeature() async {
     emit(FeatureInProgress());
 
-    final res1 = await _getPoster(NoParam());
-    final res2 = await _getPromotion(NoParam());
-    final res3 = await _getTrendingCourse(NoParam());
+    final posterRes = await _getPoster(NoParam());
+    final promotionRes = await _getPromotion(NoParam());
+    final trendingRes = await _getTrendingCourse(NoParam());
 
-    res1.fold(
-      (l) => emit(
-        FeatureFailure(
-          l.message,
-        ),
-      ),
-      (posters) => res2.fold(
-        (l) => emit(
-          FeatureFailure(
-            l.message,
-          ),
-        ),
-        (promotions) => res3.fold(
-          (l) => emit(
-            FeatureFailure(
-              l.message,
-            ),
-          ),
+    posterRes.fold(
+      (l) => emit(FeatureFailure(l.message)),
+      (posters) => promotionRes.fold(
+        (l) => emit(FeatureFailure(l.message)),
+        (promotions) => trendingRes.fold(
+          (l) => emit(FeatureFailure(l.message)),
           (courses) => emit(
             FeatureSuccess(
               posters,

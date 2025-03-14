@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/common/user_cubit.dart';
-import 'package:efk_academy/core/components/custom_button.dart';
-import 'package:efk_academy/core/utils/validation.dart';
+import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/ui/change_username/cubits/change_username_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,12 +26,27 @@ class ChangeUsernamePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          ChangeUsernameInput(),
-          const SizedBox(height: 12),
-          ChangeUsernameButton(),
-        ],
+      body: BlocListener<ChangeUsernameCubit, ChangeUsernameState>(
+        listener: (context, state) {
+          if (state.status.isFailure) {
+            Toast.error(state.errorMessage);
+          }
+          if (state.status.isSuccess) {
+            Toast.success('username_updated_successfully'.tr());
+            Navigator.of(context).pop();
+          }
+        },
+        listenWhen: (previous, current) => current.status != previous.status,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              ChangeUsernameInput(),
+              const SizedBox(height: 12),
+              ChangeUsernameButton(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -65,7 +79,13 @@ class ChangeUsernameButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isValid =
+        context.select((ChangeUsernameCubit cubit) => cubit.state.isValid);
+    final inProgress = context
+        .select((ChangeUsernameCubit cubit) => cubit.state.status.isInProgress);
     return CustomButton(
+      enabled: isValid,
+      inProgress: inProgress,
       text: 'change_username'.tr(),
       onTap: () => context.read<ChangeUsernameCubit>().changeUsername(),
     );

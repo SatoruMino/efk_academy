@@ -5,8 +5,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract interface class CourseRemoteDataSource {
   Future<List<CourseModel>> getCourse();
   Future<List<CourseModel>> getTrendingCourse();
-  Future<List<CourseModel>> searchCourseByCategory(String category);
-  Future<List<CourseModel>> searchCourseByName(String name);
 }
 
 class CourseRemoteDataSourceImpl implements CourseRemoteDataSource {
@@ -14,20 +12,14 @@ class CourseRemoteDataSourceImpl implements CourseRemoteDataSource {
 
   const CourseRemoteDataSourceImpl(this.supabaseClient);
 
-  Session? get _currentSession => supabaseClient.auth.currentSession;
-
   @override
   Future<List<CourseModel>> getCourse() async {
     try {
-      final response = await supabaseClient
-          .rpc('get_course_with_purchase_status', params: {
-            'p_user_id': _currentSession?.user.id,
-          })
-          .select()
-          .order('id');
+      final response =
+          await supabaseClient.from('courses').select().order('id');
 
       return response
-          .map((couresJson) => CourseModel.fromJson(couresJson))
+          .map((courseJson) => CourseModel.fromJson(courseJson))
           .toList();
     } catch (e) {
       throw ServerException(e.toString());
@@ -38,47 +30,7 @@ class CourseRemoteDataSourceImpl implements CourseRemoteDataSource {
   Future<List<CourseModel>> getTrendingCourse() async {
     try {
       final response = await supabaseClient
-          .rpc('get_course_with_purchase_status', params: {
-            'p_user_id': _currentSession?.user.id,
-          })
-          .select()
-          .order('total_user', ascending: false);
-
-      return response
-          .map((courseJson) => CourseModel.fromJson(courseJson))
-          .toList();
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
-
-  @override
-  Future<List<CourseModel>> searchCourseByCategory(String category) async {
-    try {
-      final response = await supabaseClient
-          .rpc('get_course_with_purchase_status', params: {
-            'p_user_id': _currentSession?.user.id,
-          })
-          .ilike('category', '%$category%')
-          .select()
-          .order('total_user', ascending: false);
-
-      return response
-          .map((courseJson) => CourseModel.fromJson(courseJson))
-          .toList();
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
-
-  @override
-  Future<List<CourseModel>> searchCourseByName(String name) async {
-    try {
-      final response = await supabaseClient
-          .rpc('get_course_with_purchase_status', params: {
-            'p_user_id': _currentSession?.user.id,
-          })
-          .ilike('name', '%$name%')
+          .from('courses')
           .select()
           .order('total_user', ascending: false);
 

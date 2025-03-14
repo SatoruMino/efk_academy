@@ -20,16 +20,8 @@ class GetNewCubit extends Cubit<GetNewState> {
     final res = await _getNew(NoParam());
 
     res.fold(
-      (l) => emit(
-        GetNewFailure(
-          l.message,
-        ),
-      ),
-      (news) => emit(
-        GetNewSuccess(
-          news,
-        ),
-      ),
+      (l) => emit(GetNewFailure(l.message)),
+      (news) => emit(GetNewSuccess(news)),
     );
   }
 }

@@ -73,13 +73,30 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> changeUsername(String username) async {
     try {
+      final currentUser = supabaseClient.auth.currentUser;
+
+      if (currentUser == null) {
+        throw const ServerException('user-not-found');
+      }
+
+      final updatedAt = currentUser.updatedAt;
+
+      if (updatedAt != null) {
+        final lastUpdated = DateTime.parse(updatedAt);
+        final differences = DateTime.now().difference(lastUpdated).inDays;
+
+        if (differences < 90) {
+          throw const ServerException('you-cannot-change');
+        }
+      }
+
       await supabaseClient.auth.updateUser(UserAttributes(
         data: {
           'username': username,
         },
       ));
     } on AuthException catch (e) {
-      throw ServerException(e.toString());
+      throw ServerException(e.message);
     } catch (e) {
       throw ServerException(e.toString());
     }

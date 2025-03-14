@@ -13,8 +13,8 @@ final class FeatureFailure extends FeatureState {
 }
 
 final class FeatureSuccess extends FeatureState {
+  FeatureSuccess(this.posters, this.promotions, this.courses);
   final List<Poster> posters;
   final List<Promotion> promotions;
   final List<Course> courses;
-  FeatureSuccess(this.posters, this.promotions, this.courses);
 }

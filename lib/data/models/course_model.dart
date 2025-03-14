@@ -1,7 +1,7 @@
 import 'package:efk_academy/domain/entities/course.dart';
 
 class CourseModel extends Course {
-  CourseModel({
+  const CourseModel({
     required super.id,
     required super.name,
     required super.price,
@@ -10,7 +10,6 @@ class CourseModel extends Course {
     required super.description,
     required super.previewVideoId,
     required super.imageUrl,
-    required super.sections,
   });
 
   factory CourseModel.fromJson(Map<String, dynamic> map) {
@@ -23,7 +22,6 @@ class CourseModel extends Course {
       description: map['description'] ?? '',
       previewVideoId: map['preview_video_id'] ?? '',
       imageUrl: map['image_url'] ?? '',
-      sections: List.from(map['sections'] ?? []),
     );
   }
 }
