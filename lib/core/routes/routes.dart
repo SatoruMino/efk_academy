@@ -3,6 +3,7 @@ import 'package:efk_academy/domain/usecases/auth/change_username.dart';
 import 'package:efk_academy/domain/usecases/new/get_new.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/change_language/pages/change_language_page.dart';
+import 'package:efk_academy/ui/change_theme/page/change_theme_page.dart';
 import 'package:efk_academy/ui/change_username/cubits/change_username_cubit.dart';
 import 'package:efk_academy/ui/change_username/pages/change_username_page.dart';
 import 'package:efk_academy/ui/new/cubit/get_new_cubit.dart';
@@ -27,7 +28,11 @@ class AppRoute {
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
     switch (setting.name) {
       case changeLanguage:
-        return MaterialPageRoute(builder: (_) => ChangeLanguagePage());
+        return MaterialPageRoute(builder: (_) => const ChangeLanguagePage());
+      case changeTheme:
+        return MaterialPageRoute(
+          builder: (_) => const ChangeThemePage(),
+        );
       case changeUsername:
         final currentUsername = setting.arguments as String;
         return MaterialPageRoute(
@@ -54,7 +59,9 @@ class AppRoute {
           builder: (_) => NewDetailPage(item),
         );
       case signIn:
-        return MaterialPageRoute(builder: (_) => const SignInPage());
+        return MaterialPageRoute(
+          builder: (_) => const SignInPage(),
+        );
       case signUp:
         return MaterialPageRoute(builder: (_) => const SignUpPage());
       default:

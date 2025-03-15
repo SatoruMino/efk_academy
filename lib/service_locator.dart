@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/data/datasources/auth_remote_data_source.dart';
 import 'package:efk_academy/data/datasources/course_remote_data_source.dart';
@@ -26,6 +25,7 @@ import 'package:efk_academy/domain/usecases/new/get_new.dart';
 import 'package:efk_academy/domain/usecases/poster/get_poster.dart';
 import 'package:efk_academy/domain/usecases/promotion/get_promotion.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final GetIt sl = GetIt.instance;
@@ -38,12 +38,18 @@ void setUpLocator() async {
 }
 
 Future<void> _initDatabase() async {
-  final supabase =
-      await Supabase.initialize(url: Secret.url, anonKey: Secret.key);
+  final sharedPreferences = await SharedPreferences.getInstance();
 
-  sl.registerLazySingleton<SupabaseClient>(
-    () => supabase.client,
+  sl.registerLazySingleton<SharedPreferences>(
+    () => sharedPreferences,
   );
+
+  final supabase = await Supabase.initialize(
+    url: Secret.url,
+    anonKey: Secret.key,
+  );
+
+  sl.registerLazySingleton<SupabaseClient>(() => supabase.client);
 }
 
 _initDataSource() {
@@ -67,21 +73,11 @@ _initDataSource() {
 
 _initRepositories() {
   sl
-    ..registerSingleton<AuthRepository>(
-      AuthRepositoryImpl(sl()),
-    )
-    ..registerSingleton<CourseRepository>(
-      CourseRepositoryImpl(sl()),
-    )
-    ..registerSingleton<NewRepository>(
-      NewRepositoryImpl(sl()),
-    )
-    ..registerSingleton<PosterRepository>(
-      PosterRepositoryImpl(sl()),
-    )
-    ..registerSingleton<PromotionRepository>(
-      PromotionRepositoryImpl(sl()),
-    );
+    ..registerSingleton<AuthRepository>(AuthRepositoryImpl(sl()))
+    ..registerSingleton<CourseRepository>(CourseRepositoryImpl(sl()))
+    ..registerSingleton<NewRepository>(NewRepositoryImpl(sl()))
+    ..registerSingleton<PosterRepository>(PosterRepositoryImpl(sl()))
+    ..registerSingleton<PromotionRepository>(PromotionRepositoryImpl(sl()));
 }
 
 _initUsecases() {

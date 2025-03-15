@@ -59,8 +59,10 @@ class FeaturePage extends StatelessWidget {
                 child: Column(
                   children: [
                     Poster(state),
-                    const SizedBox(),
+                    const SizedBox(height: 14),
                     Promotion(state),
+                    const SizedBox(height: 14),
+                    TrendingCourse(state),
                   ],
                 ),
               );
@@ -103,7 +105,12 @@ class Promotion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(context.tr('latest_promotion')),
+        Text(
+          context.tr('latest_promotions'),
+          style: TextStyle(
+            fontSize: 14.sp,
+          ),
+        ),
         const SizedBox(height: 8),
         SizedBox(
           height: 200.h,
@@ -113,8 +120,37 @@ class Promotion extends StatelessWidget {
               imageUrl: state.promotions[index].imageUrl,
               onTap: () => {},
             ),
-            separatorBuilder: (_, index) => const SizedBox(width: 8),
+            separatorBuilder: (_, index) => const SizedBox(width: 12),
             itemCount: state.promotions.length,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class TrendingCourse extends StatelessWidget {
+  const TrendingCourse(this.state, {super.key});
+
+  final FeatureSuccess state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          context.tr('trending_courses'),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 200.h,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (_, index) => CustomCard(
+              imageUrl: state.courses[index].imageUrl,
+            ),
+            separatorBuilder: (_, index) => const SizedBox(width: 12),
+            itemCount: state.courses.length,
           ),
         )
       ],

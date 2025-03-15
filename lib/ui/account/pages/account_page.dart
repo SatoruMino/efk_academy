@@ -65,7 +65,7 @@ class Security extends StatelessWidget {
           CustomListTile(
             iconData: Iconsax.login_1_bold,
             text: context.tr('sign_in'),
-            onTap: () {},
+            onTap: () => NavigatorHelper.push(AppRoute.signIn),
           ),
       ],
     );

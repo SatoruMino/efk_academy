@@ -14,8 +14,30 @@ class AppTheme {
     }
   }
 
+  static final InputDecorationTheme _inputDecorationTheme =
+      InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.r),
+      borderSide: BorderSide.none,
+    ),
+    contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+    filled: true,
+    labelStyle: TextStyle(fontSize: 14.sp),
+    hintStyle: TextStyle(fontSize: 12.sp),
+    prefixIconColor: Colors.grey,
+  );
+
   static final SnackBarThemeData _snackBarTheme = SnackBarThemeData(
     behavior: SnackBarBehavior.floating,
+  );
+
+  static final TextTheme _textTheme = TextTheme(
+    displayLarge: TextStyle(
+      color: blue,
+      fontSize: 16.sp,
+      fontFamily: 'Ubuntu',
+      fontWeight: FontWeight.w600,
+    ),
   );
 
   static ThemeData light(Locale locale) => ThemeData(
@@ -31,17 +53,8 @@ class AppTheme {
         brightness: Brightness.light,
         colorScheme: ColorScheme.light(primary: blue, onSurface: Colors.black),
         fontFamily: getFont(locale),
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-          filled: true,
+        inputDecorationTheme: _inputDecorationTheme.copyWith(
           fillColor: Colors.grey[200],
-          labelStyle: TextStyle(fontSize: 14.sp),
-          hintStyle: TextStyle(fontSize: 12.sp),
-          prefixIconColor: Colors.grey,
         ),
         listTileTheme: ListTileThemeData(
           textColor: Colors.black,
@@ -52,13 +65,14 @@ class AppTheme {
         snackBarTheme: _snackBarTheme,
         tabBarTheme: TabBarTheme(
           dividerHeight: 0,
+          labelPadding: const EdgeInsets.all(12),
           labelStyle: TextStyle(
             fontSize: 12.sp,
             fontFamily: getFont(locale),
-            height: 1.75,
           ),
           unselectedLabelStyle: const TextStyle(fontSize: 0),
         ),
+        textTheme: _textTheme,
       );
 
   static ThemeData dark(Locale locale) => ThemeData(
@@ -73,14 +87,8 @@ class AppTheme {
         brightness: Brightness.dark,
         colorScheme: ColorScheme.dark(primary: blue, onSurface: Colors.white),
         fontFamily: getFont(locale),
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-          filled: true,
-          fillColor: Colors.grey[200],
+        inputDecorationTheme: _inputDecorationTheme.copyWith(
+          fillColor: Colors.black,
         ),
         listTileTheme: ListTileThemeData(
           textColor: Colors.white,
@@ -91,12 +99,13 @@ class AppTheme {
         snackBarTheme: _snackBarTheme,
         tabBarTheme: TabBarTheme(
           dividerHeight: 0,
+          labelPadding: const EdgeInsets.all(8),
           labelStyle: TextStyle(
             fontSize: 12.sp,
             fontFamily: getFont(locale),
-            height: 1.75,
           ),
           unselectedLabelStyle: const TextStyle(fontSize: 0),
         ),
+        textTheme: _textTheme,
       );
 }

@@ -27,9 +27,7 @@ void main() async {
       startLocale: AppLocalizations.engLocale,
       useFallbackTranslations: true,
       child: BlocProvider(
-        create: (_) => UserCubit(
-          getUser: sl<GetUser>(),
-        ),
+        create: (_) => UserCubit(getUser: sl<GetUser>()),
         child: const MyApp(),
       ),
     ),

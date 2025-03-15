@@ -4,6 +4,7 @@ import 'package:efk_academy/ui/course/pages/coures_page.dart';
 import 'package:efk_academy/ui/feature/pages/feature_page.dart';
 import 'package:efk_academy/ui/owned/pages/owned_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 part '../widgets/bottom_navigation_tab_bar.dart';

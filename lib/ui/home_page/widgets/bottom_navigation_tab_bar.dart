@@ -14,16 +14,16 @@ class BottomNavigationTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
         controller: controller,
-        labelPadding: const EdgeInsets.all(12),
         tabs: items
             .map((item) => Tab(
+                  height: 50.h,
                   child: FittedBox(
                     child: Column(
                       children: [
                         Icon(
                           item.iconData,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         Text(
                           item.text,
                         ),

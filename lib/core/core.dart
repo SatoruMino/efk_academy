@@ -9,3 +9,4 @@ export 'style/style.dart';
 export 'theme/theme.dart';
 export 'usecase/usecase.dart';
 export 'utils/utils.dart';
+export 'widgets/widget.dart';
