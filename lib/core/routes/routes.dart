@@ -1,15 +1,23 @@
 import 'package:efk_academy/domain/entities/new.dart';
 import 'package:efk_academy/domain/usecases/auth/change_username.dart';
+import 'package:efk_academy/domain/usecases/auth/forget_password.dart';
+import 'package:efk_academy/domain/usecases/auth/sign_in.dart';
+import 'package:efk_academy/domain/usecases/auth/sign_out.dart';
 import 'package:efk_academy/domain/usecases/new/get_new.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/change_language/pages/change_language_page.dart';
 import 'package:efk_academy/ui/change_theme/page/change_theme_page.dart';
 import 'package:efk_academy/ui/change_username/cubits/change_username_cubit.dart';
 import 'package:efk_academy/ui/change_username/pages/change_username_page.dart';
+import 'package:efk_academy/ui/forget_password/cubit/forget_password_cubit.dart';
+import 'package:efk_academy/ui/forget_password/page/forget_password_page.dart';
 import 'package:efk_academy/ui/new/cubit/get_new_cubit.dart';
 import 'package:efk_academy/ui/new/pages/new_page.dart';
 import 'package:efk_academy/ui/new_detail/pages/new_detail_page.dart';
+import 'package:efk_academy/ui/sign_in/cubits/sign_in_cubit.dart';
 import 'package:efk_academy/ui/sign_in/pages/sign_in_page.dart';
+import 'package:efk_academy/ui/sign_out/cubit/sign_out_cubit.dart';
+import 'package:efk_academy/ui/sign_out/pages/sign_out_page.dart';
 import 'package:efk_academy/ui/sign_up/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,9 +28,11 @@ class AppRoute {
   static const String changeTheme = '/change_theme';
   static const String changeLanguage = '/change_language';
   static const String changeUsername = '/change_username';
+  static const String forgetPassword = '/forget_password';
   static const String news = '/news';
   static const String newDetail = '/new_detail';
   static const String signIn = '/sign_in';
+  static const String signOut = '/sign_out';
   static const String signUp = '/sign_up';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
@@ -46,6 +56,15 @@ class AppRoute {
             ),
           ),
         );
+      case forgetPassword:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => ForgetPasswordCubit(
+              forgetPassword: sl<ForgetPassword>(),
+            ),
+            child: const ForgetPasswordPage(),
+          ),
+        );
       case news:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -60,7 +79,21 @@ class AppRoute {
         );
       case signIn:
         return MaterialPageRoute(
-          builder: (_) => const SignInPage(),
+          builder: (_) => BlocProvider(
+            create: (_) => SignInCubit(
+              signIn: sl<SignIn>(),
+            ),
+            child: const SignInPage(),
+          ),
+        );
+      case signOut:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => SignOutCubit(
+              signOut: sl<SignOut>(),
+            ),
+            child: const SignOutPage(),
+          ),
         );
       case signUp:
         return MaterialPageRoute(builder: (_) => const SignUpPage());

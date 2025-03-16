@@ -4,6 +4,7 @@ final class SignInState extends Equatable {
   const SignInState({
     this.email = const Email.pure(),
     this.password = const Password.pure(),
+    this.obsecureText = false,
     this.isValid = false,
     this.errorMessage = '',
     this.status = FormzSubmissionStatus.initial,
@@ -11,16 +12,19 @@ final class SignInState extends Equatable {
 
   final Email email;
   final Password password;
+  final bool obsecureText;
   final bool isValid;
   final String errorMessage;
   final FormzSubmissionStatus status;
 
   @override
-  List<Object?> get props => [email, password, isValid, errorMessage, status];
+  List<Object?> get props =>
+      [email, password, obsecureText, isValid, errorMessage, status];
 
   SignInState copyWith({
     Email? email,
     Password? password,
+    bool? obsecureText,
     String? errorMessage,
     bool? isValid,
     FormzSubmissionStatus? status,
@@ -28,6 +32,7 @@ final class SignInState extends Equatable {
     return SignInState(
       email: email ?? this.email,
       password: password ?? this.password,
+      obsecureText: obsecureText ?? this.obsecureText,
       errorMessage: errorMessage ?? this.errorMessage,
       isValid: isValid ?? this.isValid,
       status: status ?? this.status,

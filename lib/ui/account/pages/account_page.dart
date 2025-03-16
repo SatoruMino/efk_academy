@@ -59,7 +59,7 @@ class Security extends StatelessWidget {
           CustomListTile(
             iconData: Iconsax.logout_1_bold,
             text: context.tr('logout'),
-            onTap: () {},
+            onTap: () => NavigatorHelper.push(AppRoute.signOut),
           ),
         ] else
           CustomListTile(

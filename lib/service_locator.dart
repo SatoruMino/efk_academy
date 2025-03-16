@@ -1,32 +1,10 @@
 import 'dart:async';
-import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/data/datasources/auth_remote_data_source.dart';
-import 'package:efk_academy/data/datasources/course_remote_data_source.dart';
-import 'package:efk_academy/data/datasources/new_remote_data_source.dart';
-import 'package:efk_academy/data/datasources/poster_remote_data_source.dart';
-import 'package:efk_academy/data/datasources/promotion_remote_data_source.dart';
-import 'package:efk_academy/data/repositories/auth_repository_impl.dart';
-import 'package:efk_academy/data/repositories/course_repository_impl.dart';
-import 'package:efk_academy/data/repositories/new_repository_impl.dart';
-import 'package:efk_academy/data/repositories/poster_repository_impl.dart';
-import 'package:efk_academy/data/repositories/promotion_repository_impl.dart';
-import 'package:efk_academy/domain/repositories/auth_repository.dart';
-import 'package:efk_academy/domain/repositories/course_repository.dart';
-import 'package:efk_academy/domain/repositories/new_repository.dart';
-import 'package:efk_academy/domain/repositories/poster_repository.dart';
-import 'package:efk_academy/domain/repositories/promotion_repository.dart';
-import 'package:efk_academy/domain/usecases/auth/change_username.dart';
-import 'package:efk_academy/domain/usecases/auth/get_user.dart';
-import 'package:efk_academy/domain/usecases/auth/sign_in.dart';
-import 'package:efk_academy/domain/usecases/auth/sign_up.dart';
-import 'package:efk_academy/domain/usecases/course/get_course.dart';
-import 'package:efk_academy/domain/usecases/course/get_trending_course.dart';
-import 'package:efk_academy/domain/usecases/new/get_new.dart';
-import 'package:efk_academy/domain/usecases/poster/get_poster.dart';
-import 'package:efk_academy/domain/usecases/promotion/get_promotion.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/data/data.dart';
+import 'package:efk_academy/domain/domain.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -90,5 +68,6 @@ _initUsecases() {
     ..registerSingleton(GetTrendingCourse(sl()))
     ..registerSingleton(GetUser(sl()))
     ..registerSingleton(SignIn(sl()))
+    ..registerSingleton(SignOut(sl()))
     ..registerSingleton(SignUp(sl()));
 }

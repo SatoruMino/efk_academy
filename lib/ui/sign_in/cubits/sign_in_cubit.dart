@@ -14,6 +14,10 @@ class SignInCubit extends Cubit<SignInState> {
 
   final SignIn _signIn;
 
+  void obsecureTextChanged() {
+    emit(state.copyWith(obsecureText: !state.obsecureText));
+  }
+
   void emailChanged(String value) {
     final email = Email.dirty(value);
     emit(

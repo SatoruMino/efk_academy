@@ -1,5 +1,4 @@
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/sign_out/cubit/sign_out_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,18 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignOutPage extends StatelessWidget {
   const SignOutPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<SignOutCubit>(),
-      child: const SignOutView(),
-    );
-  }
-}
-
-class SignOutView extends StatelessWidget {
-  const SignOutView({super.key});
 
   @override
   Widget build(BuildContext context) {

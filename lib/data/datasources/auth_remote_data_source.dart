@@ -7,6 +7,7 @@ abstract interface class AuthRemoteDataSource {
   Future<void> signIn(String email, String password);
   Future<void> signUp(String username, String email, String password);
   Future<void> signOut();
+  Future<void> forgetPassword(String email);
   Future<void> changeUsername(String username);
 }
 
@@ -95,6 +96,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'username': username,
         },
       ));
+    } on AuthException catch (e) {
+      throw ServerException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> forgetPassword(String email) async {
+    try {
+      await supabaseClient.auth.resetPasswordForEmail(email);
     } on AuthException catch (e) {
       throw ServerException(e.message);
     } catch (e) {
