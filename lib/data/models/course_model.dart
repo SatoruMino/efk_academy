@@ -10,6 +10,7 @@ class CourseModel extends Course {
     required super.summary,
     required super.imageUrl,
     required super.description,
+    required super.createdAt,
     required super.previewVideoId,
     required super.sections,
     required super.instructor,
@@ -25,6 +26,7 @@ class CourseModel extends Course {
       summary: map['summary'],
       imageUrl: map['image_url'] ?? '',
       description: map['description'] ?? '',
+      createdAt: DateTime.parse(map['created_at']),
       previewVideoId: map['preview_video_id'] ?? '',
       sections: List.from(map['sections'] as List<dynamic>)
           .map((sectionJson) => SectionModel.fromJson(sectionJson))

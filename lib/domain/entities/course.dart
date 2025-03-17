@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:efk_academy/core/utils/math.dart';
 import 'package:equatable/equatable.dart';
 
 class Course extends Equatable {
@@ -9,6 +11,7 @@ class Course extends Equatable {
     required this.discount,
     required this.summary,
     required this.imageUrl,
+    required this.createdAt,
     required this.description,
     required this.previewVideoId,
     required this.sections,
@@ -22,6 +25,7 @@ class Course extends Equatable {
   final double discount;
   final String summary;
   final String imageUrl;
+  final DateTime createdAt;
   final String description;
   final String previewVideoId;
   final Instructor instructor;
@@ -35,9 +39,15 @@ class Course extends Equatable {
         discount,
         summary,
         description,
+        createdAt,
         previewVideoId,
         imageUrl
       ];
+
+  // .. get method
+  int get getSectionCount => sections.length;
+  String get getDate => DateFormat('dd/mm/yy').format(createdAt);
+  double get getPrice => findPrice(price, discount);
 }
 
 class Instructor extends Equatable {

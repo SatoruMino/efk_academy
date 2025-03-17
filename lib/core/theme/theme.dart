@@ -14,6 +14,16 @@ class AppTheme {
     }
   }
 
+  static AppBarTheme _appBarTheme(Locale locale) => AppBarTheme(
+        actionsPadding: const EdgeInsets.all(4),
+        titleTextStyle: TextStyle(
+          color: blue,
+          fontSize: 18.sp,
+          fontFamily: getFont(locale),
+          fontWeight: FontWeight.w600,
+        ),
+      );
+
   static final InputDecorationTheme _inputDecorationTheme =
       InputDecorationTheme(
     border: OutlineInputBorder(
@@ -56,15 +66,7 @@ class AppTheme {
       );
 
   static ThemeData light(Locale locale) => ThemeData(
-        appBarTheme: AppBarTheme(
-          actionsPadding: const EdgeInsets.all(4),
-          titleTextStyle: TextStyle(
-            color: blue,
-            fontSize: 18.sp,
-            fontFamily: getFont(locale),
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        appBarTheme: _appBarTheme(locale),
         brightness: Brightness.light,
         colorScheme: ColorScheme.light(primary: blue, onSurface: Colors.black),
         fontFamily: getFont(locale),
@@ -91,14 +93,7 @@ class AppTheme {
       );
 
   static ThemeData dark(Locale locale) => ThemeData(
-        appBarTheme: AppBarTheme(
-          titleTextStyle: TextStyle(
-            color: blue,
-            fontSize: 18.sp,
-            fontFamily: getFont(locale),
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        appBarTheme: _appBarTheme(locale),
         brightness: Brightness.dark,
         colorScheme: ColorScheme.dark(primary: blue, onSurface: Colors.white),
         fontFamily: getFont(locale),

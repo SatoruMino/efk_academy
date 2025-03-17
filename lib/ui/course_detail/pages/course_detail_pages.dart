@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/core/utils/math.dart';
 import 'package:flutter/material.dart';
 import 'package:efk_academy/domain/domain.dart';
+import 'package:expandable_text/expandable_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -62,7 +62,7 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
             ),
           ),
           body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -75,6 +75,10 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
                 buildSummary(),
                 const SizedBox(height: 12),
                 buildDescription(),
+                const SizedBox(height: 12),
+                buildInstructor(),
+                const SizedBox(height: 12),
+                buildSections(),
               ],
             ),
           ),
@@ -95,7 +99,7 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'additional_information'.tr(),
+          '${'additional_information'.tr()}៖',
           style: TextTheme.of(context).labelLarge,
         ),
         const SizedBox(height: 6),
@@ -105,11 +109,17 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${'created_at'.tr()}:',
+                '${'created_at'.tr()}: ${widget.course.getDate}',
                 style: TextTheme.of(context).labelMedium,
               ),
+              const SizedBox(height: 4),
               Text(
-                '${'students'.tr()}:',
+                '${'students'.tr()}: 0',
+                style: TextTheme.of(context).labelMedium,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${'sections'.tr()}: 0',
                 style: TextTheme.of(context).labelMedium,
               ),
             ],
@@ -121,9 +131,7 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
 
   Widget buildPrice() {
     final originalPrice = widget.course.price;
-    final discount = widget.course.discount;
-    final priceAfterDiscount = findPrice(originalPrice, discount);
-    if (discount > 0) {
+    if (widget.course.discount > 0) {
       return Row(
         children: [
           Text(
@@ -140,7 +148,7 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
           ),
           const SizedBox(width: 8),
           Text(
-            '\$${priceAfterDiscount.toStringAsFixed(2)}',
+            '\$${widget.course.getPrice.toStringAsFixed(2)}',
             style: TextStyle(
               color: Theme.of(context).primaryColor,
               fontSize: 16.sp,
@@ -191,6 +199,82 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
   }
 
   Widget buildInstructor() {
-    return Container();
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).shadowColor.withValues(alpha: 0.25),
+            offset: const Offset(0, 0),
+            blurRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Text(
+            'instructor'.tr(),
+            style: TextTheme.of(context).labelLarge,
+          ),
+          const SizedBox(height: 8),
+          // .. instructor info
+          Row(
+            children: [
+              Image.asset(
+                height: 125.h,
+                'assets/images/avatar_placeholder.png',
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${'name'.tr()}: ${widget.course.instructor.name}',
+                    style: TextTheme.of(context).labelMedium,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${'title'.tr()}: ${widget.course.instructor.title}',
+                    style: TextTheme.of(context).labelMedium,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${'likes'.tr()}: ${widget.course.instructor.name}',
+                    style: TextTheme.of(context).labelMedium,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // .. instructor bio
+          ExpandableText(
+            widget.course.instructor.bio,
+            style: TextTheme.of(context).labelMedium,
+            collapseText: 'show_less'.tr(),
+            expandText: 'show_more'.tr(),
+            linkStyle: TextTheme.of(context)
+                .labelMedium
+                ?.copyWith(color: Theme.of(context).primaryColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSections() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'videos'.tr(),
+          style: TextTheme.of(context).labelLarge,
+        ),
+        const SizedBox(height: 4),
+      ],
+    );
   }
 }

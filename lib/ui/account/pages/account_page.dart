@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/common/user_cubit.dart';
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/core/helpers/navigator.dart';
 import 'package:efk_academy/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
