@@ -42,7 +42,17 @@ class AppTheme {
           fontSize: 16.sp,
           fontFamily: getFont(locale),
         ),
-        labelLarge: TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
+        labelLarge: TextStyle(
+          fontSize: 16.sp,
+          fontFamily: getFont(locale),
+          fontWeight: FontWeight.w600,
+        ),
+        labelMedium: TextStyle(
+          fontSize: 14.sp,
+          fontFamily: getFont(locale),
+          height: 1.5,
+          letterSpacing: 0.75,
+        ),
       );
 
   static ThemeData light(Locale locale) => ThemeData(

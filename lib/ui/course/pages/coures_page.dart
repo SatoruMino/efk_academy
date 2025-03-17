@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/core/components/custom_card.dart';
+import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +60,7 @@ class CouresPage extends StatelessWidget {
       children: [
         Text(
           context.tr('english'),
-          style: Theme.of(context).textTheme.labelLarge,
+          style: TextTheme.of(context).labelMedium,
         ),
         const SizedBox(height: 8),
         SizedBox(
@@ -69,6 +69,10 @@ class CouresPage extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (_, index) => CustomCard(
               imageUrl: courses[index].imageUrl,
+              onTap: () => NavigatorHelper.push(
+                AppRoute.courseDetail,
+                arguments: courses[index],
+              ),
             ),
             itemCount: courses.length,
           ),
