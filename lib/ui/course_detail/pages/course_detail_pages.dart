@@ -4,7 +4,6 @@ import 'package:efk_academy/domain/domain.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CourseDetailPages extends StatefulWidget {
   const CourseDetailPages({
@@ -19,65 +18,37 @@ class CourseDetailPages extends StatefulWidget {
 }
 
 class _CourseDetailPagesState extends State<CourseDetailPages> {
-  late final YoutubePlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: widget.course.previewVideoId,
-      flags: YoutubePlayerFlags(
-        autoPlay: false,
-        useHybridComposition: false,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller,
+    return Scaffold(
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () => Navigator.of(context).pop(),
+          child: const Icon(
+            Icons.close_outlined,
+          ),
+        ),
       ),
-      builder: (_, player) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-              child: const Icon(
-                Icons.close_outlined,
-              ),
-            ),
-          ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildPlayer(player),
-                const SizedBox(height: 12),
-                buildTitle(),
-                const SizedBox(height: 12),
-                buildPrice(),
-                const SizedBox(height: 12),
-                buildAdditionalInfo(),
-                const SizedBox(height: 12),
-                buildDescription(),
-                const SizedBox(height: 12),
-                buildInstructor(),
-                const SizedBox(height: 12),
-                buildSections(),
-              ],
-            ),
-          ),
-        );
-      },
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 12),
+            buildTitle(),
+            const SizedBox(height: 12),
+            buildPrice(),
+            const SizedBox(height: 12),
+            buildAdditionalInfo(),
+            const SizedBox(height: 12),
+            buildDescription(),
+            const SizedBox(height: 12),
+            buildInstructor(),
+            const SizedBox(height: 12),
+            buildSections(),
+          ],
+        ),
+      ),
     );
   }
 
