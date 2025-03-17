@@ -1,4 +1,9 @@
 import 'dart:async';
+import 'package:efk_academy/data/datasources/enrollment_remote_data_source.dart';
+import 'package:efk_academy/data/repositories/enrollment_repository_impl.dart';
+import 'package:efk_academy/domain/repositories/enrollment_repository.dart';
+import 'package:efk_academy/domain/usecases/auth/forget_password.dart';
+import 'package:efk_academy/domain/usecases/enrollment/get_enrollment.dart';
 import 'package:get_it/get_it.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/data/data.dart';
@@ -38,6 +43,9 @@ _initDataSource() {
     ..registerSingleton<CourseRemoteDataSource>(
       CourseRemoteDataSourceImpl(sl()),
     )
+    ..registerSingleton<EnrollmentRemoteDataSource>(
+      EnrollmentRemoteDataSourceImpl(sl()),
+    )
     ..registerSingleton<NewRemoteDataSource>(
       NewRemoteDataSourceImpl(sl()),
     )
@@ -53,6 +61,7 @@ _initRepositories() {
   sl
     ..registerSingleton<AuthRepository>(AuthRepositoryImpl(sl()))
     ..registerSingleton<CourseRepository>(CourseRepositoryImpl(sl()))
+    ..registerSingleton<EnrollmentRepository>(EnrollmentRepositoryImpl(sl()))
     ..registerSingleton<NewRepository>(NewRepositoryImpl(sl()))
     ..registerSingleton<PosterRepository>(PosterRepositoryImpl(sl()))
     ..registerSingleton<PromotionRepository>(PromotionRepositoryImpl(sl()));
@@ -61,7 +70,9 @@ _initRepositories() {
 _initUsecases() {
   sl
     ..registerSingleton(ChangeUsername(sl()))
+    ..registerSingleton(ForgetPassword(sl()))
     ..registerSingleton(GetCourse(sl()))
+    ..registerSingleton(GetEnrollment(sl()))
     ..registerSingleton(GetNew(sl()))
     ..registerSingleton(GetPoster(sl()))
     ..registerSingleton(GetPromotion(sl()))

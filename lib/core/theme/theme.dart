@@ -31,14 +31,19 @@ class AppTheme {
     behavior: SnackBarBehavior.floating,
   );
 
-  static final TextTheme _textTheme = TextTheme(
-    displayLarge: TextStyle(
-      color: blue,
-      fontSize: 16.sp,
-      fontFamily: 'Ubuntu',
-      fontWeight: FontWeight.w600,
-    ),
-  );
+  static TextTheme _textTheme(Locale locale) => TextTheme(
+        displayLarge: TextStyle(
+          color: blue,
+          fontSize: 20.sp,
+          fontFamily: getFont(locale),
+          fontWeight: FontWeight.w600,
+        ),
+        displayMedium: TextStyle(
+          fontSize: 16.sp,
+          fontFamily: getFont(locale),
+        ),
+        labelLarge: TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
+      );
 
   static ThemeData light(Locale locale) => ThemeData(
         appBarTheme: AppBarTheme(
@@ -72,7 +77,7 @@ class AppTheme {
           ),
           unselectedLabelStyle: const TextStyle(fontSize: 0),
         ),
-        textTheme: _textTheme,
+        textTheme: _textTheme(locale),
       );
 
   static ThemeData dark(Locale locale) => ThemeData(
@@ -106,6 +111,6 @@ class AppTheme {
           ),
           unselectedLabelStyle: const TextStyle(fontSize: 0),
         ),
-        textTheme: _textTheme,
+        textTheme: _textTheme(locale),
       );
 }

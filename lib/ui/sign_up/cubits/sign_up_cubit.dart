@@ -14,6 +14,10 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   final SignUp _signUp;
 
+  void obsecureTextChanged() {
+    emit(state.copyWith(obsecureText: !state.obsecureText));
+  }
+
   void usernameChanged(String value) {
     final username = Username.dirty(value);
     emit(
@@ -68,12 +72,13 @@ class SignUpCubit extends Cubit<SignUpState> {
     res.fold(
       (l) => emit(
         state.copyWith(
-          errorMessage: l.message,
+          message: l.message,
           status: FormzSubmissionStatus.failure,
         ),
       ),
       (user) => emit(
         state.copyWith(
+          message: 'sign-up-successfully',
           status: FormzSubmissionStatus.success,
         ),
       ),

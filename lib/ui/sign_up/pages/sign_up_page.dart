@@ -1,7 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/core/helpers/navigator.dart';
-import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/sign_up/cubits/sign_up_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,90 +12,42 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<SignUpCubit>(),
-      child: Scaffold(
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
-            child: const Icon(
-              Icons.close_outlined,
-            ),
-          ),
-          actions: [
-            Text(
-              'EFK\nACADEMY',
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontFamily: 'Ubuntu',
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Image.asset(
-              'assets/images/efk.png',
-              fit: BoxFit.cover,
-            ),
-          ],
-        ),
-        body: BlocListener<SignUpCubit, SignUpState>(
-          listener: (context, state) {
-            if (state.status.isFailure) {
-              Toast.error(state.errorMessage);
-            }
-            if (state.status.isSuccess) {
-              Navigator.of(context).pop();
-            }
-          },
-          listenWhen: (previous, current) => current.status != previous.status,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SignUpHeader(),
-                  const SizedBox(height: 12),
-                  SignUpUsernameInput(),
-                  const SizedBox(height: 12),
-                  SignUpEmailInput(),
-                  const SizedBox(height: 12),
-                  SignUpPasswordInput(),
-                  const SizedBox(height: 12),
-                  SignUpButton(),
-                ],
-              ),
-            ),
-          ),
-        ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                tr('authentication.sign_up_page.already_having_an_account'),
-                style: labelStyle,
-              ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: () {
-                  NavigatorHelper.push(AppRoute.signIn);
-                },
-                child: Text(
-                  tr('authentication.sign_up_page.sign_in'),
-                  style: labelStyle.copyWith(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        extendBodyBehindAppBar: true,
+    return Scaffold(
+      appBar: AppBar(
+        actions: [const EfkLogo()],
       ),
+      body: BlocListener<SignUpCubit, SignUpState>(
+        listener: (context, state) {
+          if (state.status.isFailure) {
+            Toast.error(state.message);
+          }
+          if (state.status.isSuccess) {
+            Toast.success(state.message);
+            Navigator.of(context).pop();
+          }
+        },
+        listenWhen: (previous, current) => current.status != previous.status,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SignUpHeader(),
+                const SizedBox(height: 12),
+                SignUpUsernameInput(),
+                const SizedBox(height: 12),
+                SignUpEmailInput(),
+                const SizedBox(height: 12),
+                SignUpPasswordInput(),
+                const SizedBox(height: 12),
+                SignUpButton(),
+              ],
+            ),
+          ),
+        ),
+      ),
+      extendBodyBehindAppBar: true,
     );
   }
 }
@@ -112,21 +62,15 @@ class SignUpHeader extends StatelessWidget {
         Image.asset(
           height: 175.h,
           'assets/images/sign_in_illustrator.png',
+          fit: BoxFit.cover,
         ),
         Text(
-          tr('authentication.sign_up_page.join_with_us'),
-          style: labelStyle.copyWith(
-            fontSize: 16.sp,
-          ),
+          'join-with-us-now'.tr(),
+          style: Theme.of(context).textTheme.displayMedium,
         ),
         Text(
           'EFK ACADEMY',
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 18.sp,
-            fontFamily: 'Ubuntu',
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(context).textTheme.displayLarge,
         ),
       ],
     );
@@ -141,16 +85,12 @@ class SignUpUsernameInput extends StatelessWidget {
     final displayError = context
         .select((SignUpCubit cubit) => cubit.state.username.displayError);
     return TextField(
-      onChanged: (value) {
-        context.read<SignUpCubit>().usernameChanged(value);
-      },
+      onChanged: (value) => context.read<SignUpCubit>().usernameChanged(value),
       decoration: InputDecoration(
-        hintText: tr('authentication.sign_up_page.username_hint'),
-        labelText: tr('authentication.username'),
+        hintText: 'username-hint'.tr(),
+        labelText: 'username'.tr(),
         prefixIcon: const Icon(Iconsax.user_bold),
-        errorText: displayError != null
-            ? tr('validation.username_is_not_validated')
-            : null,
+        errorText: Validation.usernameError(displayError),
       ),
     );
   }
@@ -164,16 +104,12 @@ class SignUpEmailInput extends StatelessWidget {
     final displayError =
         context.select((SignUpCubit cubit) => cubit.state.email.displayError);
     return TextField(
-      onChanged: (value) {
-        context.read<SignUpCubit>().emailChanged(value);
-      },
+      onChanged: (value) => context.read<SignUpCubit>().emailChanged(value),
       decoration: InputDecoration(
         hintText: 'someone@example.com',
-        labelText: tr('authentication.email'),
-        prefixIcon: const Icon(MingCute.mail_fill),
-        errorText: displayError != null
-            ? tr('validation.email_is_not_validated')
-            : null,
+        labelText: 'email'.tr(),
+        prefixIcon: const Icon(Icons.email),
+        errorText: Validation.emailError(displayError),
       ),
     );
   }
@@ -186,17 +122,22 @@ class SignUpPasswordInput extends StatelessWidget {
   Widget build(BuildContext context) {
     final displayError = context
         .select((SignUpCubit cubit) => cubit.state.password.displayError);
+    final obsecureText =
+        context.select((SignUpCubit cubit) => cubit.state.obsecureText);
     return TextField(
-      onChanged: (value) {
-        context.read<SignUpCubit>().passwordChanged(value);
-      },
+      onChanged: (value) => context.read<SignUpCubit>().passwordChanged(value),
+      obscureText: obsecureText,
       decoration: InputDecoration(
-        hintText: tr('authentication.sign_up_page.password_hint'),
-        labelText: tr('authentication.password'),
+        hintText: 'password-hint'.tr(),
+        labelText: 'password'.tr(),
         prefixIcon: const Icon(Iconsax.lock_1_bold),
-        errorText: displayError != null
-            ? tr('validation.password_is_not_validated')
-            : null,
+        errorText: Validation.passwordError(displayError),
+        suffixIcon: IconButton(
+          onPressed: () => context.read<SignUpCubit>().obsecureTextChanged(),
+          icon: Icon(
+            obsecureText ? Iconsax.eye_bold : Iconsax.eye_slash_bold,
+          ),
+        ),
       ),
     );
   }
@@ -213,10 +154,8 @@ class SignUpButton extends StatelessWidget {
     return CustomButton(
       enabled: enabled,
       inProgress: inProgress,
-      text: tr('authentication.sign_up_page.create_account'),
-      onTap: () {
-        context.read<SignUpCubit>().signUpWithPassword();
-      },
+      text: 'create-account'.tr(),
+      onTap: () => context.read<SignUpCubit>().signUpWithPassword(),
     );
   }
 }

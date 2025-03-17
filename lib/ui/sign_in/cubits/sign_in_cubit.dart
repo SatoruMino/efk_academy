@@ -56,11 +56,12 @@ class SignInCubit extends Cubit<SignInState> {
 
     res.fold(
       (l) => emit(state.copyWith(
-        errorMessage: l.message,
+        message: l.message,
         status: FormzSubmissionStatus.failure,
       )),
       (user) => emit(
         state.copyWith(
+          message: 'sign-in-successfully',
           status: FormzSubmissionStatus.success,
         ),
       ),

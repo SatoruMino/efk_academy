@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/core/helpers/helpers.dart';
 import 'package:efk_academy/ui/sign_in/cubits/sign_in_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +21,11 @@ class SignInPage extends StatelessWidget {
       body: BlocListener<SignInCubit, SignInState>(
         listener: (context, state) {
           if (state.status.isFailure) {
-            Toast.error(state.errorMessage);
+            Toast.error(state.message);
           }
 
           if (state.status.isSuccess) {
+            Toast.success(state.message);
             Navigator.of(context).pop();
           }
         },
@@ -51,7 +51,7 @@ class SignInPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: GestureDetector(
-        onTap: () => {},
+        onTap: () => NavigatorHelper.pushReplacement(AppRoute.signUp),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: RichText(

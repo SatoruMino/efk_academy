@@ -1,17 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/common/user_cubit.dart';
-import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/core/helpers/helpers.dart';
-import 'package:efk_academy/domain/usecases/auth/get_user.dart';
-import 'package:efk_academy/domain/usecases/course/get_trending_course.dart';
-import 'package:efk_academy/domain/usecases/poster/get_poster.dart';
-import 'package:efk_academy/domain/usecases/promotion/get_promotion.dart';
-import 'package:efk_academy/service_locator.dart';
-import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
-import 'package:efk_academy/ui/splash/page/splash_page.dart';
+import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:efk_academy/core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:efk_academy/domain/domain.dart';
+import 'package:efk_academy/service_locator.dart';
+import 'package:efk_academy/common/user_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:efk_academy/ui/splash/page/splash_page.dart';
+import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +49,11 @@ class MyApp extends StatelessWidget {
                 getPromotion: sl<GetPromotion>(),
                 getTrendingCourse: sl<GetTrendingCourse>(),
               )..getFeature(),
+            ),
+            BlocProvider(
+              create: (_) => GetCourseCubit(
+                getCourse: sl<GetCourse>(),
+              )..getCourses(),
             ),
           ],
           child: MaterialApp(

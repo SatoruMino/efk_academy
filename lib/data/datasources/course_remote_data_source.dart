@@ -15,12 +15,14 @@ class CourseRemoteDataSourceImpl implements CourseRemoteDataSource {
   @override
   Future<List<CourseModel>> getCourse() async {
     try {
-      final response =
-          await supabaseClient.from('courses').select().order('id');
+      final response = await supabaseClient
+          .from('courses')
+          .select('''*, instructors(*)''').order('created_at');
 
-      return response
-          .map((courseJson) => CourseModel.fromJson(courseJson))
-          .toList();
+      final courseModels =
+          response.map((courseJson) => CourseModel.fromJson(courseJson));
+
+      return courseModels.toList();
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -31,12 +33,16 @@ class CourseRemoteDataSourceImpl implements CourseRemoteDataSource {
     try {
       final response = await supabaseClient
           .from('courses')
-          .select()
-          .order('total_user', ascending: false);
+          .select('''*, instructors(*)''')
+          .filter('review_count', 'gte', 3)
+          .filter('enrollment_count', 'gte', 50)
+          .order('created_at', ascending: false)
+          .limit(10);
 
-      return response
-          .map((courseJson) => CourseModel.fromJson(courseJson))
-          .toList();
+      final courseModels =
+          response.map((courseJson) => CourseModel.fromJson(courseJson));
+
+      return courseModels.toList();
     } catch (e) {
       throw ServerException(e.toString());
     }

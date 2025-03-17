@@ -10,4 +10,11 @@ class NavigatorHelper {
       arguments: arguments,
     );
   }
+
+  static void pushReplacement(String page, {Object? arguments}) {
+    navigatorKey.currentState?.pushReplacementNamed(
+      page,
+      arguments: arguments,
+    );
+  }
 }
