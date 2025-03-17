@@ -30,7 +30,7 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
         autoPlay: false,
         useHybridComposition: false,
       ),
-    )..initialVideoId;
+    );
   }
 
   @override
