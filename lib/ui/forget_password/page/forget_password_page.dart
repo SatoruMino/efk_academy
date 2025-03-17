@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/core/components/custom_button.dart';
-import 'package:efk_academy/core/utils/validation.dart';
+import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/ui/forget_password/cubit/forget_password_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

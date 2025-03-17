@@ -44,8 +44,25 @@ class Course extends Equatable {
         imageUrl
       ];
 
-  // .. get method
+  // .. get section count
   int get getSectionCount => sections.length;
+  // .. get lesson count
+  int get getLessonCount {
+    return sections.fold(0, (sum, section) => sum + section.lessons.length);
+  }
+
+  // .. get video count
+  int get getVideoCount {
+    return sections.fold(
+      0,
+      (sum, section) {
+        return sum +
+            section.lessons.fold(
+                0, (lessonSum, lesson) => lessonSum + lesson.videos.length);
+      },
+    );
+  }
+
   String get getDate => DateFormat('dd/mm/yy').format(createdAt);
   double get getPrice => findPrice(price, discount);
 }

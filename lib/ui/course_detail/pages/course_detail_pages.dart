@@ -1,3 +1,4 @@
+import 'package:efk_academy/core/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:expandable_text/expandable_text.dart';
@@ -53,13 +54,6 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
                 Icons.close_outlined,
               ),
             ),
-            centerTitle: true,
-            title: Text(
-              widget.course.name,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(12),
@@ -68,11 +62,11 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
               children: [
                 buildPlayer(player),
                 const SizedBox(height: 12),
-                buildAdditionalInfo(),
+                buildTitle(),
                 const SizedBox(height: 12),
                 buildPrice(),
                 const SizedBox(height: 12),
-                buildSummary(),
+                buildAdditionalInfo(),
                 const SizedBox(height: 12),
                 buildDescription(),
                 const SizedBox(height: 12),
@@ -94,6 +88,26 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
     );
   }
 
+  Widget buildTitle() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          widget.course.name,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontFamily: 'Ubuntu',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Text(
+          widget.course.summary,
+          style: Theme.of(context).textTheme.labelMedium,
+        ),
+      ],
+    );
+  }
+
   Widget buildAdditionalInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,17 +123,22 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${'created_at'.tr()}: ${widget.course.getDate}',
-                style: TextTheme.of(context).labelMedium,
-              ),
-              const SizedBox(height: 4),
-              Text(
                 '${'students'.tr()}: 0',
                 style: TextTheme.of(context).labelMedium,
               ),
               const SizedBox(height: 4),
               Text(
-                '${'sections'.tr()}: 0',
+                '${'sections'.tr()}: ${widget.course.getSectionCount}',
+                style: TextTheme.of(context).labelMedium,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${'lessons'.tr()}: ${widget.course.getLessonCount}',
+                style: TextTheme.of(context).labelMedium,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${'videos'.tr()}: ${widget.course.getVideoCount}',
                 style: TextTheme.of(context).labelMedium,
               ),
             ],
@@ -161,23 +180,6 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
 
     return Text(
       '\$${originalPrice.toStringAsFixed(2)}',
-    );
-  }
-
-  Widget buildSummary() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'summary'.tr(),
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          widget.course.summary,
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
-      ],
     );
   }
 
@@ -274,6 +276,18 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
           style: TextTheme.of(context).labelLarge,
         ),
         const SizedBox(height: 4),
+        ...widget.course.sections.map((section) {
+          return CustomExpansionListTile(
+              leading: section.id,
+              title: section.name,
+              children: [
+                ...section.lessons.map((lesson) => CustomExpansionListTile(
+                      leading: lesson.id,
+                      title: lesson.name,
+                      children: [...lesson.videos.map((video) => ListTile())],
+                    )),
+              ]);
+        }),
       ],
     );
   }
