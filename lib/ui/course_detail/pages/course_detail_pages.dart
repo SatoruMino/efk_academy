@@ -1,5 +1,5 @@
 import 'package:efk_academy/core/widgets/custom_expansion_list_tile.dart';
-import 'package:efk_academy/ui/course_detail/cubit/get_enrollment_cubit.dart';
+import 'package:efk_academy/ui/course_detail/cubit/get_enrollment_cubit/get_enrollment_cubit.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:efk_academy/domain/domain.dart';
@@ -11,6 +11,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 part 'views/course_info_tab_view.dart';
 part 'views/course_video_tab_view.dart';
+part 'views/course_review_tab_view.dart';
 
 class CourseDetailPages extends StatefulWidget {
   const CourseDetailPages({
@@ -126,14 +127,14 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
     return Expanded(
       child: TabBarView(
         children: [
-          CourseInfoTabView(widget.course),
+          CourseInfoTabView(
+            course: widget.course,
+          ),
           CourseVideoTabView(
             sections: widget.course.sections,
             isEnrolled: context.read<GetEnrollmentCubit>().state,
           ),
-          Container(
-            color: Colors.green,
-          ),
+          const CourseReviewTabView(),
         ],
       ),
     );

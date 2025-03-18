@@ -10,35 +10,10 @@ class ReviewRepositoryImpl implements ReviewRepository {
   const ReviewRepositoryImpl(this.reviewRemoteDataSource);
 
   @override
-  Future<Either<Failure, List<Review>>> getReview(String courseId) async {
-    try {
-      final reviews = await reviewRemoteDataSource.getReview(courseId);
-
-      return right(reviews);
-    } on ServerException catch (e) {
-      return left(
-        Failure(
-          e.message,
-        ),
-      );
-    }
-  }
-
-  @override
-  Future<Either<Failure, Review>> addReview(
-    String courseId,
-    String message,
-  ) async {
-    try {
-      final review = await reviewRemoteDataSource.addReview(courseId, message);
-
-      return right(review);
-    } on ServerException catch (e) {
-      return left(
-        Failure(
-          e.message,
-        ),
-      );
-    }
+  Stream<Either<Failure, List<Review>>> getReview(String courseId) {
+    return reviewRemoteDataSource
+        .getReview(courseId)
+        .map((review) => right(review))
+      ..handleError((e) => left(Failure(e.toString())));
   }
 }

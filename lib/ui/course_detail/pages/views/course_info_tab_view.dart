@@ -1,7 +1,10 @@
 part of '../course_detail_pages.dart';
 
 class CourseInfoTabView extends StatelessWidget {
-  const CourseInfoTabView(this.course, {super.key});
+  const CourseInfoTabView({
+    super.key,
+    required this.course,
+  });
 
   final Course course;
 
