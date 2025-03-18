@@ -6,5 +6,7 @@ class GetUser {
 
   final AuthRepository authRepository;
 
-  Stream<User> get call => authRepository.getUser;
+  Stream<User> get call {
+    return authRepository.getUser;
+  }
 }

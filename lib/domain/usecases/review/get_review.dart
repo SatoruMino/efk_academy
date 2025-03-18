@@ -5,12 +5,12 @@ import 'package:efk_academy/domain/repositories/review_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 class GetReview implements Usecase<List<Review>, String> {
-  final ReviewRepository reviewRepository;
-
   const GetReview(this.reviewRepository);
 
+  final ReviewRepository reviewRepository;
+
   @override
-  Future<Either<Failure, List<Review>>> call(String param) async {
-    return await reviewRepository.getReview(param);
+  Future<Either<Failure, List<Review>>> call(String param) {
+    return reviewRepository.getReview(param);
   }
 }

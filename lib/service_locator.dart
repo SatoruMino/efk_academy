@@ -54,6 +54,9 @@ _initDataSource() {
     )
     ..registerSingleton<PromotionRemoteDataSource>(
       PromotionRemoteDataSourceImpl(sl()),
+    )
+    ..registerSingleton<ReviewRemoteDataSource>(
+      ReviewRemoteDataSourceImpl(sl()),
     );
 }
 
@@ -64,7 +67,8 @@ _initRepositories() {
     ..registerSingleton<EnrollmentRepository>(EnrollmentRepositoryImpl(sl()))
     ..registerSingleton<NewRepository>(NewRepositoryImpl(sl()))
     ..registerSingleton<PosterRepository>(PosterRepositoryImpl(sl()))
-    ..registerSingleton<PromotionRepository>(PromotionRepositoryImpl(sl()));
+    ..registerSingleton<PromotionRepository>(PromotionRepositoryImpl(sl()))
+    ..registerSingleton<ReviewRepository>(ReviewRepositoryImpl(sl()));
 }
 
 _initUsecases() {
@@ -76,6 +80,7 @@ _initUsecases() {
     ..registerSingleton(GetNew(sl()))
     ..registerSingleton(GetPoster(sl()))
     ..registerSingleton(GetPromotion(sl()))
+    ..registerSingleton(GetReview(sl()))
     ..registerSingleton(GetTrendingCourse(sl()))
     ..registerSingleton(GetUser(sl()))
     ..registerSingleton(SignIn(sl()))

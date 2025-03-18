@@ -4,6 +4,7 @@ import 'package:efk_academy/domain/usecases/auth/change_username.dart';
 import 'package:efk_academy/domain/usecases/auth/forget_password.dart';
 import 'package:efk_academy/domain/usecases/auth/sign_in.dart';
 import 'package:efk_academy/domain/usecases/auth/sign_out.dart';
+import 'package:efk_academy/domain/usecases/enrollment/get_enrollment.dart';
 import 'package:efk_academy/domain/usecases/new/get_new.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/ui/change_language/pages/change_language_page.dart';
@@ -11,6 +12,7 @@ import 'package:efk_academy/ui/change_theme/page/change_theme_page.dart';
 import 'package:efk_academy/ui/change_username/cubits/change_username_cubit.dart';
 import 'package:efk_academy/ui/change_username/pages/change_username_page.dart';
 import 'package:efk_academy/ui/course_detail/cubit/get_enrollment_cubit/get_enrollment_cubit.dart';
+import 'package:efk_academy/ui/course_detail/cubit/get_review_cubit/get_review_cubit.dart';
 import 'package:efk_academy/ui/course_detail/pages/course_detail_pages.dart';
 import 'package:efk_academy/ui/forget_password/cubit/forget_password_cubit.dart';
 import 'package:efk_academy/ui/forget_password/pages/forget_password_page.dart';
@@ -63,10 +65,19 @@ class AppRoute {
       case courseDetail:
         final course = setting.arguments as Course;
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => GetEnrollmentCubit(
-              getEnrollment: sl(),
-            )..getEnrollment(course.id),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => GetEnrollmentCubit(
+                  getEnrollment: sl<GetEnrollment>(),
+                ),
+              ),
+              BlocProvider(
+                create: (_) => GetReviewCubit(
+                  getReview: sl<GetReview>(),
+                )..getReviews(course.id),
+              ),
+            ],
             child: CourseDetailPages(
               course: course,
             ),

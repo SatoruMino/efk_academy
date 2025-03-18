@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:efk_academy/domain/entities/user.dart';
 import 'package:efk_academy/domain/usecases/auth/get_user.dart';
 import 'package:equatable/equatable.dart';

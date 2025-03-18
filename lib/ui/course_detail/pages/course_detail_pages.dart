@@ -1,17 +1,20 @@
 import 'package:efk_academy/core/widgets/custom_expansion_list_tile.dart';
 import 'package:efk_academy/ui/course_detail/cubit/get_enrollment_cubit/get_enrollment_cubit.dart';
+import 'package:efk_academy/ui/course_detail/cubit/get_review_cubit/get_review_cubit.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 part 'views/course_info_tab_view.dart';
 part 'views/course_video_tab_view.dart';
 part 'views/course_review_tab_view.dart';
+
+part '../widgets/review_card.dart';
 
 class CourseDetailPages extends StatefulWidget {
   const CourseDetailPages({
