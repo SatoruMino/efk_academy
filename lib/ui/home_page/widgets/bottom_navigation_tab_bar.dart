@@ -14,6 +14,9 @@ class BottomNavigationTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
         controller: controller,
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 0,
+        ),
         tabs: items
             .map((item) => Tab(
                   height: 50.h,

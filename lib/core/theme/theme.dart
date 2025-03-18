@@ -41,6 +41,19 @@ class AppTheme {
     behavior: SnackBarBehavior.floating,
   );
 
+  static TabBarTheme _tabBarTheme(Locale locale) => TabBarTheme(
+        dividerHeight: 0,
+        labelPadding: const EdgeInsets.all(8),
+        labelStyle: TextStyle(
+          fontSize: 12.sp,
+          fontFamily: getFont(locale),
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontSize: 10.sp,
+          fontFamily: getFont(locale),
+        ),
+      );
+
   static TextTheme _textTheme(Locale locale) => TextTheme(
         displayLarge: TextStyle(
           color: blue,
@@ -63,6 +76,12 @@ class AppTheme {
           height: 1.5,
           letterSpacing: 0.75,
         ),
+        labelSmall: TextStyle(
+          fontSize: 12.sp,
+          fontFamily: getFont(locale),
+          height: 1.5,
+          letterSpacing: 0.75,
+        ),
       );
 
   static ThemeData light(Locale locale) => ThemeData(
@@ -74,22 +93,17 @@ class AppTheme {
           fillColor: Colors.grey[200],
         ),
         listTileTheme: ListTileThemeData(
+          minTileHeight: 0,
+          minVerticalPadding: 12,
           textColor: Colors.black,
           titleTextStyle:
               TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
         ),
         primaryColor: blue,
         snackBarTheme: _snackBarTheme,
-        tabBarTheme: TabBarTheme(
-          dividerHeight: 0,
-          labelPadding: const EdgeInsets.all(12),
-          labelStyle: TextStyle(
-            fontSize: 12.sp,
-            fontFamily: getFont(locale),
-          ),
-          unselectedLabelStyle: const TextStyle(fontSize: 0),
-        ),
+        tabBarTheme: _tabBarTheme(locale),
         textTheme: _textTheme(locale),
+        useMaterial3: true,
       );
 
   static ThemeData dark(Locale locale) => ThemeData(
@@ -107,15 +121,8 @@ class AppTheme {
         ),
         primaryColor: blue,
         snackBarTheme: _snackBarTheme,
-        tabBarTheme: TabBarTheme(
-          dividerHeight: 0,
-          labelPadding: const EdgeInsets.all(8),
-          labelStyle: TextStyle(
-            fontSize: 12.sp,
-            fontFamily: getFont(locale),
-          ),
-          unselectedLabelStyle: const TextStyle(fontSize: 0),
-        ),
+        tabBarTheme: _tabBarTheme(locale),
         textTheme: _textTheme(locale),
+        useMaterial3: true,
       );
 }

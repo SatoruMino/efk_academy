@@ -1,6 +1,7 @@
 import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:efk_academy/core/core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:efk_academy/service_locator.dart';
@@ -12,6 +13,7 @@ import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
   setUpLocator();

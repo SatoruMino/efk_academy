@@ -1,9 +1,16 @@
-import 'package:efk_academy/core/widgets/widget.dart';
+import 'package:efk_academy/core/widgets/custom_expansion_list_tile.dart';
+import 'package:efk_academy/ui/course_detail/cubit/get_enrollment_cubit.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:efk_academy/domain/domain.dart';
-import 'package:expandable_text/expandable_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+part 'views/course_info_tab_view.dart';
+part 'views/course_video_tab_view.dart';
 
 class CourseDetailPages extends StatefulWidget {
   const CourseDetailPages({
@@ -18,6 +25,29 @@ class CourseDetailPages extends StatefulWidget {
 }
 
 class _CourseDetailPagesState extends State<CourseDetailPages> {
+  late final YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final videoId = widget.course.previewVideoId;
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        enableCaption: false,
+        showLiveFullscreenButton: false,
+        useHybridComposition: false,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,237 +59,83 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 12),
-            buildTitle(),
-            const SizedBox(height: 12),
-            buildPrice(),
-            const SizedBox(height: 12),
-            buildAdditionalInfo(),
-            const SizedBox(height: 12),
-            buildDescription(),
-            const SizedBox(height: 12),
-            buildInstructor(),
-            const SizedBox(height: 12),
-            buildSections(),
-          ],
+      body: DefaultTabController(
+        length: 3,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            children: [
+              buildPlayer(),
+              const SizedBox(height: 8),
+              buildTabBar(),
+              const SizedBox(height: 8),
+              buildTabBarView(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget buildPlayer(Widget player) {
+  Widget buildPlayer() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8.r),
-      child: player,
+      child: YoutubePlayer(
+        controller: _controller,
+        bottomActions: [],
+      ),
     );
   }
 
-  Widget buildTitle() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.course.name,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontFamily: 'Ubuntu',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        Text(
-          widget.course.summary,
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
-      ],
-    );
-  }
-
-  Widget buildAdditionalInfo() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '${'additional_information'.tr()}៖',
-          style: TextTheme.of(context).labelLarge,
-        ),
-        const SizedBox(height: 6),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${'students'.tr()}: 0',
-                style: TextTheme.of(context).labelMedium,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${'sections'.tr()}: ${widget.course.getSectionCount}',
-                style: TextTheme.of(context).labelMedium,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${'lessons'.tr()}: ${widget.course.getLessonCount}',
-                style: TextTheme.of(context).labelMedium,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${'videos'.tr()}: ${widget.course.getVideoCount}',
-                style: TextTheme.of(context).labelMedium,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildPrice() {
-    final originalPrice = widget.course.price;
-    if (widget.course.discount > 0) {
-      return Row(
-        children: [
-          Text(
-            '${'price'.tr()}:',
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            '\$${originalPrice.toStringAsFixed(2)}',
-            style: TextStyle(
-              fontSize: 14.sp,
-              decoration: TextDecoration.lineThrough,
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            '\$${widget.course.getPrice.toStringAsFixed(2)}',
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      );
-    }
-
-    return Text(
-      '\$${originalPrice.toStringAsFixed(2)}',
-    );
-  }
-
-  Widget buildDescription() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'benefits_of_enrollment_on_this_course'.tr(),
-          style: TextTheme.of(context).labelLarge,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          widget.course.description,
-          style: TextTheme.of(context).labelMedium,
-        ),
-      ],
-    );
-  }
-
-  Widget buildInstructor() {
+  Widget buildTabBar() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
+        border: Border.all(
+          color: Theme.of(context).primaryColor,
+          width: 1.75,
+        ),
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).shadowColor.withValues(alpha: 0.25),
-            offset: const Offset(0, 0),
-            blurRadius: 2,
+            color: Theme.of(context).primaryColor,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Text(
-            'instructor'.tr(),
-            style: TextTheme.of(context).labelLarge,
+      child: TabBar(
+        labelPadding: EdgeInsets.zero,
+        labelStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600),
+        tabs: [
+          Tab(
+            text: 'info'.tr(),
           ),
-          const SizedBox(height: 8),
-          // .. instructor info
-          Row(
-            children: [
-              Image.asset(
-                height: 125.h,
-                'assets/images/avatar_placeholder.png',
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${'name'.tr()}: ${widget.course.instructor.name}',
-                    style: TextTheme.of(context).labelMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${'title'.tr()}: ${widget.course.instructor.title}',
-                    style: TextTheme.of(context).labelMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${'likes'.tr()}: ${widget.course.instructor.name}',
-                    style: TextTheme.of(context).labelMedium,
-                  ),
-                ],
-              ),
-            ],
+          Tab(
+            text: 'videos'.tr(),
           ),
-          const SizedBox(height: 8),
-          // .. instructor bio
-          ExpandableText(
-            widget.course.instructor.bio,
-            style: TextTheme.of(context).labelMedium,
-            collapseText: 'show_less'.tr(),
-            expandText: 'show_more'.tr(),
-            linkStyle: TextTheme.of(context)
-                .labelMedium
-                ?.copyWith(color: Theme.of(context).primaryColor),
+          Tab(
+            text: 'reviews'.tr(),
           ),
         ],
       ),
     );
   }
 
-  Widget buildSections() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'videos'.tr(),
-          style: TextTheme.of(context).labelLarge,
-        ),
-        const SizedBox(height: 4),
-        ...widget.course.sections.map((section) {
-          return CustomExpansionListTile(
-              leading: section.id,
-              title: section.name,
-              children: [
-                ...section.lessons.map((lesson) => CustomExpansionListTile(
-                      leading: lesson.id,
-                      title: lesson.name,
-                      children: [...lesson.videos.map((video) => ListTile())],
-                    )),
-              ]);
-        }),
-      ],
+  Widget buildTabBarView() {
+    return Expanded(
+      child: TabBarView(
+        children: [
+          CourseInfoTabView(widget.course),
+          CourseVideoTabView(
+            sections: widget.course.sections,
+            isEnrolled: context.read<GetEnrollmentCubit>().state,
+          ),
+          Container(
+            color: Colors.green,
+          ),
+        ],
+      ),
     );
   }
 }
