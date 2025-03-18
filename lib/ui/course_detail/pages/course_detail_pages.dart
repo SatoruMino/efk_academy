@@ -62,6 +62,12 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
             Icons.close_outlined,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(MingCute.currency_dollar_fill),
+          ),
+        ],
       ),
       body: DefaultTabController(
         length: 3,
@@ -86,7 +92,7 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
       borderRadius: BorderRadius.circular(8.r),
       child: YoutubePlayer(
         controller: _controller,
-        bottomActions: [],
+        bottomActions: const [],
       ),
     );
   }
