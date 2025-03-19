@@ -3,5 +3,5 @@ import 'package:efk_academy/domain/domain.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract interface class CartRepository {
-  Future<Either<Failure, List<Course>>> getCart();
+  Future<Either<Failure, List<Cart>>> getCart();
 }

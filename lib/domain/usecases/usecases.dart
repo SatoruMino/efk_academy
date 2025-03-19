@@ -5,6 +5,9 @@ export 'auth/sign_in.dart';
 export 'auth/sign_out.dart';
 export 'auth/sign_up.dart';
 
+// .. cart
+export 'cart/get_cart.dart';
+
 // .. course
 export 'course/get_course.dart';
 export 'course/get_trending_course.dart';

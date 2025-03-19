@@ -40,6 +40,9 @@ _initDataSource() {
     ..registerSingleton<AuthRemoteDataSource>(
       AuthRemoteDataSourceImpl(sl()),
     )
+    ..registerSingleton<CartRemoteDataSource>(
+      CartRemoteDataSourceImpl(sl()),
+    )
     ..registerSingleton<CourseRemoteDataSource>(
       CourseRemoteDataSourceImpl(sl()),
     )
@@ -63,6 +66,7 @@ _initDataSource() {
 _initRepositories() {
   sl
     ..registerSingleton<AuthRepository>(AuthRepositoryImpl(sl()))
+    ..registerSingleton<CartRepository>(CartRepositoryImpl(sl()))
     ..registerSingleton<CourseRepository>(CourseRepositoryImpl(sl()))
     ..registerSingleton<EnrollmentRepository>(EnrollmentRepositoryImpl(sl()))
     ..registerSingleton<NewRepository>(NewRepositoryImpl(sl()))
@@ -75,6 +79,7 @@ _initUsecases() {
   sl
     ..registerSingleton(ChangeUsername(sl()))
     ..registerSingleton(ForgetPassword(sl()))
+    ..registerSingleton(GetCart(sl()))
     ..registerSingleton(GetCourse(sl()))
     ..registerSingleton(GetEnrollment(sl()))
     ..registerSingleton(GetNew(sl()))

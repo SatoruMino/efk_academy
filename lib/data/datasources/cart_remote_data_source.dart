@@ -1,9 +1,9 @@
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/data/data.dart';
+import 'package:efk_academy/data/models/cart_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class CartRemoteDataSource {
-  Future<List<CourseModel>> getCart();
+  Future<List<CartModel>> getCart();
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -12,7 +12,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   final SupabaseClient supabaseClient;
 
   @override
-  Future<List<CourseModel>> getCart() async {
+  Future<List<CartModel>> getCart() async {
     final currentUser = supabaseClient.auth.currentUser;
 
     if (currentUser == null) {
@@ -22,9 +22,20 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
     try {
       final response = await supabaseClient
           .from('carts')
-          .select('''id, courses(*)''')
+          .select('id, courses(name, price, discount)')
           .eq('user_id', currentUser.id)
           .order('id');
+
+      final cartModels = response.map((cartJson) {
+        final courseJson = cartJson['courses'];
+        return CartModel.fromJson(cartJson).copyWith(
+          name: courseJson['name'],
+          price: (courseJson['price'] as num).toDouble(),
+          discount: (courseJson['discount'] as num).toDouble(),
+        );
+      }).toList();
+
+      return cartModels;
     } on PostgrestException catch (e) {
       throw ServerException(e.toString());
     }

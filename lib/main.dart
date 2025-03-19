@@ -1,3 +1,4 @@
+import 'package:efk_academy/ui/cart/cubits/cart_cubit.dart';
 import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:efk_academy/core/core.dart';
@@ -45,6 +46,11 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MultiBlocProvider(
           providers: [
+            BlocProvider(
+              create: (_) => CartCubit(
+                getCart: sl<GetCart>(),
+              )..getCarts(),
+            ),
             BlocProvider(
               create: (_) => FeatureCubit(
                 getPoster: sl<GetPoster>(),
