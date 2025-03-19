@@ -87,6 +87,7 @@ class ChangeUsernameButton extends StatelessWidget {
       enabled: isValid,
       inProgress: inProgress,
       text: 'change_username'.tr(),
+      style: CustomButtonStyle.primary(context),
       onTap: () => context.read<ChangeUsernameCubit>().changeUsername(),
     );
   }

@@ -49,6 +49,7 @@ class SignOutPage extends StatelessWidget {
                     Expanded(
                       child: CustomButton(
                         text: 'បោះបង់',
+                        style: CustomButtonStyle.primary(context),
                         onTap: () {
                           Navigator.of(context).pop();
                         },
@@ -59,6 +60,7 @@ class SignOutPage extends StatelessWidget {
                       child: CustomButton(
                         inProgress: inProgress,
                         text: 'យល់ព្រម',
+                        style: CustomButtonStyle.primary(context),
                         onTap: () {
                           context.read<SignOutCubit>().signOut();
                         },

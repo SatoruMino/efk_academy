@@ -77,6 +77,7 @@ _initRepositories() {
 
 _initUsecases() {
   sl
+    ..registerSingleton(AddToCart(sl()))
     ..registerSingleton(ChangeUsername(sl()))
     ..registerSingleton(ForgetPassword(sl()))
     ..registerSingleton(GetCart(sl()))

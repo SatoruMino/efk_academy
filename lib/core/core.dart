@@ -6,7 +6,7 @@ export 'localization/app_localizations.dart';
 export 'models/models.dart';
 export 'routes/routes.dart';
 export 'secrets/secret.dart';
-export 'style/style.dart';
+export 'style/text_style.dart';
 export 'theme/theme.dart';
 export 'usecase/usecase.dart';
 export 'utils/utils.dart';

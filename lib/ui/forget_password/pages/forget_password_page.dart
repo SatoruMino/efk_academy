@@ -104,6 +104,7 @@ class ForgetPasswordButton extends StatelessWidget {
       enabled: enabled,
       inProgress: inProgress,
       text: 'reset_password'.tr(),
+      style: CustomButtonStyle.primary(context),
       onTap: () => context.read<ForgetPasswordCubit>().forgetPassword(),
     );
   }

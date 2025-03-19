@@ -1,3 +1,5 @@
+import 'package:efk_academy/core/components/shopping_cart.dart';
+import 'package:efk_academy/core/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:efk_academy/domain/domain.dart';
@@ -55,7 +57,15 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [],
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: const Icon(
+            Icons.close_outlined,
+          ),
+        ),
+        actions: [const ShoppingCart()],
       ),
       body: DefaultTabController(
         length: 3,

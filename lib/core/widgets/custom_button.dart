@@ -1,4 +1,3 @@
-import 'package:efk_academy/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -7,15 +6,17 @@ class CustomButton extends StatefulWidget {
   const CustomButton({
     super.key,
     this.enabled = true,
-    required this.text,
     this.inProgress = false,
-    this.onTap,
+    required this.text,
+    required this.style,
+    required this.onTap,
   });
 
-  final String text;
   final bool enabled;
   final bool inProgress;
-  final VoidCallback? onTap;
+  final String text;
+  final CustomButtonStyle style;
+  final VoidCallback onTap;
 
   @override
   State<CustomButton> createState() => _CustomButtonState();
@@ -23,45 +24,63 @@ class CustomButton extends StatefulWidget {
 
 class _CustomButtonState extends State<CustomButton>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
+  late final AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
+    _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 250),
+      duration: const Duration(
+        milliseconds: 250,
+      ),
     );
 
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95)
-        .chain(CurveTween(curve: Curves.easeInOutBack))
-        .animate(_animationController);
+    _scaleAnimation = Tween<double>(begin: 1, end: 0.95)
+        .chain(CurveTween(curve: Curves.easeInOut))
+        .animate(_controller);
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  onTapDown(TapDownDetails detail) {
-    _animationController.forward();
+  void _onTap() async {
+    if (!widget.inProgress) {
+      widget.onTap;
+    }
   }
 
-  onTapUp(TapUpDetails detail) {
-    _animationController.reverse();
+  void _onTapDown(TapDownDetails details) {
+    if (widget.enabled) {
+      _controller.forward();
+    }
   }
 
-  onTapCancel() {
-    _animationController.reverse();
+  void _onTapUp(TapUpDetails details) {
+    if (widget.enabled) {
+      _controller.reverse();
+    }
+  }
+
+  void _onTapCancel() {
+    if (widget.enabled) {
+      _controller.reverse();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var color = widget.enabled ? theme.primaryColor : theme.disabledColor;
+    final backgroundColor = widget.enabled
+        ? widget.style.backgroundColor
+        : Theme.of(context).disabledColor;
+    final borderColor =
+        widget.enabled ? widget.style.borderColor : Colors.transparent;
+
     return AnimatedBuilder(
       animation: _scaleAnimation,
       builder: (_, child) {
@@ -71,35 +90,73 @@ class _CustomButtonState extends State<CustomButton>
         );
       },
       child: InkWell(
-        onTap: widget.enabled ? widget.onTap : null,
-        onTapDown: widget.enabled ? onTapDown : null,
-        onTapUp: widget.enabled ? onTapUp : null,
-        onTapCancel: widget.enabled ? onTapCancel : null,
+        onTap: _onTap,
+        onTapDown: _onTapDown,
+        onTapUp: _onTapUp,
+        onTapCancel: _onTapCancel,
         customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(14.r),
         ),
         child: Ink(
           height: 50.h,
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            color: color,
+            color: backgroundColor,
+            border: Border.all(
+              color: borderColor,
+            ),
+            borderRadius: BorderRadius.circular(14.r),
           ),
           child: Center(
             child: widget.inProgress
                 ? LoadingIndicator(
                     indicatorType: Indicator.ballPulseSync,
-                    colors: [theme.scaffoldBackgroundColor],
+                    colors: [widget.style.progressColor],
                   )
                 : Text(
                     widget.text,
-                    style: labelStyle.copyWith(
-                      color: theme.scaffoldBackgroundColor,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelSmall
+                        ?.copyWith(color: widget.style.textColor),
                   ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomButtonStyle {
+  final Color backgroundColor;
+  final Color borderColor;
+  final Color progressColor;
+  final Color textColor;
+
+  const CustomButtonStyle({
+    required this.backgroundColor,
+    required this.borderColor,
+    required this.progressColor,
+    required this.textColor,
+  });
+
+  factory CustomButtonStyle.primary(BuildContext context) {
+    final theme = Theme.of(context);
+    return CustomButtonStyle(
+      backgroundColor: theme.primaryColor,
+      borderColor: theme.primaryColor,
+      progressColor: theme.scaffoldBackgroundColor,
+      textColor: theme.scaffoldBackgroundColor,
+    );
+  }
+
+  factory CustomButtonStyle.secondary(BuildContext context) {
+    final theme = Theme.of(context);
+    return CustomButtonStyle(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      borderColor: theme.colorScheme.onSurface,
+      progressColor: theme.colorScheme.onSurface,
+      textColor: theme.colorScheme.onSurface,
     );
   }
 }

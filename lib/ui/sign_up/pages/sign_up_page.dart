@@ -155,6 +155,7 @@ class SignUpButton extends StatelessWidget {
       enabled: enabled,
       inProgress: inProgress,
       text: 'create-account'.tr(),
+      style: CustomButtonStyle.primary(context),
       onTap: () => context.read<SignUpCubit>().signUpWithPassword(),
     );
   }

@@ -189,6 +189,7 @@ class SignInButton extends StatelessWidget {
       enabled: enabled,
       inProgress: inProgress,
       text: 'sign_in'.tr(),
+      style: CustomButtonStyle.primary(context),
       onTap: () => context.read<SignInCubit>().signInWithPassword(),
     );
   }

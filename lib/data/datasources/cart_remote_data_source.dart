@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class CartRemoteDataSource {
   Future<List<CartModel>> getCart();
+  Future<CartModel> addToCart(CartModel cartModel);
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -22,20 +23,37 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
     try {
       final response = await supabaseClient
           .from('carts')
-          .select('id, courses(name, price, discount)')
+          .select('*, courses(name, price, discount)')
           .eq('user_id', currentUser.id)
-          .order('id');
+          .order('id', ascending: false);
 
       final cartModels = response.map((cartJson) {
-        final courseJson = cartJson['courses'];
-        return CartModel.fromJson(cartJson).copyWith(
-          name: courseJson['name'],
-          price: (courseJson['price'] as num).toDouble(),
-          discount: (courseJson['discount'] as num).toDouble(),
-        );
+        return CartModel.fromJson(cartJson);
       }).toList();
 
       return cartModels;
+    } on PostgrestException catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<CartModel> addToCart(CartModel cartModel) async {
+    final currentUser = supabaseClient.auth.currentUser;
+
+    if (currentUser == null) {
+      throw const ServerException('user-not-found');
+    }
+
+    try {
+      final response = await supabaseClient
+          .from('carts')
+          .upsert(cartModel.copyWith(userId: currentUser.id).toJson(),
+              onConflict: 'course_id')
+          .select('*, courses(name,price,discount)')
+          .single();
+
+      return CartModel.fromJson(response);
     } on PostgrestException catch (e) {
       throw ServerException(e.toString());
     }

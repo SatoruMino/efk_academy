@@ -62,6 +62,44 @@ class CourseInfoTabView extends StatelessWidget {
             ),
           ),
 
+          // .. isEnrolled
+          const SizedBox(height: 12),
+          BlocBuilder<GetEnrollmentCubit, GetEnrollmentState>(
+            builder: (context, state) {
+              if (state.status == GetEnrollmentStatus.inProgress) {
+                return CircularProgressIndicator();
+              }
+
+              if (state.status == GetEnrollmentStatus.success) {
+                if (state.isEnrolled) {
+                  return const SizedBox();
+                } else {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: CustomButton(
+                          text: 'add_to_cart'.tr(),
+                          style: CustomButtonStyle.secondary(context),
+                          onTap: () {},
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: CustomButton(
+                          text: 'purchase_now'.tr(),
+                          style: CustomButtonStyle.primary(context),
+                          onTap: () {},
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              }
+
+              return const SizedBox();
+            },
+          ),
+
           const SizedBox(height: 12),
           // .. benefits of enrollment
           Text(

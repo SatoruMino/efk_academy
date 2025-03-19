@@ -1,33 +1,42 @@
-import 'package:efk_academy/domain/entities/cart.dart';
+import 'package:efk_academy/domain/domain.dart';
 
 class CartModel extends Cart {
   const CartModel({
     required super.id,
-    required super.name,
-    required super.price,
-    required super.discount,
+    required super.userId,
+    required super.courseId,
+    super.courseName,
+    super.coursePrice,
+    super.courseDiscount,
   });
 
   factory CartModel.fromJson(Map<String, dynamic> map) {
     return CartModel(
       id: map['id'] ?? '',
-      name: '',
-      price: 0,
-      discount: 0,
+      userId: map['user_id'] ?? '',
+      courseId: map['course_id'] ?? '',
+      courseName: map['courses']['name'] ?? '',
+      coursePrice: (map['courses']['price'] as num).toDouble(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'user_id': userId,
+      'course_id': courseId,
+    };
   }
 
   CartModel copyWith({
     String? id,
-    String? name,
-    double? price,
-    double? discount,
+    String? userId,
+    String? courseId,
   }) {
     return CartModel(
       id: id ?? this.id,
-      name: name ?? this.name,
-      price: price ?? this.price,
-      discount: discount ?? this.discount,
+      userId: userId ?? this.userId,
+      courseId: courseId ?? this.courseId,
     );
   }
 }
