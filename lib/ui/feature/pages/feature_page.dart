@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/core/helpers/helpers.dart';
 import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +16,9 @@ class FeaturePage extends StatelessWidget {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () => NavigatorHelper.push(AppRoute.news),
+            onPressed: () {
+              NavigatorHelper.push(AppRoute.news);
+            },
             icon: Icon(
               color: Theme.of(context).primaryColor,
               Iconsax.notification_1_bold,

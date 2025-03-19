@@ -1,14 +1,14 @@
-import 'package:efk_academy/core/widgets/custom_expansion_list_tile.dart';
-import 'package:efk_academy/ui/course_detail/cubit/get_enrollment_cubit/get_enrollment_cubit.dart';
-import 'package:efk_academy/ui/course_detail/cubit/get_review_cubit/get_review_cubit.dart';
-import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
-import 'package:efk_academy/domain/domain.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:efk_academy/domain/domain.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:expandable_text/expandable_text.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:efk_academy/core/widgets/custom_expansion_list_tile.dart';
+import 'package:efk_academy/ui/course_detail/cubit/get_review_cubit/get_review_cubit.dart';
+import 'package:efk_academy/ui/course_detail/cubit/get_enrollment_cubit/get_enrollment_cubit.dart';
 
 part 'views/course_info_tab_view.dart';
 part 'views/course_video_tab_view.dart';
@@ -29,14 +29,13 @@ class CourseDetailPages extends StatefulWidget {
 }
 
 class _CourseDetailPagesState extends State<CourseDetailPages> {
-  late final YoutubePlayerController _controller;
+  late YoutubePlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    final videoId = widget.course.previewVideoId;
     _controller = YoutubePlayerController(
-      initialVideoId: videoId,
+      initialVideoId: widget.course.previewVideoId,
       flags: YoutubePlayerFlags(
         autoPlay: false,
         enableCaption: false,
@@ -56,49 +55,33 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: const Icon(
-            Icons.close_outlined,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(MingCute.currency_dollar_fill),
-          ),
-        ],
+        actions: [],
       ),
       body: DefaultTabController(
         length: 3,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Column(
-            children: [
-              buildPlayer(),
-              const SizedBox(height: 8),
-              buildTabBar(),
-              const SizedBox(height: 8),
-              buildTabBarView(),
-            ],
-          ),
+        child: Column(
+          children: [
+            buildPlayer(),
+            const SizedBox(height: 8),
+            buildTabBar(),
+            const SizedBox(height: 8),
+            buildTabBarView(),
+          ],
         ),
       ),
     );
   }
 
   Widget buildPlayer() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8.r),
-      child: YoutubePlayer(
-        controller: _controller,
-        bottomActions: const [],
-      ),
+    return YoutubePlayer(
+      controller: _controller,
+      bottomActions: const [],
     );
   }
 
   Widget buildTabBar() {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         border: Border.all(
@@ -141,7 +124,7 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
           ),
           CourseVideoTabView(
             sections: widget.course.sections,
-            isEnrolled: context.read<GetEnrollmentCubit>().state,
+            isEnrolled: context.watch<GetEnrollmentCubit>().state.isEnrolled,
           ),
           const CourseReviewTabView(),
         ],

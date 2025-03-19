@@ -15,8 +15,9 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.all(4),
+      contentPadding: const EdgeInsets.all(4),
       minTileHeight: 0,
+      minVerticalPadding: 4,
       leading: Icon(iconData),
       title: Text(text),
       trailing: const Icon(Icons.arrow_right),

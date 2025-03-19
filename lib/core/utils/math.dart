@@ -5,25 +5,25 @@ double findPrice(double price, double discount) {
 }
 
 // .. for date
-String findTimeAgo(DateTime dateTime) {
+String findDateAgo(DateTime dateTime) {
   final difference = DateTime.now().difference(dateTime);
 
-  if (difference.inDays >= 365) {
-    final int year = difference.inDays ~/ 365;
-    return '$year year{${year > 1 ? 's' : ''}} ago';
-  } else if (difference.inDays >= 30) {
-    final int month = difference.inDays ~/ 30;
-    return '$month month${month > 1 ? 's' : ''} ago';
-  } else if (difference.inDays >= 1) {
-    final int day = difference.inDays;
-    return '$day day${day > 1 ? 's' : ''} ago';
-  } else if (difference.inHours >= 1) {
-    final int hour = difference.inHours;
-    return '$hour hour${hour > 1 ? 's' : ''} ago';
-  } else if (difference.inMinutes >= 1) {
-    final int minute = difference.inMinutes;
-    return '$minute minute${minute > 1 ? 's' : ''} ago';
+  if (difference.inDays > 365) {
+    final years = (difference.inDays / 365).floor();
+    return '$years year${years > 1 ? 's' : ''} ago';
+  } else if (difference.inDays > 30) {
+    final months = (difference.inDays / 30).floor();
+    return '$months month${months > 1 ? 's' : ''} ago';
+  } else if (difference.inDays > 0) {
+    final days = difference.inDays;
+    return '$days day${days > 1 ? 's' : ''} ago';
+  } else if (difference.inHours > 0) {
+    final hours = difference.inHours;
+    return '$hours hour${hours > 1 ? 's' : ''} ago';
+  } else if (difference.inMinutes > 0) {
+    final minutes = difference.inMinutes;
+    return '$minutes minute${minutes > 1 ? 's' : ''} ago';
   } else {
-    return 'Just now';
+    return 'Just Now';
   }
 }

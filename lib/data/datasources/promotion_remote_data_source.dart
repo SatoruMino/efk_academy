@@ -1,5 +1,5 @@
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/data/models/promotion_model.dart';
+import 'package:efk_academy/data/data.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class PromotionRemoteDataSource {
@@ -17,13 +17,18 @@ class PromotionRemoteDataSourceImpl implements PromotionRemoteDataSource {
       final response = await supabaseClient
           .from('promotions')
           .select()
-          .order('created_at', ascending: false);
+          .order('created_at', ascending: false)
+          .limit(5);
 
-      return response
-          .map((promotionJson) => PromotionModel.fromJson(promotionJson))
+      final promotionModels = response
+          .map((posterJson) => PromotionModel.fromJson(posterJson))
           .toList();
+
+      return promotionModels;
     } catch (e) {
-      throw ServerException(e.toString());
+      throw ServerException(
+        e.toString(),
+      );
     }
   }
 }

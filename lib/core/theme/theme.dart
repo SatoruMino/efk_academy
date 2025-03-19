@@ -15,7 +15,7 @@ class AppTheme {
   }
 
   static AppBarTheme _appBarTheme(Locale locale) => AppBarTheme(
-        actionsPadding: const EdgeInsets.all(4),
+        actionsPadding: const EdgeInsets.all(8),
         titleTextStyle: TextStyle(
           color: blue,
           fontSize: 18.sp,
@@ -100,6 +100,7 @@ class AppTheme {
               TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
         ),
         primaryColor: blue,
+        primaryColorDark: Colors.black54,
         snackBarTheme: _snackBarTheme,
         tabBarTheme: _tabBarTheme(locale),
         textTheme: _textTheme(locale),
@@ -120,6 +121,7 @@ class AppTheme {
               TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
         ),
         primaryColor: blue,
+        primaryColorDark: Colors.white54,
         snackBarTheme: _snackBarTheme,
         tabBarTheme: _tabBarTheme(locale),
         textTheme: _textTheme(locale),

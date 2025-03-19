@@ -70,7 +70,7 @@ class AppRoute {
               BlocProvider(
                 create: (_) => GetEnrollmentCubit(
                   getEnrollment: sl<GetEnrollment>(),
-                ),
+                )..getEnrollment(course.id),
               ),
               BlocProvider(
                 create: (_) => GetReviewCubit(

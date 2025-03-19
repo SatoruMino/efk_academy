@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:efk_academy/service_locator.dart';
-import 'package:efk_academy/common/user_cubit.dart';
+import 'package:efk_academy/common/user_cubit/user_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:efk_academy/ui/splash/page/splash_page.dart';

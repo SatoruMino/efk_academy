@@ -13,12 +13,30 @@ class ReviewCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          review.username,
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColorDark.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                review.username,
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+              Text(
+                review.message,
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 8),
         Text(
-          review.message,
+          review.createdDate,
+          style: Theme.of(context).textTheme.labelSmall,
         ),
       ],
     );
