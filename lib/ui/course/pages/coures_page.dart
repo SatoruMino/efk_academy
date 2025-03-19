@@ -1,6 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/domain/domain.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,18 @@ class CouresPage extends StatelessWidget {
             'course',
           ),
         ),
+        actions: [
+          badges.Badge(
+            position: badges.BadgePosition.topEnd(top: -15, end: -5),
+            badgeContent: Text(
+              '0',
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
+            child: const Icon(
+              Icons.shopping_cart_outlined,
+            ),
+          ),
+        ],
       ),
       body: BlocBuilder<GetCourseCubit, GetCourseState>(
         builder: (context, state) {

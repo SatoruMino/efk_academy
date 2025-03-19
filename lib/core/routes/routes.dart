@@ -1,12 +1,7 @@
 import 'package:efk_academy/domain/domain.dart';
-import 'package:efk_academy/domain/entities/new.dart';
-import 'package:efk_academy/domain/usecases/auth/change_username.dart';
-import 'package:efk_academy/domain/usecases/auth/forget_password.dart';
-import 'package:efk_academy/domain/usecases/auth/sign_in.dart';
-import 'package:efk_academy/domain/usecases/auth/sign_out.dart';
-import 'package:efk_academy/domain/usecases/enrollment/get_enrollment.dart';
-import 'package:efk_academy/domain/usecases/new/get_new.dart';
 import 'package:efk_academy/service_locator.dart';
+import 'package:efk_academy/domain/usecases/auth/forget_password.dart';
+import 'package:efk_academy/domain/usecases/enrollment/get_enrollment.dart';
 import 'package:efk_academy/ui/change_language/pages/change_language_page.dart';
 import 'package:efk_academy/ui/change_theme/page/change_theme_page.dart';
 import 'package:efk_academy/ui/change_username/cubits/change_username_cubit.dart';
