@@ -3,6 +3,7 @@ import 'package:efk_academy/domain/domain.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/domain/usecases/auth/forget_password.dart';
 import 'package:efk_academy/domain/usecases/enrollment/get_enrollment.dart';
+import 'package:efk_academy/ui/add_review/page/add_review_page.dart';
 import 'package:efk_academy/ui/change_language/pages/change_language_page.dart';
 import 'package:efk_academy/ui/change_password/cubits/change_password_cubit.dart';
 import 'package:efk_academy/ui/change_password/page/change_password_page.dart';
@@ -14,8 +15,7 @@ import 'package:efk_academy/ui/course_detail/cubit/get_review_cubit/get_review_c
 import 'package:efk_academy/ui/course_detail/pages/course_detail_pages.dart';
 import 'package:efk_academy/ui/forget_password/cubit/forget_password_cubit.dart';
 import 'package:efk_academy/ui/forget_password/pages/forget_password_page.dart';
-import 'package:efk_academy/ui/new/cubit/get_new_cubit.dart';
-import 'package:efk_academy/ui/new/pages/new_page.dart';
+import 'package:efk_academy/common/ui/new/pages/new_page.dart';
 import 'package:efk_academy/ui/new_detail/pages/new_detail_page.dart';
 import 'package:efk_academy/ui/sign_in/cubits/sign_in_cubit.dart';
 import 'package:efk_academy/ui/sign_in/pages/sign_in_page.dart';
@@ -23,7 +23,6 @@ import 'package:efk_academy/ui/sign_out/cubit/sign_out_cubit.dart';
 import 'package:efk_academy/ui/sign_out/pages/sign_out_page.dart';
 import 'package:efk_academy/ui/sign_up/cubits/sign_up_cubit.dart';
 import 'package:efk_academy/ui/sign_up/pages/sign_up_page.dart';
-import 'package:efk_academy/ui/video_player/page/video_player_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,10 +40,11 @@ class AppRoute {
   static const String signIn = '/sign_in';
   static const String signOut = '/sign_out';
   static const String signUp = '/sign_up';
-  static const String videoPlayer = '/video_player';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
     switch (setting.name) {
+      case addReview:
+        return MaterialPageRoute(builder: (_) => const AddReviewPage());
       case cart:
         return MaterialPageRoute(builder: (_) => const CartPage());
       case changeLanguage:
@@ -83,7 +83,7 @@ class AppRoute {
               BlocProvider(
                 create: (_) => GetEnrollmentCubit(
                   getEnrollment: sl<GetEnrollment>(),
-                )..getEnrollment(course.id),
+                ),
               ),
               BlocProvider(
                 create: (_) => GetReviewCubit(
@@ -106,12 +106,7 @@ class AppRoute {
           ),
         );
       case news:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => GetNewCubit(getNew: sl<GetNew>())..getNews(),
-            child: const NewPage(),
-          ),
-        );
+        return MaterialPageRoute(builder: (_) => const NewPage());
       case newDetail:
         final item = setting.arguments as New;
         return MaterialPageRoute(
@@ -142,13 +137,6 @@ class AppRoute {
               signUp: sl<SignUp>(),
             ),
             child: const SignUpPage(),
-          ),
-        );
-      case videoPlayer:
-        final videoId = setting.arguments as String;
-        return MaterialPageRoute(
-          builder: (_) => VideoPlayerPage(
-            videoId: videoId,
           ),
         );
       default:

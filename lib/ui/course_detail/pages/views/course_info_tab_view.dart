@@ -17,74 +17,177 @@ class CourseInfoTabView extends StatelessWidget {
         spacing: 12,
         children: [
           // .. title
-          _title(context),
+          title(context),
+
+          // .. price
+          price(),
 
           // .. additional infomation
-          _additional(context),
+          additional(context),
 
-          // .. isEnrolled
-          BlocBuilder<GetEnrollmentCubit, GetEnrollmentState>(
-            builder: (context, state) {
-              if (state.status == GetEnrollmentStatus.inProgress) {
-                return CircularProgressIndicator();
-              }
-
-              if (state.status == GetEnrollmentStatus.success) {
-                if (!state.isEnrolled) {
-                  return Row(
-                    children: [
-                      BlocSelector<CartCubit, CartState, bool>(
-                        selector: (state) => state.carts.any(
-                          (cart) => cart.courseId.contains(course.id),
-                        ),
-                        builder: (context, isExisted) {
-                          return Expanded(
-                            child: CustomButton(
-                              text: isExisted
-                                  ? 'go_to_cart'.tr()
-                                  : 'add_to_cart'.tr(),
-                              style: CustomButtonStyle.secondary(context),
-                              onTap: () {
-                                if (isExisted) {
-                                  NavigatorHelper.push(AppRoute.cart);
-                                } else {
-                                  context
-                                      .read<CartCubit>()
-                                      .addToCart(course.id);
-                                }
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: CustomButton(
-                          text: 'purchase_now'.tr(),
-                          style: CustomButtonStyle.primary(context),
-                          onTap: () {},
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              }
-
-              return const SizedBox();
-            },
-          ),
+          // .. add to cart, purchase
+          enrollment(),
 
           // .. benefits of enrollment
-          _benefits(context),
+          benefits(context),
 
           // .. instructors
-          _instructor(context),
+          instructor(context),
         ],
       ),
     );
   }
 
-  Container _instructor(BuildContext context) {
+  Widget title(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          course.name,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        // .. summary
+        Text(
+          course.summary,
+          style: Theme.of(context).textTheme.labelMedium,
+        ),
+      ],
+    );
+  }
+
+  Widget price() {
+    return Text('');
+  }
+
+  Widget additional(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'additional_information'.tr(),
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        const SizedBox(height: 4),
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildAdditionInfo(
+                label: 'students',
+                text: '0',
+              ),
+              const SizedBox(height: 4),
+              _buildAdditionInfo(
+                label: 'sections',
+                text: course.totalSection.toString(),
+              ),
+              const SizedBox(height: 4),
+              _buildAdditionInfo(
+                label: 'lessons',
+                text: course.totalLesson.toString(),
+              ),
+              const SizedBox(height: 4),
+              _buildAdditionInfo(
+                label: 'videos',
+                text: course.totalVideo.toString(),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  _buildAdditionInfo({
+    required String label,
+    required String text,
+  }) {
+    return '- ${label.tr()}: $text';
+  }
+
+  Widget enrollment() {
+    return BlocListener<UserCubit, UserState>(
+      listener: (context, state) {
+        if (state.status == UserStatus.authenticated) {
+          context.read<GetEnrollmentCubit>().getEnrollment(course.id);
+        }
+      },
+      child: BlocBuilder<GetEnrollmentCubit, GetEnrollmentState>(
+        builder: (context, state) {
+          if (state.status == GetEnrollmentStatus.inProgress) {
+            return const CircularProgressIndicator();
+          }
+
+          if (state.status == GetEnrollmentStatus.success) {
+            if (!state.isEnrolled) {
+              return Row(
+                children: [
+                  _buildCartButton(context),
+                  const SizedBox(width: 8),
+                  _buildPurchaseButton(context),
+                ],
+              );
+            }
+          }
+
+          return const SizedBox();
+        },
+      ),
+    );
+  }
+
+  _buildCartButton(BuildContext context) {
+    return BlocSelector<CartCubit, CartState, bool>(
+      selector: (state) => state.carts.any(
+        (cart) => cart.courseId.contains(course.id),
+      ),
+      builder: (context, existed) {
+        return Expanded(
+          child: CustomButton(
+            text: existed ? 'go_to_cart'.tr() : 'add_to_cart'.tr(),
+            style: CustomButtonStyle.secondary(context),
+            onTap: () {
+              if (existed) {
+                NavigatorHelper.push(AppRoute.cart);
+              } else {
+                context.read<CartCubit>().addToCart(course.id);
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget benefits(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'benefits_of_enrollment_on_this_course'.tr(),
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          course.description,
+          style: Theme.of(context).textTheme.labelMedium,
+        ),
+      ],
+    );
+  }
+
+  _buildPurchaseButton(BuildContext context) {
+    return Expanded(
+      child: CustomButton(
+        text: 'purchase_now'.tr(),
+        style: CustomButtonStyle.primary(context),
+        onTap: () {},
+      ),
+    );
+  }
+
+  Widget instructor(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -104,13 +207,25 @@ class CourseInfoTabView extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${'name'.tr()}: ${course.instructor.name}'),
+                  _buildInstructorInfo(
+                    label: 'name',
+                    text: course.instructor.name,
+                  ),
                   const SizedBox(height: 6),
-                  Text('${'title'.tr()}: ${course.instructor.title}'),
+                  _buildInstructorInfo(
+                    label: 'title',
+                    text: course.instructor.title,
+                  ),
                   const SizedBox(height: 6),
-                  Text('${'likes'.tr()}: 0'),
+                  _buildInstructorInfo(
+                    label: 'likes',
+                    text: '0',
+                  ),
                   const SizedBox(height: 6),
-                  Text('${'students'.tr()}: 0'),
+                  _buildInstructorInfo(
+                    label: 'students',
+                    text: '0',
+                  ),
                 ],
               ),
             ],
@@ -128,77 +243,10 @@ class CourseInfoTabView extends StatelessWidget {
     );
   }
 
-  Column _benefits(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'benefits_of_enrollment_on_this_course'.tr(),
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          course.description,
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
-      ],
-    );
-  }
-
-  Column _additional(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'additional_information'.tr(),
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-        const SizedBox(height: 4),
-        Padding(
-          padding: const EdgeInsets.only(left: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '- ${'students'.tr()}: 0',
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '- ${'sections'.tr()}: ${course.totalSection}',
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '- ${'lessons'.tr()}: ${course.totalLesson}',
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '- ${'videos'.tr()}: ${course.totalVideo}',
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column _title(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          course.name,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontFamily: 'Ubuntu',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        // .. summary
-        Text(
-          course.summary,
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
-      ],
-    );
+  _buildInstructorInfo({
+    required String label,
+    required String text,
+  }) {
+    return Text('${label.tr()}: $text');
   }
 }

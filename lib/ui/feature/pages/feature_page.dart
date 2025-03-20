@@ -1,14 +1,14 @@
 import 'dart:async';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:efk_academy/core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:icons_plus/icons_plus.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:efk_academy/common/widgets/shopping_cart.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
+import 'package:efk_academy/common/widgets/news_notification.dart';
 
 class FeaturePage extends StatefulWidget {
   const FeaturePage({super.key});
@@ -44,17 +44,6 @@ class _FeaturePageState extends State<FeaturePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              NavigatorHelper.push(AppRoute.news);
-            },
-            icon: Icon(
-              color: Theme.of(context).primaryColor,
-              Iconsax.notification_1_bold,
-            ),
-          ),
-        ],
         title: Row(
           children: [
             Image.asset(
@@ -63,51 +52,55 @@ class _FeaturePageState extends State<FeaturePage> {
             ),
             const SizedBox(width: 8),
             Text(
-              'EFK\nACADEMY',
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontFamily: 'Ubuntu',
-              ),
-            ),
+              'EFK ACADEMY',
+              style: Theme.of(context).textTheme.displayLarge,
+            )
           ],
         ),
-        titleSpacing: 12,
+        actions: const [
+          NewsNotification(),
+          ShoppingCart(),
+        ],
       ),
       body: BlocBuilder<FeatureCubit, FeatureState>(
         builder: (context, state) {
-          switch (state) {
-            case FeatureInProgress():
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            case FeatureFailure():
-              return Center(
-                child: Text(state.message),
-              );
-            case FeatureSuccess():
-              return SingleChildScrollView(
+          if (state is FeatureInProgress) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is FeatureFailure) {
+            return Center(
+              child: Text(state.message),
+            );
+          }
+          if (state is FeatureSuccess) {
+            return RefreshIndicator(
+              onRefresh: () async => context.read<FeatureCubit>().getFeature(),
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(12),
                 child: Column(
                   children: [
-                    Poster(_controller, state),
+                    FeaturePoster(_controller, state),
                     const SizedBox(height: 14),
-                    Promotion(state),
+                    FeaturePromotion(state),
                     const SizedBox(height: 14),
-                    TrendingCourse(state),
+                    FeatureTrendingCourse(state),
                   ],
                 ),
-              );
-            default:
-              return const SizedBox();
+              ),
+            );
           }
+
+          return const SizedBox();
         },
       ),
     );
   }
 }
 
-class Poster extends StatelessWidget {
-  const Poster(
+class FeaturePoster extends StatelessWidget {
+  const FeaturePoster(
     this.controller,
     this.state, {
     super.key,
@@ -133,8 +126,8 @@ class Poster extends StatelessWidget {
   }
 }
 
-class Promotion extends StatelessWidget {
-  const Promotion(this.state, {super.key});
+class FeaturePromotion extends StatelessWidget {
+  const FeaturePromotion(this.state, {super.key});
 
   final FeatureSuccess state;
 
@@ -176,8 +169,11 @@ class Promotion extends StatelessWidget {
   }
 }
 
-class TrendingCourse extends StatelessWidget {
-  const TrendingCourse(this.state, {super.key});
+class FeatureTrendingCourse extends StatelessWidget {
+  const FeatureTrendingCourse(
+    this.state, {
+    super.key,
+  });
 
   final FeatureSuccess state;
 

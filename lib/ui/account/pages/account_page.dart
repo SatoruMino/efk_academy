@@ -1,10 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
-import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/domain/entities/user.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:provider/provider.dart';
+import 'package:efk_academy/core/core.dart';
+import 'package:efk_academy/domain/entities/user.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:efk_academy/common/widgets/shopping_cart.dart';
+import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -13,7 +14,13 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('account'.tr()),
+        title: Text(
+          'account'.tr(),
+        ),
+        titleSpacing: 12,
+        actions: const [
+          ShoppingCart(),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),

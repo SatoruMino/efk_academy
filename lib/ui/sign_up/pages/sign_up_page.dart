@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:efk_academy/common/widgets/efk_logo.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/ui/sign_up/cubits/sign_up_cubit.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,9 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [const EfkLogo()],
+        actions: const [
+          EfkLogo(),
+        ],
       ),
       body: BlocListener<SignUpCubit, SignUpState>(
         listener: (context, state) {

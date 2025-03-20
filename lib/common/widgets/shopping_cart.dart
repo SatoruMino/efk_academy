@@ -1,4 +1,5 @@
 import 'package:efk_academy/common/cubits/cart_cubit/cart_cubit.dart';
+import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
@@ -10,9 +11,14 @@ class ShoppingCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final count = context.watch<CartCubit>().state.carts.length;
+    final status = context.select((UserCubit cubit) => cubit.state.status);
     return IconButton(
       onPressed: () {
-        NavigatorHelper.push(AppRoute.cart);
+        if (status == UserStatus.authenticated) {
+          NavigatorHelper.push(AppRoute.cart);
+        } else {
+          NavigatorHelper.push(AppRoute.signIn);
+        }
       },
       icon: badges.Badge(
         position: badges.BadgePosition.topEnd(top: -15, end: -5),

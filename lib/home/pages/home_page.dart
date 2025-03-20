@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage>
           Expanded(
             child: TabBarView(
               controller: _controller,
+              physics: const NeverScrollableScrollPhysics(),
               children: pages,
             ),
           ),

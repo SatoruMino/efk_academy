@@ -1,7 +1,6 @@
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/core/helpers/helpers.dart';
 import 'package:efk_academy/domain/entities/new.dart';
-import 'package:efk_academy/ui/new/cubit/get_new_cubit.dart';
+import 'package:efk_academy/common/cubits/get_new_cubit/get_new_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,21 +21,29 @@ class NewPage extends StatelessWidget {
       ),
       body: BlocBuilder<GetNewCubit, GetNewState>(
         builder: (context, state) {
-          switch (state) {
-            case GetNewInProgress():
-              return loading();
-            case GetNewFailure():
-              return failure(state.message);
-            case GetNewSuccess():
-              return ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                itemBuilder: (_, index) => buildItem(state.news[index]),
-                separatorBuilder: (_, i) => const Divider(),
-                itemCount: state.news.length,
-              );
-            default:
-              return const SizedBox();
+          if (state.status == GetNewStatus.inProgress) {
+            return loading();
           }
+
+          if (state.status == GetNewStatus.failure) {
+            return failure(state.errorMessage);
+          }
+
+          if (state.status == GetNewStatus.success) {
+            return ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              itemBuilder: (_, index) {
+                return Text(
+                  state.news[index].name,
+                  style: Theme.of(context).textTheme.labelMedium,
+                );
+              },
+              separatorBuilder: (_, index) => const Divider(),
+              itemCount: state.news.length,
+            );
+          }
+
+          return const SizedBox();
         },
       ),
     );

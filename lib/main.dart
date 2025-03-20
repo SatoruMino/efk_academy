@@ -1,3 +1,4 @@
+import 'package:efk_academy/common/cubits/get_new_cubit/get_new_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:efk_academy/core/core.dart';
@@ -26,10 +27,7 @@ void main() async {
       saveLocale: true,
       startLocale: AppLocalizations.engLocale,
       useFallbackTranslations: true,
-      child: BlocProvider(
-        create: (_) => UserCubit(getUser: sl<GetUser>()),
-        child: const MyApp(),
-      ),
+      child: const MyApp(),
     ),
   );
 }
@@ -46,6 +44,20 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MultiBlocProvider(
           providers: [
+            // .. user
+            BlocProvider(
+              create: (_) => UserCubit(
+                getUser: sl<GetUser>(),
+              ),
+            ),
+
+            // .. news
+            BlocProvider(
+              create: (_) => GetNewCubit(
+                getNew: sl<GetNew>(),
+              )..getNews(),
+            ),
+
             // ..cart
             BlocProvider(
               create: (_) => CartCubit(
