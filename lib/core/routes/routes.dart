@@ -4,6 +4,8 @@ import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/domain/usecases/auth/forget_password.dart';
 import 'package:efk_academy/domain/usecases/enrollment/get_enrollment.dart';
 import 'package:efk_academy/ui/change_language/pages/change_language_page.dart';
+import 'package:efk_academy/ui/change_password/cubits/change_password_cubit.dart';
+import 'package:efk_academy/ui/change_password/page/change_password_page.dart';
 import 'package:efk_academy/ui/change_theme/page/change_theme_page.dart';
 import 'package:efk_academy/ui/change_username/cubits/change_username_cubit.dart';
 import 'package:efk_academy/ui/change_username/pages/change_username_page.dart';
@@ -30,6 +32,7 @@ class AppRoute {
   static const String courseDetail = '/course_detail';
   static const String changeTheme = '/change_theme';
   static const String changeLanguage = '/change_language';
+  static const String changePassword = '/change_password';
   static const String changeUsername = '/change_username';
   static const String forgetPassword = '/forget_password';
   static const String news = '/news';
@@ -47,6 +50,15 @@ class AppRoute {
       case changeTheme:
         return MaterialPageRoute(
           builder: (_) => const ChangeThemePage(),
+        );
+      case changePassword:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => ChangePasswordCubit(
+              changePassword: sl<ChangePassword>(),
+            ),
+            child: ChangePasswordPage(),
+          ),
         );
       case changeUsername:
         final currentUsername = setting.arguments as String;

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
@@ -7,8 +10,35 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class FeaturePage extends StatelessWidget {
+class FeaturePage extends StatefulWidget {
   const FeaturePage({super.key});
+
+  @override
+  State<FeaturePage> createState() => _FeaturePageState();
+}
+
+class _FeaturePageState extends State<FeaturePage> {
+  final CardSwiperController _controller = CardSwiperController();
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 3),
+      (_) {
+        _controller.swipe(CardSwiperDirection.left);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +89,7 @@ class FeaturePage extends StatelessWidget {
                 padding: const EdgeInsets.all(12),
                 child: Column(
                   children: [
-                    Poster(state),
+                    Poster(_controller, state),
                     const SizedBox(height: 14),
                     Promotion(state),
                     const SizedBox(height: 14),
@@ -77,8 +107,13 @@ class FeaturePage extends StatelessWidget {
 }
 
 class Poster extends StatelessWidget {
-  const Poster(this.state, {super.key});
+  const Poster(
+    this.controller,
+    this.state, {
+    super.key,
+  });
 
+  final CardSwiperController controller;
   final FeatureSuccess state;
 
   @override
@@ -86,6 +121,7 @@ class Poster extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: CardSwiper(
+        controller: controller,
         padding: EdgeInsets.zero,
         backCardOffset: const Offset(0, 18),
         cardBuilder: (_, index, x, y) => CustomCard(
@@ -119,7 +155,17 @@ class Promotion extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (_, index) => CustomCard(
               imageUrl: state.promotions[index].imageUrl,
-              onTap: () => {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => Dialog(
+                    insetPadding: const EdgeInsets.all(24),
+                    child: CachedNetworkImage(
+                      imageUrl: state.promotions[index].imageUrl,
+                    ),
+                  ),
+                );
+              },
             ),
             separatorBuilder: (_, index) => const SizedBox(width: 12),
             itemCount: state.promotions.length,
@@ -149,6 +195,10 @@ class TrendingCourse extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (_, index) => CustomCard(
               imageUrl: state.courses[index].imageUrl,
+              onTap: () => NavigatorHelper.push(
+                AppRoute.courseDetail,
+                arguments: state.courses[index],
+              ),
             ),
             separatorBuilder: (_, index) => const SizedBox(width: 12),
             itemCount: state.courses.length,

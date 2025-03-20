@@ -79,6 +79,7 @@ _initUsecases() {
   sl
     ..registerSingleton(AddToCart(sl()))
     ..registerSingleton(ChangeUsername(sl()))
+    ..registerSingleton(ChangePassword(sl()))
     ..registerSingleton(ForgetPassword(sl()))
     ..registerSingleton(GetCart(sl()))
     ..registerSingleton(GetCourse(sl()))

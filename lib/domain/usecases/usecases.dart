@@ -1,5 +1,6 @@
 // .. auth
 export 'auth/change_username.dart';
+export 'auth/change_password.dart';
 export 'auth/get_user.dart';
 export 'auth/sign_in.dart';
 export 'auth/sign_out.dart';

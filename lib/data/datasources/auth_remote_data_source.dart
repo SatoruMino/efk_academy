@@ -9,6 +9,7 @@ abstract interface class AuthRemoteDataSource {
   Future<void> signOut();
   Future<void> forgetPassword(String email);
   Future<void> changeUsername(String username);
+  Future<void> changePassword(String password, String newPassword);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -138,6 +139,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await supabaseClient.auth.resetPasswordForEmail(email);
     } on AuthException catch (e) {
       throw ServerException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> changePassword(String password, String newPassword) async {
+    final currentUser = supabaseClient.auth.currentUser;
+
+    if (currentUser == null) {
+      throw const ServerException('user-not-found');
+    }
+
+    try {
+      final signIn = await supabaseClient.auth.signInWithPassword(
+        email: currentUser.email,
+        password: password,
+      );
+
+      if (signIn.user == null) {
+        throw const ServerException('user-not-found');
+      }
+
+      await supabaseClient.auth.updateUser(UserAttributes(
+        password: newPassword,
+      ));
+    } on AuthException catch (e) {
+      throw ServerException(e.toString());
     } catch (e) {
       throw ServerException(e.toString());
     }

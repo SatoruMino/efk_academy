@@ -1,12 +1,10 @@
-import 'package:badges/badges.dart' as badges;
+import 'package:flutter/material.dart';
 import 'package:efk_academy/core/core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/common/cubits/cart_cubit/cart_cubit.dart';
-import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
 
 class CouresPage extends StatelessWidget {
   const CouresPage({super.key});
@@ -18,21 +16,7 @@ class CouresPage extends StatelessWidget {
         title: Text(
           context.tr('course'),
         ),
-        actions: [
-          badges.Badge(
-            position: badges.BadgePosition.topEnd(top: -15, end: -5),
-            badgeContent: Text(
-              context.watch<CartCubit>().state.carts.length.toString(),
-              style: Theme.of(context)
-                  .textTheme
-                  .labelSmall
-                  ?.copyWith(color: Theme.of(context).scaffoldBackgroundColor),
-            ),
-            child: const Icon(
-              Icons.shopping_cart_outlined,
-            ),
-          ),
-        ],
+        actions: [const ShoppingCart()],
       ),
       body: BlocBuilder<GetCourseCubit, GetCourseState>(
         builder: (context, state) {

@@ -12,7 +12,7 @@ class ShoppingCart extends StatelessWidget {
     final count = context.watch<CartCubit>().state.carts.length;
     return IconButton(
       onPressed: () {
-        NavigatorHelper.push('');
+        NavigatorHelper.push(AppRoute.cart);
       },
       icon: badges.Badge(
         position: badges.BadgePosition.topEnd(top: -15, end: -5),

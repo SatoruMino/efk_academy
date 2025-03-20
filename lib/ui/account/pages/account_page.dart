@@ -53,7 +53,7 @@ class Security extends StatelessWidget {
           CustomListTile(
             iconData: Iconsax.security_safe_bold,
             text: context.tr('password'),
-            onTap: () {},
+            onTap: () => NavigatorHelper.push(AppRoute.changePassword),
           ),
           CustomListTile(
             iconData: Iconsax.logout_1_bold,
