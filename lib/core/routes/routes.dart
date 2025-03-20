@@ -1,3 +1,4 @@
+import 'package:efk_academy/common/ui/cart/page/cart_page.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/domain/usecases/auth/forget_password.dart';
@@ -25,6 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRoute {
   static const String addReview = '/add_review';
+  static const String cart = '/cart';
   static const String courseDetail = '/course_detail';
   static const String changeTheme = '/change_theme';
   static const String changeLanguage = '/change_language';
@@ -38,6 +40,8 @@ class AppRoute {
 
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
     switch (setting.name) {
+      case cart:
+        return MaterialPageRoute(builder: (_) => const CartPage());
       case changeLanguage:
         return MaterialPageRoute(builder: (_) => const ChangeLanguagePage());
       case changeTheme:

@@ -8,6 +8,7 @@ class CartModel extends Cart {
     super.courseName,
     super.coursePrice,
     super.courseDiscount,
+    super.courseImageUrl,
   });
 
   factory CartModel.fromJson(Map<String, dynamic> map) {
@@ -17,6 +18,7 @@ class CartModel extends Cart {
       courseId: map['course_id'] ?? '',
       courseName: map['courses']['name'] ?? '',
       coursePrice: (map['courses']['price'] as num).toDouble(),
+      courseImageUrl: map['courses']['image_url'] ?? '',
     );
   }
 

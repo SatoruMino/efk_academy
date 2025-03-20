@@ -1,4 +1,4 @@
-import 'package:efk_academy/common/cart_cubit/cart_cubit.dart';
+import 'package:efk_academy/common/cubits/cart_cubit/cart_cubit.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;

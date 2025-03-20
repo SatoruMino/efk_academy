@@ -21,24 +21,27 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> signIn(String email, String password) async {
+  Future<Either<Failure, User>> signIn(String email, String password) async {
     try {
-      final response = await authRemoteDataSource.signIn(email, password);
+      final user = await authRemoteDataSource.signIn(email, password);
 
-      return right(response);
+      return right(user);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }
   }
 
   @override
-  Future<Either<Failure, void>> signUp(
+  Future<Either<Failure, User>> signUp(
       String username, String email, String password) async {
     try {
-      final response =
-          await authRemoteDataSource.signUp(username, email, password);
+      final user = await authRemoteDataSource.signUp(
+        username,
+        email,
+        password,
+      );
 
-      return right(response);
+      return right(user);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }

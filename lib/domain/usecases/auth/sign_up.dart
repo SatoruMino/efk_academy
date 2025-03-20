@@ -1,14 +1,14 @@
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/domain/repositories/auth_repository.dart';
+import 'package:efk_academy/domain/domain.dart';
 import 'package:fpdart/fpdart.dart';
 
-class SignUp implements Usecase<void, SignUpWithPasswordParams> {
+class SignUp implements Usecase<User, SignUpWithPasswordParams> {
   final AuthRepository authRepository;
 
   const SignUp(this.authRepository);
 
   @override
-  Future<Either<Failure, void>> call(SignUpWithPasswordParams param) async {
+  Future<Either<Failure, User>> call(SignUpWithPasswordParams param) async {
     return await authRepository.signUp(
       param.username,
       param.email,

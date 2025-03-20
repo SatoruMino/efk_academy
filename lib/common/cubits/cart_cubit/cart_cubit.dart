@@ -47,12 +47,13 @@ class CartCubit extends Cubit<CartState> {
     final res = await _addToCart(courseId);
 
     res.fold(
-      (l) => emit(
-        state.copyWith(
+      (l) {
+        print('Error: ${l.message}');
+        emit(state.copyWith(
           errorMessage: l.message,
           status: CartStatus.failure,
-        ),
-      ),
+        ));
+      },
       (cart) => emit(
         state.copyWith(
           carts: state.carts..add(cart),

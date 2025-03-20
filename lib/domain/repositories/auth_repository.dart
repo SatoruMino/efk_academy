@@ -4,8 +4,8 @@ import 'package:fpdart/fpdart.dart';
 
 abstract interface class AuthRepository {
   Stream<User> get getUser;
-  Future<Either<Failure, void>> signIn(String email, String password);
-  Future<Either<Failure, void>> signUp(
+  Future<Either<Failure, User>> signIn(String email, String password);
+  Future<Either<Failure, User>> signUp(
     String username,
     String email,
     String password,

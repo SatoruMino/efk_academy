@@ -41,26 +41,25 @@ class Course extends Equatable {
         description,
         createdAt,
         previewVideoId,
-        imageUrl
+        imageUrl,
       ];
 
   // .. get section count
-  int get getSectionCount => sections.length;
+  int get totalSection => sections.length;
   // .. get lesson count
-  int get getLessonCount {
-    return sections.fold(0, (sum, section) => sum + section.lessons.length);
+  int get totalLesson {
+    return sections
+        .map((section) => section.lessons.length)
+        .reduce((a, b) => a + b);
   }
 
   // .. get video count
-  int get getVideoCount {
-    return sections.fold(
-      0,
-      (sum, section) {
-        return sum +
-            section.lessons.fold(
-                0, (lessonSum, lesson) => lessonSum + lesson.videos.length);
-      },
-    );
+  int get totalVideo {
+    return sections
+        .map((section) => section.lessons
+            .map((lesson) => lesson.videos.length)
+            .reduce((a, b) => a + b))
+        .reduce((a, b) => a + b);
   }
 
   String get getDate => DateFormat('dd/mm/yy').format(createdAt);

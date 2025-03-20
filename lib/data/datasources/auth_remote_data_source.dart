@@ -4,8 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
   Stream<UserModel?> get getUser;
-  Future<void> signIn(String email, String password);
-  Future<void> signUp(String username, String email, String password);
+  Future<UserModel> signIn(String email, String password);
+  Future<UserModel> signUp(String email, String username, String password);
   Future<void> signOut();
   Future<void> forgetPassword(String email);
   Future<void> changeUsername(String username);
@@ -36,10 +36,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> signIn(String email, String password) async {
+  Future<UserModel> signIn(String email, String password) async {
     try {
-      await supabaseClient.auth
+      final signIn = await supabaseClient.auth
           .signInWithPassword(email: email, password: password);
+
+      if (signIn.user == null) {
+        throw const ServerException('user-not-found');
+      }
+
+      final response = await supabaseClient
+          .from('profiles')
+          .select()
+          .eq('id', signIn.user!.id)
+          .single();
+
+      return UserModel.fromJson(response);
     } on AuthException catch (e) {
       throw ServerException(e.toString());
     } catch (e) {
@@ -48,11 +60,28 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> signUp(String username, String email, String password) async {
+  Future<UserModel> signUp(
+      String email, String username, String password) async {
     try {
-      await supabaseClient.auth.signUp(email: email, password: password, data: {
-        'username': username,
-      });
+      final signUp = await supabaseClient.auth.signUp(
+        email: email,
+        password: password,
+        data: {
+          'username': username,
+        },
+      );
+
+      if (signUp.user == null) {
+        throw const ServerException('user-not-found');
+      }
+
+      final response = await supabaseClient
+          .from('profiles')
+          .select()
+          .eq('id', signUp.user!.id)
+          .single();
+
+      return UserModel.fromJson(response);
     } on AuthException catch (e) {
       throw ServerException(e.toString());
     } catch (e) {

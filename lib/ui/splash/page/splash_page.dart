@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/common/user_cubit/user_cubit.dart';
+import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
 import 'package:efk_academy/home/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

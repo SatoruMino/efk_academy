@@ -8,6 +8,7 @@ class Cart extends Equatable {
     this.courseName,
     this.coursePrice,
     this.courseDiscount,
+    this.courseImageUrl,
   });
 
   final String id;
@@ -16,6 +17,7 @@ class Cart extends Equatable {
   final String? courseName;
   final double? coursePrice;
   final double? courseDiscount;
+  final String? courseImageUrl;
 
   @override
   List<Object?> get props => [id, userId, courseId];

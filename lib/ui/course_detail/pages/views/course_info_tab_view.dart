@@ -48,15 +48,15 @@ class CourseInfoTabView extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '- ${'sections'.tr()}: ${course.getSectionCount}',
+                  '- ${'sections'.tr()}: ${course.totalSection}',
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '- ${'lessons'.tr()}: ${course.getLessonCount}',
+                  '- ${'lessons'.tr()}: ${course.totalLesson}',
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '- ${'videos'.tr()}: ${course.getVideoCount}',
+                  '- ${'videos'.tr()}: ${course.totalVideo}',
                 ),
               ],
             ),
@@ -71,17 +71,32 @@ class CourseInfoTabView extends StatelessWidget {
               }
 
               if (state.status == GetEnrollmentStatus.success) {
-                if (state.isEnrolled) {
-                  return const SizedBox();
-                } else {
+                if (!state.isEnrolled) {
                   return Row(
                     children: [
-                      Expanded(
-                        child: CustomButton(
-                          text: 'add_to_cart'.tr(),
-                          style: CustomButtonStyle.secondary(context),
-                          onTap: () {},
+                      BlocSelector<CartCubit, CartState, bool>(
+                        selector: (state) => state.carts.any(
+                          (cart) => cart.courseId.contains(course.id),
                         ),
+                        builder: (context, isExisted) {
+                          return Expanded(
+                            child: CustomButton(
+                              text: isExisted
+                                  ? 'go_to_cart'.tr()
+                                  : 'add_to_cart'.tr(),
+                              style: CustomButtonStyle.secondary(context),
+                              onTap: () {
+                                if (isExisted) {
+                                  NavigatorHelper.push(AppRoute.cart);
+                                } else {
+                                  context
+                                      .read<CartCubit>()
+                                      .addToCart(course.id);
+                                }
+                              },
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(width: 8),
                       Expanded(

@@ -7,8 +7,8 @@ import 'package:efk_academy/service_locator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:efk_academy/ui/splash/page/splash_page.dart';
-import 'package:efk_academy/common/user_cubit/user_cubit.dart';
-import 'package:efk_academy/common/cart_cubit/cart_cubit.dart';
+import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
+import 'package:efk_academy/common/cubits/cart_cubit/cart_cubit.dart';
 import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
 import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
 

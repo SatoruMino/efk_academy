@@ -17,13 +17,13 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
     final currentUser = supabaseClient.auth.currentUser;
 
     if (currentUser == null) {
-      throw const ServerException('user-not-foudn');
+      throw const ServerException('user-not-found');
     }
 
     try {
       final response = await supabaseClient
           .from('carts')
-          .select('*, courses(name, price, discount)')
+          .select('*, courses(name, price, discount, image_url)')
           .eq('user_id', currentUser.id)
           .order('id', ascending: false);
 
@@ -48,9 +48,8 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
     try {
       final response = await supabaseClient
           .from('carts')
-          .upsert(cartModel.copyWith(userId: currentUser.id).toJson(),
-              onConflict: 'course_id')
-          .select('*, courses(name,price,discount)')
+          .insert(cartModel.copyWith(userId: currentUser.id).toJson())
+          .select('*, courses(name,price,discount, image_url)')
           .single();
 
       return CartModel.fromJson(response);

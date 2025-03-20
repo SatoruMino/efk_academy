@@ -49,12 +49,6 @@ class _CustomButtonState extends State<CustomButton>
     super.dispose();
   }
 
-  void _onTap() async {
-    if (!widget.inProgress) {
-      widget.onTap;
-    }
-  }
-
   void _onTapDown(TapDownDetails details) {
     if (widget.enabled) {
       _controller.forward();
@@ -90,7 +84,7 @@ class _CustomButtonState extends State<CustomButton>
         );
       },
       child: InkWell(
-        onTap: _onTap,
+        onTap: widget.onTap,
         onTapDown: _onTapDown,
         onTapUp: _onTapUp,
         onTapCancel: _onTapCancel,
