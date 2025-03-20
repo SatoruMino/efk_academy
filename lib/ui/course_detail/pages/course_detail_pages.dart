@@ -1,8 +1,5 @@
 import 'package:efk_academy/common/cubits/cart_cubit/cart_cubit.dart';
-import 'package:efk_academy/core/components/shopping_cart.dart';
 import 'package:efk_academy/core/core.dart';
-import 'package:efk_academy/core/helpers/navigator.dart';
-import 'package:efk_academy/core/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:efk_academy/domain/domain.dart';
@@ -11,7 +8,6 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:efk_academy/core/widgets/custom_expansion_list_tile.dart';
 import 'package:efk_academy/ui/course_detail/cubit/get_review_cubit/get_review_cubit.dart';
 import 'package:efk_academy/ui/course_detail/cubit/get_enrollment_cubit/get_enrollment_cubit.dart';
 
@@ -39,6 +35,7 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
   @override
   void initState() {
     super.initState();
+
     _controller = YoutubePlayerController(
       initialVideoId: widget.course.previewVideoId,
       flags: YoutubePlayerFlags(
@@ -56,39 +53,44 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: const Icon(
-            Icons.close_outlined,
-          ),
-        ),
-        actions: [const ShoppingCart()],
-      ),
-      body: DefaultTabController(
-        length: 3,
-        child: Column(
-          children: [
-            buildPlayer(),
-            const SizedBox(height: 8),
-            buildTabBar(),
-            const SizedBox(height: 8),
-            buildTabBarView(),
-          ],
-        ),
-      ),
-    );
+  _onChanged(String url) async {
+    _controller.load(url);
+    _controller.play();
   }
 
-  Widget buildPlayer() {
-    return YoutubePlayer(
-      controller: _controller,
-      bottomActions: const [],
+  @override
+  Widget build(BuildContext context) {
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller,
+      ),
+      builder: (_, player) {
+        return Scaffold(
+          appBar: AppBar(
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: const Icon(
+                Icons.close_outlined,
+              ),
+            ),
+            actions: [const ShoppingCart()],
+          ),
+          body: DefaultTabController(
+            length: 3,
+            child: Column(
+              children: [
+                player,
+                const SizedBox(height: 8),
+                buildTabBar(),
+                const SizedBox(height: 8),
+                buildTabBarView(),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -138,6 +140,7 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
           CourseVideoTabView(
             sections: widget.course.sections,
             isEnrolled: context.watch<GetEnrollmentCubit>().state.isEnrolled,
+            onChanged: _onChanged,
           ),
           const CourseReviewTabView(),
         ],

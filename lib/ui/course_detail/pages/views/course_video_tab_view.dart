@@ -5,14 +5,15 @@ class CourseVideoTabView extends StatelessWidget {
     super.key,
     required this.sections,
     required this.isEnrolled,
+    required this.onChanged,
   });
 
   final List<Section> sections;
   final bool isEnrolled;
+  final Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
-    print(isEnrolled);
     return ListView.builder(
       padding: const EdgeInsets.all(12),
       itemBuilder: (_, index) {
@@ -40,10 +41,7 @@ class CourseVideoTabView extends StatelessWidget {
                     itemBuilder: (_, index) {
                       final video = lesson.videos[index];
                       return ListTile(
-                        onTap: () => NavigatorHelper.push(
-                          AppRoute.videoPlayer,
-                          arguments: video.id,
-                        ),
+                        onTap: () => onChanged(video.url),
                         enabled: isEnrolled,
                         leading: Text(video.id),
                         title: Text(
