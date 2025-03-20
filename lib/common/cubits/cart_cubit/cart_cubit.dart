@@ -54,12 +54,15 @@ class CartCubit extends Cubit<CartState> {
           status: CartStatus.failure,
         ));
       },
-      (cart) => emit(
-        state.copyWith(
-          carts: state.carts..add(cart),
-          status: CartStatus.success,
-        ),
-      ),
+      (cart) {
+        final updatedCarts = state.carts..add(cart);
+        emit(
+          state.copyWith(
+            carts: updatedCarts,
+            status: CartStatus.success,
+          ),
+        );
+      },
     );
   }
 }

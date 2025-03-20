@@ -92,16 +92,25 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
               const ShoppingCart(),
             ],
           ),
-          body: DefaultTabController(
-            length: 3,
-            child: Column(
-              children: [
-                player,
-                const SizedBox(height: 8),
-                buildTabBar(),
-                const SizedBox(height: 8),
-                buildTabBarView(),
-              ],
+          body: BlocListener<UserCubit, UserState>(
+            listener: (context, state) {
+              if (state.status == UserStatus.authenticated) {
+                context
+                    .read<GetEnrollmentCubit>()
+                    .getEnrollment(widget.course.id);
+              }
+            },
+            child: DefaultTabController(
+              length: 3,
+              child: Column(
+                children: [
+                  player,
+                  const SizedBox(height: 8),
+                  buildTabBar(),
+                  const SizedBox(height: 8),
+                  buildTabBarView(),
+                ],
+              ),
             ),
           ),
         );

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:efk_academy/common/cubits/cart_cubit/cart_cubit.dart';
 import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
 import 'package:efk_academy/home/pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -11,30 +12,37 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserCubit, UserState>(builder: (context, state) {
-      if (state == UserState.unknown()) {
-        return Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 50.h,
-                  child: LoadingIndicator(
-                    indicatorType: Indicator.ballPulseSync,
+    return BlocConsumer<UserCubit, UserState>(
+      listener: (contex, state) {
+        if (state == UserState.unauthenticated()) {
+          context.read<CartCubit>().getCarts();
+        }
+      },
+      builder: (context, state) {
+        if (state == UserState.unknown()) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 50.h,
+                    child: LoadingIndicator(
+                      indicatorType: Indicator.ballPulseSync,
+                    ),
                   ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'do_you_know_that_fish_lives_in_water'.tr(),
-                ),
-              ],
+                  SizedBox(height: 8),
+                  Text(
+                    'do_you_know_that_fish_lives_in_water'.tr(),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      } else {
-        return const HomePage();
-      }
-    });
+          );
+        } else {
+          return const HomePage();
+        }
+      },
+    );
   }
 }

@@ -103,41 +103,39 @@ class CourseInfoTabView extends StatelessWidget {
     required String label,
     required String text,
   }) {
-    return '- ${label.tr()}: $text';
+    return Text('- ${label.tr()}: $text');
   }
 
   Widget enrollment() {
-    return BlocListener<UserCubit, UserState>(
-      listener: (context, state) {
-        if (state.status == UserStatus.authenticated) {
-          context.read<GetEnrollmentCubit>().getEnrollment(course.id);
-        }
-      },
-      child: BlocBuilder<GetEnrollmentCubit, GetEnrollmentState>(
-        builder: (context, state) {
-          if (state.status == GetEnrollmentStatus.inProgress) {
-            return const CircularProgressIndicator();
-          }
-
-          if (state.status == GetEnrollmentStatus.success) {
-            if (!state.isEnrolled) {
-              return Row(
-                children: [
-                  _buildCartButton(context),
-                  const SizedBox(width: 8),
-                  _buildPurchaseButton(context),
-                ],
-              );
+    return BlocSelector<UserCubit, UserState, bool>(
+      selector: (state) => state.status == UserStatus.authenticated,
+      builder: (context, isLogin) {
+        return BlocBuilder<GetEnrollmentCubit, GetEnrollmentState>(
+          builder: (context, state) {
+            if (state.status == GetEnrollmentStatus.inProgress) {
+              return const CircularProgressIndicator();
             }
-          }
 
-          return const SizedBox();
-        },
-      ),
+            if (state.status == GetEnrollmentStatus.success) {
+              if (!state.isEnrolled) {
+                return Row(
+                  children: [
+                    _buildCartButton(context, isLogin),
+                    const SizedBox(width: 8),
+                    _buildPurchaseButton(context, isLogin),
+                  ],
+                );
+              }
+            }
+
+            return const SizedBox();
+          },
+        );
+      },
     );
   }
 
-  _buildCartButton(BuildContext context) {
+  _buildCartButton(BuildContext context, bool isLogin) {
     return BlocSelector<CartCubit, CartState, bool>(
       selector: (state) => state.carts.any(
         (cart) => cart.courseId.contains(course.id),
@@ -147,13 +145,17 @@ class CourseInfoTabView extends StatelessWidget {
           child: CustomButton(
             text: existed ? 'go_to_cart'.tr() : 'add_to_cart'.tr(),
             style: CustomButtonStyle.secondary(context),
-            onTap: () {
-              if (existed) {
-                NavigatorHelper.push(AppRoute.cart);
-              } else {
-                context.read<CartCubit>().addToCart(course.id);
-              }
-            },
+            onTap: isLogin
+                ? () {
+                    if (existed) {
+                      NavigatorHelper.push(AppRoute.cart);
+                    } else {
+                      context.read<CartCubit>().addToCart(course.id);
+                    }
+                  }
+                : () {
+                    NavigatorHelper.push(AppRoute.signIn);
+                  },
           ),
         );
       },
@@ -177,7 +179,7 @@ class CourseInfoTabView extends StatelessWidget {
     );
   }
 
-  _buildPurchaseButton(BuildContext context) {
+  _buildPurchaseButton(BuildContext context, bool isLogin) {
     return Expanded(
       child: CustomButton(
         text: 'purchase_now'.tr(),
