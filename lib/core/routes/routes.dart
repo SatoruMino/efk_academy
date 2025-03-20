@@ -23,6 +23,7 @@ import 'package:efk_academy/ui/sign_out/cubit/sign_out_cubit.dart';
 import 'package:efk_academy/ui/sign_out/pages/sign_out_page.dart';
 import 'package:efk_academy/ui/sign_up/cubits/sign_up_cubit.dart';
 import 'package:efk_academy/ui/sign_up/pages/sign_up_page.dart';
+import 'package:efk_academy/ui/video_player/page/video_player_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,6 +41,7 @@ class AppRoute {
   static const String signIn = '/sign_in';
   static const String signOut = '/sign_out';
   static const String signUp = '/sign_up';
+  static const String videoPlayer = '/video_player';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
     switch (setting.name) {
@@ -140,6 +142,13 @@ class AppRoute {
               signUp: sl<SignUp>(),
             ),
             child: const SignUpPage(),
+          ),
+        );
+      case videoPlayer:
+        final videoId = setting.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => VideoPlayerPage(
+            videoId: videoId,
           ),
         );
       default:

@@ -40,7 +40,10 @@ class CourseVideoTabView extends StatelessWidget {
                     itemBuilder: (_, index) {
                       final video = lesson.videos[index];
                       return ListTile(
-                        onTap: () {},
+                        onTap: () => NavigatorHelper.push(
+                          AppRoute.videoPlayer,
+                          arguments: video.id,
+                        ),
                         enabled: isEnrolled,
                         leading: Text(video.id),
                         title: Text(
