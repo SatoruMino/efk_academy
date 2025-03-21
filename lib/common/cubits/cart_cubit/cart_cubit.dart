@@ -81,10 +81,10 @@ class CartCubit extends Cubit<CartState> {
         ),
       ),
       (cart) {
-        final updatedCart = state.carts..remove(cart);
+        final updatedCarts = state.carts..remove(cart);
         emit(
           state.copyWith(
-            carts: updatedCart,
+            carts: updatedCarts,
             status: CartStatus.success,
           ),
         );

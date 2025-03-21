@@ -68,8 +68,12 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
     }
 
     try {
-      final response =
-          await supabaseClient.from('carts').delete().eq('id', id).single();
+      final response = await supabaseClient
+          .from('carts')
+          .delete()
+          .eq('id', id)
+          .select('*, courses(id, name, price, discount, image_url)')
+          .single();
 
       return CartModel.fromJson(response);
     } on PostgrestException catch (e) {

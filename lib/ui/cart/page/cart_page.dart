@@ -1,3 +1,4 @@
+import 'package:efk_academy/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,13 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          'carts'.tr(),
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        centerTitle: true,
+      ),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           if (state.status == CartStatus.inProgress) {
@@ -43,6 +50,9 @@ class CartPage extends StatelessWidget {
 
                   return CartItem(
                     cart: cart,
+                    onRemove: (value) {
+                      context.read<CartCubit>().removeFromCart(value);
+                    },
                   );
                 },
                 itemCount: state.carts.length,

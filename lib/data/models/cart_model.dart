@@ -18,6 +18,7 @@ class CartModel extends Cart {
       courseId: map['course_id'] ?? '',
       courseName: map['courses']['name'] ?? '',
       coursePrice: (map['courses']['price'] as num).toDouble(),
+      courseDiscount: (map['courses']['discount'] as num).toDouble(),
       courseImageUrl: map['courses']['image_url'] ?? '',
     );
   }
