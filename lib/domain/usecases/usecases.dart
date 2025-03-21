@@ -9,6 +9,7 @@ export 'auth/sign_up.dart';
 // .. cart
 export 'cart/add_to_cart.dart';
 export 'cart/get_cart.dart';
+export 'cart/remove_from_cart.dart';
 
 // .. course
 export 'course/get_course.dart';

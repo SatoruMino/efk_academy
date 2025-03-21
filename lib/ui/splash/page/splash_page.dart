@@ -14,7 +14,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserState>(
       listener: (contex, state) {
-        if (state == UserState.unauthenticated()) {
+        if (state.status == UserStatus.authenticated) {
           context.read<CartCubit>().getCarts();
         }
       },

@@ -5,10 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:efk_academy/common/widgets/shopping_cart.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
-import 'package:efk_academy/common/widgets/news_notification.dart';
+import 'package:efk_academy/components/news_notification.dart';
 
 class FeaturePage extends StatefulWidget {
   const FeaturePage({super.key});
@@ -57,9 +56,9 @@ class _FeaturePageState extends State<FeaturePage> {
             )
           ],
         ),
+        titleSpacing: 8,
         actions: const [
           NewsNotification(),
-          ShoppingCart(),
         ],
       ),
       body: BlocBuilder<FeatureCubit, FeatureState>(

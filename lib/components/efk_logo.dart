@@ -10,10 +10,12 @@ class EfkLogo extends StatelessWidget {
         Text(
           'EFK\nACADEMY',
           textAlign: TextAlign.end,
-          style: Theme.of(context).textTheme.displayLarge,
+          style: Theme.of(context).textTheme.displayMedium,
         ),
         const SizedBox(width: 4),
-        Image.asset('assets/images/efk.png'),
+        Image.asset(
+          'assets/images/efk.png',
+        ),
       ],
     );
   }

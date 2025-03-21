@@ -1,8 +1,7 @@
-import 'package:efk_academy/common/ui/cart/page/cart_page.dart';
+import 'package:efk_academy/ui/cart/page/cart_page.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:efk_academy/domain/usecases/auth/forget_password.dart';
-import 'package:efk_academy/domain/usecases/enrollment/get_enrollment.dart';
 import 'package:efk_academy/ui/add_review/page/add_review_page.dart';
 import 'package:efk_academy/ui/change_language/pages/change_language_page.dart';
 import 'package:efk_academy/ui/change_password/cubits/change_password_cubit.dart';
@@ -15,7 +14,7 @@ import 'package:efk_academy/ui/course_detail/cubit/get_review_cubit/get_review_c
 import 'package:efk_academy/ui/course_detail/pages/course_detail_pages.dart';
 import 'package:efk_academy/ui/forget_password/cubit/forget_password_cubit.dart';
 import 'package:efk_academy/ui/forget_password/pages/forget_password_page.dart';
-import 'package:efk_academy/common/ui/new/pages/new_page.dart';
+import 'package:efk_academy/ui/new/pages/new_page.dart';
 import 'package:efk_academy/ui/new_detail/pages/new_detail_page.dart';
 import 'package:efk_academy/ui/sign_in/cubits/sign_in_cubit.dart';
 import 'package:efk_academy/ui/sign_in/pages/sign_in_page.dart';
@@ -81,14 +80,16 @@ class AppRoute {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (_) => GetEnrollmentCubit(
-                  getEnrollment: sl<GetEnrollment>(),
-                )..getEnrollment(course.id),
+                create: (_) => sl<GetEnrollmentCubit>()
+                  ..getEnrollment(
+                    course.id,
+                  ),
               ),
               BlocProvider(
-                create: (_) => GetReviewCubit(
-                  getReview: sl<GetReview>(),
-                )..getReviews(course.id),
+                create: (_) => sl<GetReviewCubit>()
+                  ..getReviews(
+                    course.id,
+                  ),
               ),
             ],
             child: CourseDetailPages(
@@ -115,27 +116,21 @@ class AppRoute {
       case signIn:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (_) => SignInCubit(
-              signIn: sl<SignIn>(),
-            ),
+            create: (_) => sl<SignInCubit>(),
             child: const SignInPage(),
           ),
         );
       case signOut:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (_) => SignOutCubit(
-              signOut: sl<SignOut>(),
-            ),
+            create: (_) => sl<SignOutCubit>(),
             child: const SignOutPage(),
           ),
         );
       case signUp:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (_) => SignUpCubit(
-              signUp: sl<SignUp>(),
-            ),
+            create: (_) => sl<SignUpCubit>(),
             child: const SignUpPage(),
           ),
         );

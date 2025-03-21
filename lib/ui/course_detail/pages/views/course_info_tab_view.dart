@@ -17,80 +17,118 @@ class CourseInfoTabView extends StatelessWidget {
         spacing: 12,
         children: [
           // .. title
-          title(context),
-
-          // .. price
-          price(),
+          CourseTitleInfo(
+            title: course.name,
+            summary: course.summary,
+          ),
 
           // .. additional infomation
-          additional(context),
+          CourseAdditionalInfo(
+            totalStudent: 0,
+            totalSection: course.totalSection,
+            totalLesson: course.totalLesson,
+            totalVideo: course.totalVideo,
+          ),
 
           // .. add to cart, purchase
-          enrollment(),
+          CourseEnrollmentInfo(
+            id: course.id,
+            price: course.price,
+            discount: course.discount,
+          ),
 
           // .. benefits of enrollment
-          benefits(context),
+          CourseBenefitInfo(
+            description: course.description,
+          ),
 
           // .. instructors
-          instructor(context),
+          CourseInstructorInfo(
+            instructor: course.instructor,
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget title(BuildContext context) {
+class CourseTitleInfo extends StatelessWidget {
+  const CourseTitleInfo({
+    super.key,
+    required this.title,
+    required this.summary,
+  });
+
+  final String title;
+  final String summary;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          course.name,
-          style: Theme.of(context).textTheme.labelLarge,
+          title,
+          style: textTheme.labelLarge,
         ),
-        // .. summary
         Text(
-          course.summary,
-          style: Theme.of(context).textTheme.labelMedium,
+          summary,
+          style: textTheme.labelMedium,
         ),
       ],
     );
   }
+}
 
-  Widget price() {
-    return Text('');
-  }
+class CourseAdditionalInfo extends StatelessWidget {
+  const CourseAdditionalInfo({
+    super.key,
+    required this.totalStudent,
+    required this.totalSection,
+    required this.totalLesson,
+    required this.totalVideo,
+  });
 
-  Widget additional(BuildContext context) {
+  final int totalStudent;
+  final int totalSection;
+  final int totalLesson;
+  final int totalVideo;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'additional_information'.tr(),
-          style: Theme.of(context).textTheme.labelLarge,
+          style: textTheme.labelLarge,
         ),
-        const SizedBox(height: 4),
         Padding(
           padding: const EdgeInsets.only(left: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildAdditionInfo(
-                label: 'students',
-                text: '0',
+              _buildText(
+                textTheme,
+                'students',
+                '0',
               ),
-              const SizedBox(height: 4),
-              _buildAdditionInfo(
-                label: 'sections',
-                text: course.totalSection.toString(),
+              _buildText(
+                textTheme,
+                'sections',
+                totalSection.toString(),
               ),
-              const SizedBox(height: 4),
-              _buildAdditionInfo(
-                label: 'lessons',
-                text: course.totalLesson.toString(),
+              _buildText(
+                textTheme,
+                'lessons',
+                totalLesson.toString(),
               ),
-              const SizedBox(height: 4),
-              _buildAdditionInfo(
-                label: 'videos',
-                text: course.totalVideo.toString(),
+              _buildText(
+                textTheme,
+                'videos',
+                totalVideo.toString(),
               ),
             ],
           ),
@@ -99,14 +137,141 @@ class CourseInfoTabView extends StatelessWidget {
     );
   }
 
-  _buildAdditionInfo({
-    required String label,
-    required String text,
-  }) {
-    return Text('- ${label.tr()}: $text');
+  Widget _buildText(
+    TextTheme textTheme,
+    String label,
+    String info,
+  ) {
+    return Text(
+      '- ${label.tr()}: $info',
+      style: textTheme.labelMedium,
+    );
+  }
+}
+
+class CourseBenefitInfo extends StatelessWidget {
+  const CourseBenefitInfo({
+    super.key,
+    required this.description,
+  });
+
+  final String description;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'benefits_of_enrollment_on_this_course'.tr(),
+          style: textTheme.labelLarge,
+        ),
+        Text(
+          description,
+          style: textTheme.labelMedium,
+        ),
+      ],
+    );
+  }
+}
+
+class CourseInstructorInfo extends StatelessWidget {
+  const CourseInstructorInfo({
+    super.key,
+    required this.instructor,
+  });
+
+  final Instructor instructor;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Column(
+        children: [
+          Text(
+            'instructor'.tr(),
+            style: textTheme.labelLarge,
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                height: 150.h,
+                Constant.avatarPlaceholder,
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildText(
+                    textTheme,
+                    'name',
+                    instructor.name,
+                  ),
+                  _buildText(
+                    textTheme,
+                    'title',
+                    instructor.title,
+                  ),
+                  _buildText(
+                    textTheme,
+                    'likes',
+                    '0',
+                  ),
+                  _buildText(
+                    textTheme,
+                    'students',
+                    '0',
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ExpandableText(
+            instructor.bio,
+            style: textTheme.labelMedium,
+            collapseText: 'show_less'.tr(),
+            expandText: 'show_more'.tr(),
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget enrollment() {
+  Widget _buildText(
+    TextTheme textTheme,
+    String label,
+    String info,
+  ) {
+    return Text(
+      '${label.tr()}: $info',
+      style: textTheme.labelMedium,
+    );
+  }
+}
+
+class CourseEnrollmentInfo extends StatelessWidget {
+  const CourseEnrollmentInfo({
+    super.key,
+    required this.id,
+    required this.price,
+    required this.discount,
+  });
+
+  final String id;
+  final double price;
+  final double discount;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isExisted = context.select((CartCubit cubit) =>
+        cubit.state.carts.any((cart) => cart.courseId.contains(id)));
     return BlocSelector<UserCubit, UserState, bool>(
       selector: (state) => state.status == UserStatus.authenticated,
       builder: (context, isLogin) {
@@ -116,139 +281,87 @@ class CourseInfoTabView extends StatelessWidget {
               return const CircularProgressIndicator();
             }
 
-            if (state.status == GetEnrollmentStatus.success) {
-              if (!state.isEnrolled) {
-                return Row(
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildPrice(theme),
+                const SizedBox(height: 8),
+                Row(
                   children: [
-                    _buildCartButton(context, isLogin),
+                    _buildCartButton(
+                      context,
+                      isExisted,
+                      isLogin,
+                    ),
                     const SizedBox(width: 8),
-                    _buildPurchaseButton(context, isLogin),
+                    _buildPurchaseButton(
+                      context,
+                      isLogin,
+                    ),
                   ],
-                );
-              }
-            }
-
-            return const SizedBox();
+                ),
+              ],
+            );
           },
         );
       },
     );
   }
 
-  _buildCartButton(BuildContext context, bool isLogin) {
-    return BlocSelector<CartCubit, CartState, bool>(
-      selector: (state) => state.carts.any(
-        (cart) => cart.courseId.contains(course.id),
-      ),
-      builder: (context, existed) {
-        return Expanded(
-          child: CustomButton(
-            text: existed ? 'go_to_cart'.tr() : 'add_to_cart'.tr(),
-            style: CustomButtonStyle.secondary(context),
-            onTap: isLogin
-                ? () {
-                    if (existed) {
-                      NavigatorHelper.push(AppRoute.cart);
-                    } else {
-                      context.read<CartCubit>().addToCart(course.id);
-                    }
-                  }
-                : () {
-                    NavigatorHelper.push(AppRoute.signIn);
-                  },
+  Widget _buildPrice(ThemeData theme) {
+    if (discount > 0) {
+      return Row(
+        children: [
+          Text(
+            '\$${findPrice(price, discount).toStringAsFixed(2)}',
+            style: theme.textTheme.displayLarge,
           ),
-        );
-      },
+          const SizedBox(width: 8),
+          Text(
+            '\$${price.toStringAsFixed(2)}',
+            style: theme.textTheme.labelMedium
+                ?.copyWith(decoration: TextDecoration.lineThrough),
+          ),
+        ],
+      );
+    } else {
+      return Text(
+        '\$${price.toStringAsFixed(2)}',
+        style: theme.textTheme.displayLarge,
+      );
+    }
+  }
+
+  Widget _buildCartButton(BuildContext context, bool isExisted, bool isLogin) {
+    return Expanded(
+      child: CustomButton(
+        text: isExisted ? 'go_to_cart'.tr() : 'add_to_cart'.tr(),
+        style: CustomButtonStyle.secondary(context),
+        onTap: () {
+          if (!isLogin) {
+            NavigatorHelper.push(AppRoute.signIn);
+          } else if (isExisted) {
+            NavigatorHelper.push(AppRoute.cart);
+          } else {
+            context.read<CartCubit>().addToCart(id);
+          }
+        },
+      ),
     );
   }
 
-  Widget benefits(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'benefits_of_enrollment_on_this_course'.tr(),
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          course.description,
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
-      ],
-    );
-  }
-
-  _buildPurchaseButton(BuildContext context, bool isLogin) {
+  Widget _buildPurchaseButton(BuildContext context, bool isLogin) {
     return Expanded(
       child: CustomButton(
         text: 'purchase_now'.tr(),
         style: CustomButtonStyle.primary(context),
-        onTap: () {},
+        onTap: () {
+          if (!isLogin) {
+            NavigatorHelper.push(AppRoute.signIn);
+            return;
+          }
+        },
       ),
     );
-  }
-
-  Widget instructor(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          Text(
-            'instructor'.tr(),
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-          Row(
-            children: [
-              Image.asset(
-                height: 150.h,
-                'assets/images/avatar_placeholder.png',
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildInstructorInfo(
-                    label: 'name',
-                    text: course.instructor.name,
-                  ),
-                  const SizedBox(height: 6),
-                  _buildInstructorInfo(
-                    label: 'title',
-                    text: course.instructor.title,
-                  ),
-                  const SizedBox(height: 6),
-                  _buildInstructorInfo(
-                    label: 'likes',
-                    text: '0',
-                  ),
-                  const SizedBox(height: 6),
-                  _buildInstructorInfo(
-                    label: 'students',
-                    text: '0',
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ExpandableText(
-            course.instructor.bio,
-            style: Theme.of(context).textTheme.labelMedium,
-            collapseText: 'show_less'.tr(),
-            expandText: 'show_more'.tr(),
-            linkColor: Theme.of(context).primaryColor,
-          ),
-        ],
-      ),
-    );
-  }
-
-  _buildInstructorInfo({
-    required String label,
-    required String text,
-  }) {
-    return Text('${label.tr()}: $text');
   }
 }

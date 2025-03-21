@@ -4,7 +4,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:efk_academy/domain/entities/user.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/common/widgets/shopping_cart.dart';
+import 'package:efk_academy/components/shopping_cart.dart';
 import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
 
 class AccountPage extends StatelessWidget {

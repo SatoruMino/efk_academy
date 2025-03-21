@@ -17,7 +17,7 @@ class AppTheme {
   static AppBarTheme _appBarTheme(Locale locale) => AppBarTheme(
         actionsPadding: const EdgeInsets.all(8),
         titleTextStyle: TextStyle(
-          color: blue,
+          color: Constant.blue,
           fontSize: 18.sp,
           fontFamily: getFont(locale),
           fontWeight: FontWeight.w600,
@@ -56,14 +56,16 @@ class AppTheme {
 
   static TextTheme _textTheme(Locale locale) => TextTheme(
         displayLarge: TextStyle(
-          color: blue,
+          color: Constant.blue,
           fontSize: 20.sp,
           fontFamily: getFont(locale),
           fontWeight: FontWeight.w600,
         ),
         displayMedium: TextStyle(
+          color: Constant.blue,
           fontSize: 16.sp,
           fontFamily: getFont(locale),
+          fontWeight: FontWeight.w600,
         ),
         labelLarge: TextStyle(
           fontSize: 16.sp,
@@ -87,7 +89,8 @@ class AppTheme {
   static ThemeData light(Locale locale) => ThemeData(
         appBarTheme: _appBarTheme(locale),
         brightness: Brightness.light,
-        colorScheme: ColorScheme.light(primary: blue, onSurface: Colors.black),
+        colorScheme:
+            ColorScheme.light(primary: Constant.blue, onSurface: Colors.black),
         fontFamily: getFont(locale),
         inputDecorationTheme: _inputDecorationTheme.copyWith(
           fillColor: Colors.grey[200],
@@ -99,7 +102,7 @@ class AppTheme {
           titleTextStyle:
               TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
         ),
-        primaryColor: blue,
+        primaryColor: Constant.blue,
         primaryColorDark: Colors.black54,
         snackBarTheme: _snackBarTheme,
         tabBarTheme: _tabBarTheme(locale),
@@ -110,7 +113,8 @@ class AppTheme {
   static ThemeData dark(Locale locale) => ThemeData(
         appBarTheme: _appBarTheme(locale),
         brightness: Brightness.dark,
-        colorScheme: ColorScheme.dark(primary: blue, onSurface: Colors.white),
+        colorScheme:
+            ColorScheme.dark(primary: Constant.blue, onSurface: Colors.white),
         fontFamily: getFont(locale),
         inputDecorationTheme: _inputDecorationTheme.copyWith(
           fillColor: Colors.black,
@@ -120,7 +124,7 @@ class AppTheme {
           titleTextStyle:
               TextStyle(fontSize: 14.sp, fontFamily: getFont(locale)),
         ),
-        primaryColor: blue,
+        primaryColor: Constant.blue,
         primaryColorDark: Colors.white54,
         snackBarTheme: _snackBarTheme,
         tabBarTheme: _tabBarTheme(locale),

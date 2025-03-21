@@ -10,7 +10,7 @@ class Toast {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          backgroundColor: red,
+          backgroundColor: Constant.red,
           content: Text(
             text,
           ),
@@ -23,7 +23,7 @@ class Toast {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          backgroundColor: blue,
+          backgroundColor: Constant.blue,
           content: Text(
             text,
           ),

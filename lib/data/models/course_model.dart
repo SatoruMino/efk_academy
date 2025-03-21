@@ -14,6 +14,8 @@ class CourseModel extends Course {
     required super.previewVideoId,
     required super.sections,
     required super.instructor,
+    super.discountStartAt,
+    super.discountEndAt,
   });
 
   factory CourseModel.fromJson(Map<String, dynamic> map) {
@@ -32,6 +34,12 @@ class CourseModel extends Course {
           .map((sectionJson) => SectionModel.fromJson(sectionJson))
           .toList(),
       instructor: InstructorModel.fromJson(map['instructors']),
+      discountStartAt: map['discount_start_at'] != null
+          ? DateTime.tryParse(map['discount_start_at'])
+          : null,
+      discountEndAt: map['discount_end_at'] != null
+          ? DateTime.tryParse(map['discount_end_at'])
+          : null,
     );
   }
 }

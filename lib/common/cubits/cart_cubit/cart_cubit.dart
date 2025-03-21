@@ -9,12 +9,15 @@ class CartCubit extends Cubit<CartState> {
   CartCubit({
     required GetCart getCart,
     required AddToCart addToCart,
+    required RemoveFromCart removeFromCart,
   })  : _getCart = getCart,
         _addToCart = addToCart,
+        _removeFromCart = removeFromCart,
         super(const CartState());
 
   final GetCart _getCart;
   final AddToCart _addToCart;
+  final RemoveFromCart _removeFromCart;
 
   Future<void> getCarts() async {
     emit(state.copyWith(
@@ -47,18 +50,41 @@ class CartCubit extends Cubit<CartState> {
     final res = await _addToCart(courseId);
 
     res.fold(
-      (l) {
-        print('Error: ${l.message}');
-        emit(state.copyWith(
+      (l) => emit(
+        state.copyWith(
           errorMessage: l.message,
           status: CartStatus.failure,
-        ));
-      },
+        ),
+      ),
       (cart) {
         final updatedCarts = state.carts..add(cart);
         emit(
           state.copyWith(
             carts: updatedCarts,
+            status: CartStatus.success,
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> removeFromCart(String id) async {
+    emit(state.copyWith(status: CartStatus.inProgress));
+
+    final res = await _removeFromCart(id);
+
+    res.fold(
+      (l) => emit(
+        state.copyWith(
+          errorMessage: l.message,
+          status: CartStatus.failure,
+        ),
+      ),
+      (cart) {
+        final updatedCart = state.carts..remove(cart);
+        emit(
+          state.copyWith(
+            carts: updatedCart,
             status: CartStatus.success,
           ),
         );

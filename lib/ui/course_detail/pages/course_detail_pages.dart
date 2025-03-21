@@ -1,14 +1,15 @@
-import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
-import 'package:efk_academy/core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:efk_academy/core/core.dart';
+
 import 'package:icons_plus/icons_plus.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:efk_academy/common/widgets/shopping_cart.dart';
+import 'package:efk_academy/components/shopping_cart.dart';
 import 'package:efk_academy/common/cubits/cart_cubit/cart_cubit.dart';
+import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:efk_academy/ui/course_detail/cubit/get_review_cubit/get_review_cubit.dart';
 import 'package:efk_academy/ui/course_detail/cubit/get_enrollment_cubit/get_enrollment_cubit.dart';
@@ -100,6 +101,8 @@ class _CourseDetailPagesState extends State<CourseDetailPages> {
                     .getEnrollment(widget.course.id);
               }
             },
+            listenWhen: (previous, current) =>
+                current.status != previous.status,
             child: DefaultTabController(
               length: 3,
               child: Column(

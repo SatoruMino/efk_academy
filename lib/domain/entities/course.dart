@@ -1,5 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:efk_academy/core/utils/math.dart';
 import 'package:equatable/equatable.dart';
 
 class Course extends Equatable {
@@ -16,6 +14,8 @@ class Course extends Equatable {
     required this.previewVideoId,
     required this.sections,
     required this.instructor,
+    this.discountEndAt,
+    this.discountStartAt,
   });
 
   final String id;
@@ -23,6 +23,8 @@ class Course extends Equatable {
   final String category;
   final double price;
   final double discount;
+  final DateTime? discountStartAt;
+  final DateTime? discountEndAt;
   final String summary;
   final String imageUrl;
   final DateTime createdAt;
@@ -32,17 +34,14 @@ class Course extends Equatable {
   final List<Section> sections;
 
   @override
-  List<Object?> get props => [
-        id,
-        name,
-        price,
-        discount,
-        summary,
-        description,
-        createdAt,
-        previewVideoId,
-        imageUrl,
-      ];
+  List<Object?> get props => [];
+
+  int get discountDuration {
+    if (discountStartAt == null || discountEndAt == null) {
+      return 0; // Default value if either date is null
+    }
+    return discountEndAt!.difference(discountStartAt!).inDays;
+  }
 
   // .. get section count
   int get totalSection => sections.length;
@@ -55,15 +54,16 @@ class Course extends Equatable {
 
   // .. get video count
   int get totalVideo {
-    return sections
-        .map((section) => section.lessons
-            .map((lesson) => lesson.videos.length)
-            .reduce((a, b) => a + b))
-        .reduce((a, b) => a + b);
+    return sections.map((section) {
+      return section.lessons.map((lesson) {
+        return lesson.videos.length;
+      }).reduce((a, b) {
+        return a + b;
+      });
+    }).reduce(
+      (a, b) => a + b,
+    );
   }
-
-  String get getDate => DateFormat('dd/mm/yy').format(createdAt);
-  double get getPrice => findPrice(price, discount);
 }
 
 class Instructor extends Equatable {

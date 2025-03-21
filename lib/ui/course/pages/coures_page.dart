@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:efk_academy/domain/domain.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:efk_academy/common/widgets/shopping_cart.dart';
+import 'package:efk_academy/components/shopping_cart.dart';
 import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
 
 class CouresPage extends StatelessWidget {

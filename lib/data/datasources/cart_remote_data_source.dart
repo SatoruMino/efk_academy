@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract interface class CartRemoteDataSource {
   Future<List<CartModel>> getCart();
   Future<CartModel> addToCart(CartModel cartModel);
+  Future<CartModel> removeFromCart(String id);
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -51,6 +52,24 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
           .insert(cartModel.copyWith(userId: currentUser.id).toJson())
           .select('*, courses(name,price,discount, image_url)')
           .single();
+
+      return CartModel.fromJson(response);
+    } on PostgrestException catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<CartModel> removeFromCart(String id) async {
+    final currentUser = supabaseClient.auth.currentUser;
+
+    if (currentUser == null) {
+      throw const ServerException('user-not-found');
+    }
+
+    try {
+      final response =
+          await supabaseClient.from('carts').delete().eq('id', id).single();
 
       return CartModel.fromJson(response);
     } on PostgrestException catch (e) {

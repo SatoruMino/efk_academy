@@ -1,17 +1,16 @@
+import 'package:efk_academy/common/cubits/cart_cubit/cart_cubit.dart';
 import 'package:efk_academy/common/cubits/get_new_cubit/get_new_cubit.dart';
+import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
+import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:efk_academy/core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:efk_academy/domain/domain.dart';
 import 'package:efk_academy/service_locator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:efk_academy/ui/splash/page/splash_page.dart';
 import 'package:efk_academy/common/cubits/user_cubit/user_cubit.dart';
-import 'package:efk_academy/common/cubits/cart_cubit/cart_cubit.dart';
-import 'package:efk_academy/ui/course/cubits/get_course_cubit.dart';
-import 'package:efk_academy/ui/feature/cubits/feature_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,40 +45,27 @@ class MyApp extends StatelessWidget {
           providers: [
             // .. user
             BlocProvider(
-              create: (_) => UserCubit(
-                getUser: sl<GetUser>(),
-              ),
+              create: (_) => sl<UserCubit>(),
             ),
 
-            // .. news
+            // .. cart
             BlocProvider(
-              create: (_) => GetNewCubit(
-                getNew: sl<GetNew>(),
-              )..getNews(),
+              create: (_) => sl<CartCubit>()..getCarts(),
             ),
 
-            // ..cart
+            // .. new
             BlocProvider(
-              create: (_) => CartCubit(
-                addToCart: sl<AddToCart>(),
-                getCart: sl<GetCart>(),
-              )..getCarts(),
+              create: (_) => sl<GetNewCubit>()..getNews(),
             ),
 
-            // .. feature (poster, promotion ,tredning)
+            // .. feature
             BlocProvider(
-              create: (_) => FeatureCubit(
-                getPoster: sl<GetPoster>(),
-                getPromotion: sl<GetPromotion>(),
-                getTrendingCourse: sl<GetTrendingCourse>(),
-              )..getFeature(),
+              create: (_) => sl<FeatureCubit>()..getFeature(),
             ),
 
-            // .. course
+            // .. feature
             BlocProvider(
-              create: (_) => GetCourseCubit(
-                getCourse: sl<GetCourse>(),
-              )..getCourses(),
+              create: (_) => sl<GetCourseCubit>()..getCourses(),
             ),
           ],
           child: MaterialApp(

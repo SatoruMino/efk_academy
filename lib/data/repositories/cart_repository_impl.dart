@@ -46,4 +46,19 @@ class CartRepositoryImpl implements CartRepository {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, Cart>> removeFromCart(String id) async {
+    try {
+      final cart = await cartRemoteDataSource.removeFromCart(id);
+
+      return right(cart);
+    } on ServerException catch (e) {
+      return left(
+        Failure(
+          e.message,
+        ),
+      );
+    }
+  }
 }
